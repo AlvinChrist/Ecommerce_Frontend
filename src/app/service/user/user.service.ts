@@ -66,11 +66,11 @@ export class UserService {
     localStorage.removeItem('currentUser')
     localStorage.removeItem('accessToken')
     this._httpClient.delete(`/logout`).subscribe((resp) => {
-      this.currentUserSubject.next(null)
-      this._router.navigate(['/login'])
+      // this.currentUserSubject.next(null)
+      this._router.navigate(['/auth/login'])
     },(err) => {
       console.log(err)
-      this._router.navigate(['/login'])
+      this._router.navigate(['/auth/login'])
     })
   }
 

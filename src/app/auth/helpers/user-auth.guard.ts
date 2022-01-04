@@ -3,7 +3,7 @@ import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from
 import { UserService } from 'app/service/user/user.service';
 
 @Injectable({ providedIn: 'root' })
-export class AuthGuard implements CanActivate {
+export class UserAuthGuard implements CanActivate {
   /**
    *
    * @param {Router} _router
@@ -17,7 +17,7 @@ export class AuthGuard implements CanActivate {
 
     if (currentUser) {
       // check if route is restricted by role
-      if (currentUser.role !== 'Admin') {
+      if (currentUser.role !== 'User') {
         // role not authorised so redirect to not-authorized page
         this._router.navigate(['/pages/miscellaneous/not-authorized']);
         return false;

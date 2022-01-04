@@ -2,26 +2,23 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
-
-import { NouisliderModule } from 'ng2-nouislider';
-import { NgbModule, NgbRatingModule } from '@ng-bootstrap/ng-bootstrap';
-import { SwiperConfigInterface, SwiperModule, SWIPER_CONFIG } from 'ngx-swiper-wrapper';
-
 import { CoreCommonModule } from '@core/common.module';
 import { CoreSidebarModule } from '@core/components';
 import { CoreTouchspinModule } from '@core/components/core-touchspin/core-touchspin.module';
-
+import { NgbModule, NgbRatingModule } from '@ng-bootstrap/ng-bootstrap';
+import { UserAuthGuard } from 'app/auth/helpers/user-auth.guard';
 import { ContentHeaderModule } from 'app/layout/components/content-header/content-header.module';
-
-import { EcommerceService } from 'app/main/apps/ecommerce/ecommerce.service';
+import { EcommerceCheckoutItemComponent } from 'app/main/apps/ecommerce/ecommerce-checkout/ecommerce-checkout-item/ecommerce-checkout-item.component';
+import { EcommerceCheckoutComponent } from 'app/main/apps/ecommerce/ecommerce-checkout/ecommerce-checkout.component';
 import { EcommerceDetailsComponent } from 'app/main/apps/ecommerce/ecommerce-details/ecommerce-details.component';
 import { EcommerceItemComponent } from 'app/main/apps/ecommerce/ecommerce-item/ecommerce-item.component';
 import { EcommerceShopComponent } from 'app/main/apps/ecommerce/ecommerce-shop/ecommerce-shop.component';
 import { EcommerceSidebarComponent } from 'app/main/apps/ecommerce/ecommerce-shop/sidebar/sidebar.component';
 import { EcommerceWishlistComponent } from 'app/main/apps/ecommerce/ecommerce-wishlist/ecommerce-wishlist.component';
-import { EcommerceCheckoutComponent } from 'app/main/apps/ecommerce/ecommerce-checkout/ecommerce-checkout.component';
-import { EcommerceCheckoutItemComponent } from 'app/main/apps/ecommerce/ecommerce-checkout/ecommerce-checkout-item/ecommerce-checkout-item.component';
 import { ProductService } from 'app/service/product/product.service';
+import { NouisliderModule } from 'ng2-nouislider';
+import { SwiperConfigInterface, SwiperModule, SWIPER_CONFIG } from 'ngx-swiper-wrapper';
+
 
 const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
   direction: 'horizontal',
@@ -32,6 +29,7 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
 const routes: Routes = [
   {
     path: 'shop',
+    canActivate: [ UserAuthGuard ],
     component: EcommerceShopComponent,
     resolve: {
       product: ProductService

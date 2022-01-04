@@ -16,6 +16,7 @@ import 'hammerjs';
 import { ToastrModule } from 'ngx-toastr'; // For auth after login toast
 import { AuthGuard, ErrorInterceptor, JwtInterceptor } from './auth/helpers';
 import { EcommerceModule } from './main/apps/ecommerce/ecommerce.module';
+import { CardSnippetModule } from '@core/components/card-snippet/card-snippet.module';
 
 export function getToken() {
   return JSON.parse(localStorage.getItem('accessToken'))
@@ -27,7 +28,7 @@ const appRoutes: Routes = [
     loadChildren: () => import('./main/pages/pages.module').then(m => m.PagesModule)
   },
   {
-    path: 'login',
+    path: 'auth',
     loadChildren: () => import('./main/apps/authentication/authentication.module').then(m => m.AuthenticationModule)
   },
   {
@@ -72,6 +73,7 @@ const appRoutes: Routes = [
     CoreCommonModule,
     CoreSidebarModule,
     CoreThemeCustomizerModule,
+    CardSnippetModule,
 
     // App modules
     LayoutModule,
@@ -79,7 +81,7 @@ const appRoutes: Routes = [
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
-    // { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     JwtHelperService
   ],
   bootstrap: [AppComponent]
