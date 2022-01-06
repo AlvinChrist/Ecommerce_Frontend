@@ -84,6 +84,8 @@ export class AuthRegisterV2Component implements OnInit {
         this.error = '';
         this.success = resp.message;
         this.registerForm.reset();
+        this.registerForm.markAsUntouched();
+        this.submitted = false;
       }
     },(err) => {
       console.log(err);

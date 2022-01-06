@@ -31,9 +31,6 @@ const routes: Routes = [
     path: 'shop',
     canActivate: [ UserAuthGuard ],
     component: EcommerceShopComponent,
-    resolve: {
-      product: ProductService
-    },
     data: { animation: 'EcommerceShopComponent' }
   },
   // {

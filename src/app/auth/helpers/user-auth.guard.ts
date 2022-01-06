@@ -14,8 +14,8 @@ export class UserAuthGuard implements CanActivate {
   // canActivate
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     const currentUser = this._userService.currentUserValue;
-
-    if (currentUser) {
+    const accessToken = this._userService.getAccessToken();
+    if (currentUser && accessToken) {
       // check if route is restricted by role
       if (currentUser.role !== 'User') {
         // role not authorised so redirect to not-authorized page

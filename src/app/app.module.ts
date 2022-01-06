@@ -2,7 +2,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { RouterModule, Routes } from '@angular/router';
+import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { CoreCommonModule } from '@core/common.module';
 import { CoreSidebarModule, CoreThemeCustomizerModule } from '@core/components';
 import { CoreModule } from '@core/core.module';
@@ -37,6 +37,11 @@ const appRoutes: Routes = [
     loadChildren: () => import('./main/apps/dashboard/dashboard.module').then(m => m.DashboardModule)
   },
   {
+    path: 'products',
+    canActivate: [ AuthGuard ],
+    loadChildren: () => import('./main/apps/products/products.module').then(m => m.ProductsModule)
+  },
+  {
     path: '',
     redirectTo: '/shop',
     pathMatch: 'full'
@@ -60,7 +65,8 @@ const appRoutes: Routes = [
     }),
     RouterModule.forRoot(appRoutes, {
       scrollPositionRestoration: 'enabled', // Add options right here
-      relativeLinkResolution: 'legacy'
+      relativeLinkResolution: 'legacy',
+      preloadingStrategy: PreloadAllModules
     }),
     TranslateModule.forRoot(),
 
@@ -81,7 +87,7 @@ const appRoutes: Routes = [
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+    // { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     JwtHelperService
   ],
   bootstrap: [AppComponent]

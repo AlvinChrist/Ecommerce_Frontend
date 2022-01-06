@@ -5,6 +5,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { User } from '../../viewmodel/user.viewmodel';
+import { AlertService } from '../alert/alert.service';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +19,8 @@ export class UserService {
   constructor(
     private _httpClient: HttpClient,
     private _router: Router,
-    private _jwtHelper: JwtHelperService
+    private _jwtHelper: JwtHelperService,
+    private _alertService: AlertService
   ) {
     this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
     this.currentUser = this.currentUserSubject.asObservable();
@@ -53,6 +55,7 @@ export class UserService {
         let user: User = this.getUserDetail()
         localStorage.setItem('currentUser', JSON.stringify(user))
         this.currentUserSubject.next(user)
+        this._alertService.toastrSuccess(`Welcome ${this.currentUserValue.userName}!`,2000, {hr: 'right', vr:'top'});
         if(user.role === 'Admin')
           this._router.navigate(['/dashboard'])
         else
@@ -74,15 +77,7 @@ export class UserService {
     })
   }
 
-  refreshToken(): void {
-    this._httpClient.get<any>(`/token`).subscribe((resp: any) => {
-      if(resp.accessToken) {
-        localStorage.setItem('accessToken', JSON.stringify(resp.accessToken));// update token
-        const currentUser = this.currentUserValue
-        localStorage.setItem('currentUser',JSON.stringify(currentUser))
-      }
-    },(err) => {
-      console.log(err)
-    })
+  refreshToken(): Observable<any> {
+    return this._httpClient.get<any>(`/token`)
   }
 }

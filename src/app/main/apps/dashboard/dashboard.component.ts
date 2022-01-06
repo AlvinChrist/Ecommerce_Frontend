@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CoreConfigService } from '@core/services/config.service';
+import { AlertService } from 'app/service/alert/alert.service';
+import { UserService } from 'app/service/user/user.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
@@ -13,7 +15,9 @@ export class DashboardComponent implements OnInit {
   private _unsubscribeAll: Subject<any>;
 
   constructor(
-    private _coreConfigService: CoreConfigService
+    private _coreConfigService: CoreConfigService,
+    private _alertService: AlertService,
+    private _userService: UserService
   ) { 
     this._unsubscribeAll = new Subject();
     this._coreConfigService.config = {

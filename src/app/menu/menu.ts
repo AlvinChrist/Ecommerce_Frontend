@@ -10,6 +10,14 @@ export const menu: CoreMenu[] = [
     url: '/dashboard'
   },
   {
+    id: 'products',
+    title: 'Products',
+    type: 'item',
+    icon: 'home',
+    role: ['Admin'],
+    url: '/products'
+  },
+  {
     id: 'shop',
     title: 'Shop',
     translate: 'MENU.APPS.ECOMMERCE.SHOP',
