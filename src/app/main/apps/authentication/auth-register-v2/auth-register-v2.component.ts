@@ -3,7 +3,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CoreConfigService } from '@core/services/config.service';
 import { UserService } from 'app/service/user/user.service';
 import { User } from 'app/viewmodel/user.viewmodel';
-import { ToastrService } from 'ngx-toastr';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
@@ -21,7 +20,8 @@ export class AuthRegisterV2Component implements OnInit {
   public passwordTextType: boolean;
   public registerForm: FormGroup;
   public submitted = false;
-
+  error: string;
+  success: string;
   // Private
   private _unsubscribeAll: Subject<any>;
 
@@ -34,8 +34,7 @@ export class AuthRegisterV2Component implements OnInit {
   constructor(
     private _coreConfigService: CoreConfigService,
     private _formBuilder: FormBuilder,
-    private _userService: UserService,
-    private toastr: ToastrService
+    private _userService: UserService
     ) {
     this._unsubscribeAll = new Subject();
 
@@ -69,14 +68,6 @@ export class AuthRegisterV2Component implements OnInit {
     this.passwordTextType = !this.passwordTextType;
   }
 
-  toastrSuccess(msg: string, title: string, vertical: string = 'top', horizontal: string = 'right') {
-    this.toastr.success(msg, title, {
-      positionClass: `toast-${vertical}-${horizontal}`,
-      toastClass: 'toast ngx-toastr',
-      closeButton: true
-    });
-  }
-
   /**
    * On Submit
    */
@@ -90,11 +81,14 @@ export class AuthRegisterV2Component implements OnInit {
     const data: User = this.registerForm.getRawValue();
     this._userService.register(data).subscribe((resp) => {
       if(resp){
-        this.toastrSuccess(resp,'Success!','top','center');
+        this.error = '';
+        this.success = resp.message;
         this.registerForm.reset();
       }
     },(err) => {
       console.log(err);
+      this.success = '';
+      this.error = err; 
     })
   }
 
@@ -123,7 +117,6 @@ export class AuthRegisterV2Component implements OnInit {
     this._coreConfigService.config.pipe(takeUntil(this._unsubscribeAll)).subscribe(config => {
       this.coreConfig = config;
     });
-    this.toastrSuccess('test','Success!','top','center');
   }
 
   /**
