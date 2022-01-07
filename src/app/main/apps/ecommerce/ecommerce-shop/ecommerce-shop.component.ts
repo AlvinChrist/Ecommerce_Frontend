@@ -1,8 +1,10 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { CoreSidebarService } from '@core/components/core-sidebar/core-sidebar.service';
+import { CoreConfigService } from '@core/services/config.service';
 import { EcommerceService } from 'app/main/apps/ecommerce/ecommerce.service';
 import { ProductService } from 'app/service/product/product.service';
 import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 
 @Component({
@@ -36,15 +38,16 @@ export class EcommerceShopComponent implements OnInit {
   constructor(
     private _coreSidebarService: CoreSidebarService,
     private _ecommerceService: EcommerceService,
-    private _productService: ProductService
+    private _productService: ProductService,
+    private _coreConfigService: CoreConfigService
      ) {
       this._unsubscribeAll = new Subject();
       this._productService.getProducts();
-      // this._coreConfigService.config = {
-      //   layout: {
-      //     type: 'horizontal'
-      //   }
-      // };
+      this._coreConfigService.config = {
+        layout: {
+          type: 'horizontal'
+        }
+      };
      }
 
   // Public Methods
@@ -105,9 +108,9 @@ export class EcommerceShopComponent implements OnInit {
     //   product.isInWishlist = this.wishlist.findIndex(p => p.productId === product.id) > -1;
     //   product.isInCart = this.cartList.findIndex(p => p.productId === product.id) > -1;
     // });
-    // this._coreConfigService.config.pipe(takeUntil(this._unsubscribeAll)).subscribe(config => {
-    //   this.coreConfig = config;
-    // });
+    this._coreConfigService.config.pipe(takeUntil(this._unsubscribeAll)).subscribe(config => {
+      this.coreConfig = config;
+    });
 
     // content header
     this.contentHeader = {

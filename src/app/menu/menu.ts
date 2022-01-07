@@ -13,7 +13,7 @@ export const menu: CoreMenu[] = [
     id: 'products',
     title: 'Products',
     type: 'item',
-    icon: 'home',
+    icon: 'package',
     role: ['Admin'],
     url: '/products'
   },

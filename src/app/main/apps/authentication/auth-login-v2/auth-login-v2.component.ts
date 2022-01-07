@@ -38,6 +38,9 @@ export class AuthLoginV2Component implements OnInit {
     private _route: ActivatedRoute,
     private _router: Router
   ) {
+    if (this._userService.currentUserValue) {
+      this._router.navigate(['/']);
+    }
     this._unsubscribeAll = new Subject();
 
     // Configure the layout

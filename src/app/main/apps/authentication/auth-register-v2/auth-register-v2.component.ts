@@ -6,8 +6,6 @@ import { User } from 'app/viewmodel/user.viewmodel';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-
-
 @Component({
   selector: 'app-auth-register-v2',
   templateUrl: './auth-register-v2.component.html',
@@ -81,6 +79,7 @@ export class AuthRegisterV2Component implements OnInit {
     const data: User = this.registerForm.getRawValue();
     this._userService.register(data).subscribe((resp) => {
       if(resp){
+        window.scrollTo(0,0)
         this.error = '';
         this.success = resp.message;
         this.registerForm.reset();

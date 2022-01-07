@@ -2,11 +2,12 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
+import { JwtHelperService, JwtModule } from '@auth0/angular-jwt';
 import { CoreCommonModule } from '@core/common.module';
 import { CoreSidebarModule, CoreThemeCustomizerModule } from '@core/components';
+import { CardSnippetModule } from '@core/components/card-snippet/card-snippet.module';
 import { CoreModule } from '@core/core.module';
-import { JwtHelperService, JwtModule } from '@auth0/angular-jwt';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { coreConfig } from 'app/app-config';
@@ -16,7 +17,6 @@ import 'hammerjs';
 import { ToastrModule } from 'ngx-toastr'; // For auth after login toast
 import { AuthGuard, ErrorInterceptor, JwtInterceptor } from './auth/helpers';
 import { EcommerceModule } from './main/apps/ecommerce/ecommerce.module';
-import { CardSnippetModule } from '@core/components/card-snippet/card-snippet.module';
 
 export function getToken() {
   return JSON.parse(localStorage.getItem('accessToken'))
@@ -65,8 +65,7 @@ const appRoutes: Routes = [
     }),
     RouterModule.forRoot(appRoutes, {
       scrollPositionRestoration: 'enabled', // Add options right here
-      relativeLinkResolution: 'legacy',
-      preloadingStrategy: PreloadAllModules
+      relativeLinkResolution: 'legacy'
     }),
     TranslateModule.forRoot(),
 
@@ -87,7 +86,7 @@ const appRoutes: Routes = [
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
-    // { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     JwtHelperService
   ],
   bootstrap: [AppComponent]
