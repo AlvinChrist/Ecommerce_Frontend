@@ -5,7 +5,7 @@
 /tmp
 /out-tsc
 **/*.zip
-
+**/*.rar
 # dependencies
 /node_modules
 
