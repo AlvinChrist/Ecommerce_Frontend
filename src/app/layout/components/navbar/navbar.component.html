@@ -48,6 +48,9 @@
       </div>
     </li> -->
     <!--/ Language selection -->
+    <ng-container *ngIf="currentUser.role !== 'Admin'">
+      <app-navbar-cart></app-navbar-cart>
+    </ng-container>
 
     <!-- User Dropdown -->
     <li ngbDropdown class="nav-item dropdown-user">

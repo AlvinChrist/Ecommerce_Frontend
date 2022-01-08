@@ -22,7 +22,7 @@ export const menu: CoreMenu[] = [
     title: 'Shop',
     translate: 'MENU.APPS.ECOMMERCE.SHOP',
     type: 'item',
-    icon: 'circle',
+    icon: 'shopping-bag',
     role: ['User'],
     url: '/shop'
   },

@@ -39,7 +39,12 @@ export class AuthLoginV2Component implements OnInit {
     private _router: Router
   ) {
     if (this._userService.currentUserValue) {
-      this._router.navigate(['/']);
+      if(this._userService.getUserRole() === 'User') {
+        this._router.navigate(['/shop'])
+      }
+      else if(this._userService.getUserRole() === 'Admin'){
+        this._router.navigate(['/dashboard'])
+      }
     }
     this._unsubscribeAll = new Subject();
 
@@ -106,7 +111,7 @@ export class AuthLoginV2Component implements OnInit {
    */
   ngOnInit(): void {
     this.loginForm = this._formBuilder.group({
-      email: ['alvinardiansyah2002@gmail.com', [Validators.required, Validators.email]],
+      email: ['admin@gmail.com', [Validators.required, Validators.email]],
       password: ['12345678', Validators.required]
     });
 

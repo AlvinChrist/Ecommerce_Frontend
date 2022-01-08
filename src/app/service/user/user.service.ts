@@ -46,6 +46,10 @@ export class UserService {
     return JSON.parse(localStorage.getItem('accessToken'))
   }
 
+  getUserRole(): string {
+    return this.currentUserValue.role;
+  }
+
   login(email: string, password: string): Observable<any>{
     return this._httpClient
     .post<any>(`/login`, { email, password })
