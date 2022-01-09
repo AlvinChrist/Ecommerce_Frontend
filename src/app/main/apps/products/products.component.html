@@ -1,33 +1,119 @@
 <ng-template #modalForm let-modal>
-  <div class="modal-header">
-    <h4 class="modal-title" id="myModalLabel1">Add New Product</h4>
-    <button type="button" class="close" (click)="modal.dismiss('Cross click')" aria-label="Close">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body" tabindex="0" ngbAutofocus>
-    <form action="#">
-      <label>Email: </label>
-      <div class="form-group">
-        <input type="text" placeholder="Email Address" class="form-control" />
-      </div>
-      <label>Password: </label>
-      <div class="form-group">
-        <input type="password" placeholder="Password" class="form-control" />
-      </div>
-    </form>
-  </div>
-  <div class="modal-footer">
-    <button type="button" class="btn btn-primary" (click)="modal.close('Accept click')" rippleEffect>
-      Save
-    </button>
-  </div>
+    <div class="modal-header">
+      <h4 class="modal-title" id="myModalLabel1">Add New Product</h4>
+      <button type="button" class="close" (click)="modal.dismiss('Cross click')" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body" tabindex="0" ngbAutofocus>
+      <form action="#" [formGroup]="ProductForm">
+        <div class="row">
+          <div class="col-md-4 col-12">
+            <div class="row" style="justify-content: center;">
+              <img [src]="imagePath" width="250" class="img-fluid">
+            </div>
+            <ngx-fileupload [storage]="uploadStorage">
+              <i class="ngx-file-upload-icon--add"></i>
+            </ngx-fileupload>
+            <ngx-file-drop (onFileDrop)="drop($event)" [dropZoneClassName]="'ngx-fileupload__ngx-file-drop'" [showBrowseBtn]="true" [browseBtnLabel]="'Browse'">
+            </ngx-file-drop>
+          </div>
+          <div class="col-md-8 col-12">
+            <div class="row">
+              <div class="col-md-6 col-12">
+                <div class="form-group">
+                  <label>Name: </label>
+                  <div class="input-group">
+                    <input 
+                    type="text" 
+                    placeholder="Product Name" 
+                    class="form-control" 
+                    formControlname="productName"  
+                    [ngClass]="{ 'is-invalid': submitted && f.productName.errors }"
+                    />
+                    <div *ngIf="submitted && f.productName.errors" class="invalid-feedback">
+                      <div *ngIf="f.productName.errors.required">Name is required</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6 col-12">
+                <div class="form-group">
+                  <label>Brand: </label>
+                  <div class="input-group">
+                    <input 
+                    type="text" 
+                    placeholder="Product Brand"
+                    class="form-control" 
+                    formControlname="productBrand" 
+                    [ngClass]="{ 'is-invalid': submitted && f.productBrand.errors }"/>
+                    <div *ngIf="submitted && f.productBrand.errors" class="invalid-feedback">
+                      <div *ngIf="f.productBrand.errors.required">Brand is required</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="col-md-6 col-12">
+                <div class="form-group">
+                  <label>Price: </label>
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" id="basic-addon1">Rp</span>
+                    </div>
+                    <input type="text" mask="separator" thousandSeparator="," placeholder="0" class="form-control" formControlname="productPrice" />
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6 col-12">
+                <div class="form-group">
+                  <label>Stock: </label>
+                  <div class="input-group">
+                    <input type="text" mask="separator" thousandSeparator="," placeholder="Product Stock" class="form-control" formControlname="productStock" />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group" >
+              <label for="summary">Summary: </label>
+              <div class="input-group">
+                <fieldset class="form-group" style="flex: 0 0 100%">
+                  <textarea class="form-control" rows="3" id="summary" placeholder="Summary" formControlname="productSummary"></textarea>
+                </fieldset>
+                <div *ngIf="submitted && f.productSummary.errors" class="invalid-feedback">
+                  <div *ngIf="f.productSummary.errors.required">Summary is required</div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="form-group">
+              <label for="desc">Desc: </label>
+              <div class="input-group">
+                <fieldset class="form-group" style="flex: 0 0 100%">
+                  <textarea class="form-control" rows="3" id="desc" placeholder="Description" formControlname="productDesc"></textarea>
+                </fieldset>
+                <div *ngIf="submitted && f.productDesc.errors" class="invalid-feedback">
+                  <div *ngIf="f.productDesc.errors.required">Description is required</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-primary" (click)="onSubmit()" rippleEffect>
+        Save
+      </button>
+    </div>
 </ng-template>
 
 <div class="content-wrapper container-xxl p-0">
   <div class="content-body">
     <section id="ngx-datatable-row-details">
-      <div class="card" [formGroup]="ProductForm">
+      <div class="card" [formGroup]="ProductFilterForm">
         <div class="card-header">
           <h4 class="card-title">Products</h4>
         </div>
@@ -45,7 +131,7 @@
               <div class="d-flex justify-content-between align-items-center m-1">
                 <label class="d-flex align-items-center">
                   Show
-                  <select class="form-control mx-25" formControlName="pageNumber" (selectionChange)="loadProducts()">
+                  <select class="form-control mx-25" formControlName="size" (selectionChange)="loadProducts()">
                     <option value="10">10</option>
                     <option value="25">25</option>
                     <option value="50">50</option>
@@ -81,15 +167,10 @@
             <!-- Row Detail Template -->
             <ngx-datatable-row-detail [rowHeight]="50">
               <ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
-                <!-- <div class="ml-75 pl-5 pt-75">
-                  <div>
-                    <span><strong>City : </strong> {{ row.city }}</span
-                    ><span class="ml-1"><strong>Experience : </strong> {{ row.experience }}</span
-                    ><span class="ml-1"><strong>Start Date : </strong> {{ row.start_date }}</span>
-                  </div>
-                </div> -->
+                <app-product-detail [data]="row"></app-product-detail>
               </ng-template>
             </ngx-datatable-row-detail>
+
             <ngx-datatable-column
               [width]="50"
               [resizeable]="false"
@@ -109,10 +190,11 @@
                 </a>
               </ng-template>
             </ngx-datatable-column>
-            <ngx-datatable-column name="Name" prop="full_name" [width]="280">
-              <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
+
+            <ngx-datatable-column name="Name" prop="productName" [width]="280">
+              <ng-template let-row="row" ngx-datatable-cell-template>
                 <div class="d-flex align-items-center">
-                  <div *ngIf="row.avatar.length > 0; else customAvatar">
+                  <!-- <div *ngIf="row.avatar?.length > 0; else customAvatar">
                     <img
                       class="rounded-circle mr-1"
                       src="assets/images/portrait/small/{{ row.avatar }}"
@@ -134,77 +216,30 @@
                     >
                       <div class="avatar-content">{{ name | initials }}</div>
                     </div>
-                  </ng-template>
+                  </ng-template> -->
                   <div class="cell-line-height">
-                    <p class="font-medium-1 line-height-1 mb-0">{{ name }}</p>
-                    <span class="text-muted font-small-2"> {{ row.post }}</span>
+                    <p class="font-medium-1 line-height-1 mb-0">{{ row.productName }}</p>
+                    <span class="text-muted font-small-2"> {{ row.productCategory }}</span>
                   </div>
                 </div>
               </ng-template>
             </ngx-datatable-column>
-            <ngx-datatable-column name="Email" prop="email" [width]="250"></ngx-datatable-column>
-            <ngx-datatable-column name="Age" prop="age" [width]="50"></ngx-datatable-column>
-            <ngx-datatable-column name="Salary" prop="salary" [width]="120"></ngx-datatable-column>
-            <ngx-datatable-column name="Status" prop="status" [width]="120">
-              <ng-template let-status="value" ngx-datatable-cell-template>
-                <div
-                  class="badge badge-pill"
-                  [ngClass]="{
-                    'badge-light-primary': status == '1',
-                    'badge-light-success': status == '2',
-                    'badge-light-danger': status == '3',
-                    'badge-light-warning': status == '4',
-                    'badge-light-info': status == '5'
-                  }"
-                >
-                  {{
-                    status == 1
-                      ? 'Current'
-                      : status == 2
-                      ? 'Professional'
-                      : status == 3
-                      ? 'Rejected'
-                      : status == 4
-                      ? 'Resigned'
-                      : status == 5
-                      ? 'Applied'
-                      : 'Applied'
-                  }}
-                </div>
+            <ngx-datatable-column name="Brand" prop="productBrand" [width]="150"></ngx-datatable-column>
+            <ngx-datatable-column name="Price" prop="productPrice" [width]="150">
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                <span>
+                  {{ row.productPrice | currency:'IDR ':'symbol':'3.0' }}
+                </span>
               </ng-template>
             </ngx-datatable-column>
-            <ngx-datatable-column name="Actions" [width]="120" [sortable]="false">
-              <ng-template ngx-datatable-cell-template>
-                <div class="d-flex align-items-center">
-                  <div ngbDropdown container="body">
-                    <a
-                      ngbDropdownToggle
-                      href="javascript:void(0);"
-                      class="hide-arrow"
-                      id="dropdownBrowserState"
-                      data-toggle="dropdown"
-                      aria-haspopup="true"
-                      aria-expanded="false"
-                    >
-                      <i data-feather="more-vertical" class="text-primary cursor-pointer mr-50"></i>
-                    </a>
-                    <div ngbDropdownMenu class="dropdown-menu-right" aria-labelledby="dropdownBrowserState">
-                      <a href="javascript:void(0)" ngbDropdownItem class="d-flex align-items-center"
-                        ><i data-feather="file-text" class="mr-50"></i> Details</a
-                      >
-                      <a href="javascript:void(0)" ngbDropdownItem class="d-flex align-items-center"
-                        ><i data-feather="archive" class="mr-50"></i> Archive</a
-                      >
-                      <a href="javascript:void(0)" ngbDropdownItem class="d-flex align-items-center"
-                        ><i data-feather="trash-2" class="mr-50"></i> Delete</a
-                      >
-                    </div>
-                  </div>
-      
-                  <i data-feather="edit" class="text-primary cursor-pointer"></i>
+            <ngx-datatable-column name="Stock" prop="productStock" [width]="80"></ngx-datatable-column>
+            <ngx-datatable-column name="Discount" prop="product_discount" [width]="120">
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                <div class="badge badge-pill badge-light-primary" *ngIf="row.product_discount">
+                  {{ row.product_discount.discountName }}
                 </div>
               </ng-template>
-            </ngx-datatable-column>
+            </ngx-datatable-column> 
         </ngx-datatable>
       </div>
     </section>

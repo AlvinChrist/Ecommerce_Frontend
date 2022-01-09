@@ -1369,6 +1369,20 @@
   dependencies:
     enhanced-resolve "5.7.0"
 
+"@ngx-file-upload/core@^5.0.0":
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/@ngx-file-upload/core/-/core-5.0.0.tgz#93fc635869c44555fdf6b746f8821e619c2b3fd3"
+  integrity sha512-SEGz6gnoor+ykYXx7yWUwjK919nPdSHX4GxHoVV/pptN/Gnpezi6+gw/lOOfsDKvv5c3OoZdAvzAwzN+Fxg+tA==
+  dependencies:
+    tslib "2.3.1"
+
+"@ngx-file-upload/ui@^5.0.0":
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/@ngx-file-upload/ui/-/ui-5.0.0.tgz#ad1fc4fd5a002473ff121a1da8118cae54f0c058"
+  integrity sha512-rF13hgkNyofXz1nNm8Jg2O7ffdPREu45B17/jTZvTVF02HnY7gRqkFL1sWz0EfTL89X/f/cs4Crkf763YNW3DQ==
+  dependencies:
+    tslib "2.3.1"
+
 "@ngx-translate/core@13.0.0":
   version "13.0.0"
   resolved "https://registry.yarnpkg.com/@ngx-translate/core/-/core-13.0.0.tgz#60547cb8a0845a2a0abfde6b0bf5ec6516a63fd6"
@@ -5830,6 +5844,18 @@ ng2-nouislider@1.8.3:
   resolved "https://registry.yarnpkg.com/ng2-nouislider/-/ng2-nouislider-1.8.3.tgz#c9c1ec77b6b5a909f87368ba799914208baa13a6"
   integrity sha512-Vl8tHCcJ/ioJLAs2t6FBC35sZq1P/O5ZdqdFwYxOCOMVbILGWNg+2gWZIjFstvv9pqb/mVvVUYe6qGG/mA/RBQ==
 
+ngx-file-drop@^13.0.0:
+  version "13.0.0"
+  resolved "https://registry.yarnpkg.com/ngx-file-drop/-/ngx-file-drop-13.0.0.tgz#96506076d0d66c3c167c8fe42a52faa534b403ea"
+  integrity sha512-1OF9ln2ZesfNxWEBXMpkkFpUuggejpZtNlGFuyaVAmXyYO4NlCHsOWrgfWB7d8SliHgePD/7s0e60IQs/zqr9g==
+  dependencies:
+    tslib "^2.0.0"
+
+ngx-file-upload@^0.0.1:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/ngx-file-upload/-/ngx-file-upload-0.0.1.tgz#e42f3f012289863304a7dc4ec9a0c9d92a32ee6b"
+  integrity sha1-5C8/ASKJhjMEp9xOyaDJ2Soy7ms=
+
 ngx-highlightjs@4.1.4:
   version "4.1.4"
   resolved "https://registry.yarnpkg.com/ngx-highlightjs/-/ngx-highlightjs-4.1.4.tgz#630a68c080bd5a3651ac64c2b284d6e7174f6ae2"
@@ -5839,12 +5865,12 @@ ngx-highlightjs@4.1.4:
     highlightjs-line-numbers.js "^2.8.0"
     tslib "^2.0.0"
 
-ngx-mask@12.0.0:
-  version "12.0.0"
-  resolved "https://registry.yarnpkg.com/ngx-mask/-/ngx-mask-12.0.0.tgz#8eb363cc609ab71b687bbe6f87497c461ca120b1"
-  integrity sha512-q4vUjhjJfg4faRud/tUdCTOs3JA6B+rBB2OPZ2xBZy4LNTRKGfUK683LrDCitMVBezjEAVrkQdUT1I4C7LXBZQ==
+ngx-mask@^13.0.1:
+  version "13.0.1"
+  resolved "https://registry.yarnpkg.com/ngx-mask/-/ngx-mask-13.0.1.tgz#2c45106424e36f7518ffbed6d471daa5481eb957"
+  integrity sha512-FbB/xVT+ILR35U0pILL7XWgPmDz+475vBxOVZuFOxnwi+dP8Bdl8l31c8FR39zB1nAPm/nSvK3MbU/RbTeoSRA==
   dependencies:
-    tslib "^2.1.0"
+    tslib "^2.3.0"
 
 ngx-perfect-scrollbar@10.1.1:
   version "10.1.1"
@@ -8502,15 +8528,15 @@ tslib@2.2.0:
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.2.0.tgz#fb2c475977e35e241311ede2693cee1ec6698f5c"
   integrity sha512-gS9GVHRU+RGn5KQM2rllAlR3dU6m7AcpJKdtH8gFvQiC4Otgk98XnmMU+nZenHt/+VhnBPWwgrJsyrdcw6i23w==
 
+tslib@2.3.1, tslib@^2.0.0, tslib@^2.0.3, tslib@^2.1.0, tslib@^2.3.0:
+  version "2.3.1"
+  resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.3.1.tgz#e8a335add5ceae51aa261d32a490158ef042ef01"
+  integrity sha512-77EbyPPpMz+FRFRuAFlWMtmgUWGe9UOG2Z25NqCwiIjRhOf5iKGuzSe5P2w1laq+FkRy4p+PCuVkJSGkzTEKVw==
+
 tslib@^1.10.0, tslib@^1.9.0:
   version "1.14.1"
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-1.14.1.tgz#cf2d38bdc34a134bcaf1091c41f6619e2f672d00"
   integrity sha512-Xni35NKzjgMrwevysHTCArtLDpPvye8zV/0E4EyYn43P7/7qvQwPh9BGkHewbMulVntbigmcT7rdX3BNo9wRJg==
-
-tslib@^2.0.0, tslib@^2.0.3, tslib@^2.1.0:
-  version "2.3.1"
-  resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.3.1.tgz#e8a335add5ceae51aa261d32a490158ef042ef01"
-  integrity sha512-77EbyPPpMz+FRFRuAFlWMtmgUWGe9UOG2Z25NqCwiIjRhOf5iKGuzSe5P2w1laq+FkRy4p+PCuVkJSGkzTEKVw==
 
 tunnel-agent@^0.6.0:
   version "0.6.0"

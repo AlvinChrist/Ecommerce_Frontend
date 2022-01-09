@@ -2,21 +2,33 @@ export class Product {
   productId: number;
   productName: string;
   productSummary: string;
+  productDesc: string;
   productBrand: string;
   productPrice: number;
   productStock: number;
   discountId?: number;
+  product_galleries?: Array<ProductImage>;
+
 
   constructor(Product: any = {}) {
     this.productId = Product.productId || 0;
     this.productName = Product.productName || '';
     this.productSummary = Product.productSummary || '';
+    this.productDesc = Product.productDesc || '';
     this.productBrand = Product.productBrand || '';
     this.productPrice = Product.productPrice || 0;
     this.productStock = Product.productStock || 0;
     this.discountId = Product.discountId || 0 ;
 
   }
+}
+
+export interface ProductImage {
+  imageType: string;
+  imageName: string;
+  imagePath: string;
+  used: boolean;
+  productId: number;
 }
 
 export class ProductRating {
@@ -84,17 +96,17 @@ export class ProductGallery {
 }
 
 export class ProductSearch{
-  pageNumber: number;
-  pageSize: number;
+  page: number;
+  size: number;
   filterType: string;
   filterValue: string;
   searchedProduct: string;
 
   constructor(ProductSearch: any = {}) {
-    this.pageNumber = ProductSearch.pageNumber || 0;
-    this.pageSize = ProductSearch.pageSize || 10;
-    this.filterType = ProductSearch.filterType || '';
-    this.filterValue = ProductSearch.filterValue || '';
-    this.searchedProduct = ProductSearch.searchedProduct || '';
+    this.page = ProductSearch.page || 0;
+    this.size = ProductSearch.size || 10;
+    this.filterType = ProductSearch.filterType || "";
+    this.filterValue = ProductSearch.filterValue || "";
+    this.searchedProduct = ProductSearch.searchedProduct || "";
   }
 }

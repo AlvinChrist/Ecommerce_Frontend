@@ -14,6 +14,7 @@ import { coreConfig } from 'app/app-config';
 import { AppComponent } from 'app/app.component';
 import { LayoutModule } from 'app/layout/layout.module';
 import 'hammerjs';
+import { NgxMaskModule } from 'ngx-mask';
 import { ToastrModule } from 'ngx-toastr'; // For auth after login toast
 import { AuthGuard, ErrorInterceptor, JwtInterceptor } from './auth/helpers';
 import { EcommerceModule } from './main/apps/ecommerce/ecommerce.module';
@@ -72,7 +73,7 @@ const appRoutes: Routes = [
     //NgBootstrap
     NgbModule,
     ToastrModule.forRoot(),
-
+    NgxMaskModule.forRoot(),
     // Core modules
     CoreModule.forRoot(coreConfig),
     CoreCommonModule,

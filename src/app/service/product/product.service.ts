@@ -40,9 +40,7 @@ export class ProductService {
   }
 
   getProducts(): void {
-    this._httpClient.get<Array<Product>>(`/products?page=${this.productSearch.pageNumber}
-      &size=${this.productSearch.pageSize}&filterType=${this.productSearch.filterType}
-      &filterValue=${this.productSearch.filterValue}&searchedProduct=${this.productSearch.searchedProduct}`, { responseType: 'json'})
+    this._httpClient.get<Array<Product>>(`/products?page=${this.productSearch.page}&size=${this.productSearch.size}&filterType=${this.productSearch.filterType}&filterValue=${this.productSearch.filterValue}&searchedProduct=${this.productSearch.searchedProduct}`, { responseType: 'json'})
       .subscribe((resp: Product[]) => {
         this.productList = resp;
         this.onProductListChange.next(resp)
