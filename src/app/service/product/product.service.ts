@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Product, ProductSearch } from 'app/viewmodel/product.viewmodel';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { concatMap, map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -35,8 +36,11 @@ export class ProductService {
   // }
   
 
-  addProduct(product: Product): Observable<any> {
+  addProduct(product: FormData): Observable<any> {
     return this._httpClient.post<any>(`/products`, product, { responseType: 'json'})
+    // return this._httpClient.post<any>('/products', product.form_data).pipe(
+    //   concatMap(resp1 => this._httpClient.post<any>(`/products`, product, { responseType: 'json'}))
+    // )
   }
 
   getProducts(): void {
@@ -47,8 +51,8 @@ export class ProductService {
     })
   }
 
-  getProductById(productId: number): Observable<Product> {
-    return this._httpClient.get<Product>(`/products/${productId}`, { responseType: 'json'})
+  getProductById(productId: number): Observable<any> {
+    return this._httpClient.get<any>(`/products/${productId}`, { responseType: 'json', observe: 'response'})
   }
 
   updateProduct(product: Product): Observable<any>{

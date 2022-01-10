@@ -2,33 +2,41 @@ export class Product {
   productId: number;
   productName: string;
   productSummary: string;
+  productCategory: string;
   productDesc: string;
   productBrand: string;
   productPrice: number;
   productStock: number;
   discountId?: number;
-  product_galleries?: Array<ProductImage>;
-
+  form_data?: FormData;
 
   constructor(Product: any = {}) {
     this.productId = Product.productId || 0;
     this.productName = Product.productName || '';
+    this.productCategory = Product.productCategory || '';
     this.productSummary = Product.productSummary || '';
     this.productDesc = Product.productDesc || '';
     this.productBrand = Product.productBrand || '';
     this.productPrice = Product.productPrice || 0;
     this.productStock = Product.productStock || 0;
     this.discountId = Product.discountId || 0 ;
-
   }
 }
 
-export interface ProductImage {
+export class ProductImage {
   imageType: string;
   imageName: string;
   imagePath: string;
   used: boolean;
   productId: number;
+
+  constructor(ProductImage: any = {}){
+    this.imageType = ProductImage.imageType || "";
+    this.imageName = ProductImage.imageName || "";
+    this.imagePath = ProductImage.imagePath || "";
+    this.used = ProductImage.used || true;
+    this.productId = ProductImage.productId || 0;
+  }
 }
 
 export class ProductRating {

@@ -3,3 +3,7 @@
 @import '@core/scss/angular/libs/datatables.component.scss';
 @import '@core/scss/base/pages/ui-feather.scss';
 @import '@core/scss/angular/libs/toastr.component.scss';
+
+.container-xxl {
+  max-width: 100vw !important;
+}
