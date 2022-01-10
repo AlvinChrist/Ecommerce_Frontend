@@ -53,8 +53,9 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this._productService.getProductById(this.data.productId).subscribe((resp) => {
+      console.log(resp)
       this.ProductViewModel = resp.product
-      this.ProductForm.patchValue(this.ProductViewModel)
+      this.ProductForm.setValue(this.ProductViewModel)
     })
   }
 
