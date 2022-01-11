@@ -52,7 +52,7 @@ export class ProductService {
   }
 
   getProductById(productId: number): Observable<any> {
-    return this._httpClient.get<any>(`/products/${productId}`, { responseType: 'json', observe: 'response'})
+    return this._httpClient.get<any>(`/products/${productId}`, { responseType: 'json'})
   }
 
   updateProduct(product: Product): Observable<any>{

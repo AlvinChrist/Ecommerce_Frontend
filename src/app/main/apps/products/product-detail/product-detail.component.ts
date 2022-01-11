@@ -6,6 +6,7 @@ import { AlertService } from 'app/service/alert/alert.service';
 import { ProductService } from 'app/service/product/product.service';
 import { Product } from 'app/viewmodel/product.viewmodel';
 import { NgxFileDropEntry } from 'ngx-file-drop';
+import { ProductsComponent } from '../products.component';
 
 @Component({
   selector: 'app-product-detail',
@@ -22,13 +23,13 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
   public submitted: boolean = false;
   public ColumnMode = ColumnMode;
   public storage: NgxFileUploadStorage;
-  path: string =  '../../../../assets/images/illustration/Upload.jpg';
-  public imagePath: any = this.path;
+  public imagePath: any = '';
   
   constructor(
     private _productService: ProductService,
     private _formBuilder: FormBuilder,
-    private _alertService: AlertService
+    private _alertService: AlertService,
+    private _parentComponent: ProductsComponent
   ) {
     this.ProductForm = this.createProductForm(this.ProductViewModel);
   }
@@ -53,9 +54,16 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this._productService.getProductById(this.data.productId).subscribe((resp) => {
-      console.log(resp)
+      // console.log(resp)
       this.ProductViewModel = resp.product
-      this.ProductForm.setValue(this.ProductViewModel)
+      this.ProductForm.patchValue(this.ProductViewModel)
+      if(this.ProductViewModel.beforeDiscount){
+        this.ProductForm.patchValue({
+          productPrice: this.ProductViewModel.beforeDiscount
+        })
+      }
+      this.imagePath = `http://localhost:5000/${this.ProductForm.value.product_galleries[0].imagePath}`;
+      // console.log(this.ProductForm.value)
     })
   }
 
@@ -76,7 +84,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
       productBrand: [data.productBrand, [Validators.required]],
       productPrice: [data.productPrice, [Validators.min(0)]],
       productStock: [data.productStock, [Validators.min(0)]],
-      product_gallery: []
+      product_galleries: []
     })
   }
 
@@ -85,23 +93,16 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
     if (this.ProductForm.invalid) {
       return;
     }
-    const form = new FormData;
-    const raw_data: Product = this.ProductForm.getRawValue();
-    Object.keys(raw_data).forEach((key) => {
-      form.append(key,raw_data[key])
-    })
-    form.append('file',this.image)
-
-    this._productService.addProduct(form).subscribe((resp) => {
-      if(resp.message === "Product Added!"){
+    const data = this.ProductForm.getRawValue()
+    this._productService.updateProduct(data).subscribe((resp) => {
+      if(resp.message === "Product Updated"){
         this.submitted = false;
-        this.ProductForm.reset();
-        this.imagePath = this.path;
+        this._parentComponent.loadProducts();
+        // console.log(this._parentComponent.productList)
         this._alertService.toastrSuccess(resp.message,2000, { hr: 'center', vr: 'top'})
       }
     },(err) => {
       console.log(err)
     })
   }
-
 }

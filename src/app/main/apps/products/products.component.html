@@ -58,7 +58,7 @@
                   <div class="input-group">
                     <input 
                     type="text" 
-                    placeholder="Product Brand"
+                    placeholder="Product Category"
                     class="form-control" 
                     formControlName="productCategory" 
                     [ngClass]="{ 'is-invalid': submitted && f.productCategory.errors }"/>
@@ -177,6 +177,7 @@
             [limit]="10"
             [rows]="productList"
             [scrollbarH]="true"
+            [rowIdentity]="identity"
           >
             <!-- Row Detail Template -->
             <ngx-datatable-row-detail [rowHeight]="'100%'">

@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, Injectable, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgxFileUploadStorage } from "@ngx-file-upload/core";
@@ -13,18 +13,24 @@ import { NgxFileDropEntry } from 'ngx-file-drop';
   templateUrl: './products.component.html',
   styleUrls: ['./products.component.scss']
 })
+
+@Injectable({
+  providedIn: 'root'
+})
+
 export class ProductsComponent implements OnInit, OnDestroy {
   productList: Product[] = [];
   ProductSearchModel = new ProductSearch()
   ProductViewModel = new Product();
   ProductFilterForm: FormGroup
   image: any;
+  expandedRow: Product;
+  path: string =  '../../../../assets/images/illustration/Upload.jpg';
 
   public ProductForm: FormGroup
   public submitted: boolean = false;
   public ColumnMode = ColumnMode;
   public storage: NgxFileUploadStorage;
-  path: string =  '../../../../assets/images/illustration/Upload.jpg';
   public imagePath: any = this.path;
   
   @ViewChild(DatatableComponent) table: DatatableComponent;
@@ -61,9 +67,29 @@ export class ProductsComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.loadProducts();
     this._productService.onProductListChange.subscribe((resp) => {
-      this.productList = resp.products?.rows || [];
-      // console.log(this.productList)
+      if(resp.products?.rows){
+        //@ts-ignore
+        this.productList = [...resp.products.rows]
+      }
     })
+  }
+  
+  identity(row?: any) {
+    if(row){
+      return row.productId;
+    }
+  }
+  
+  rowDetailsToggleExpand(row: Product) {
+    if(row.productId !== this.expandedRow?.productId){
+      this.table.rowDetail.toggleExpandRow(this.expandedRow);
+      this.table.rowDetail.toggleExpandRow(row);
+      this.expandedRow = row
+    }
+    else if(row.productId == this.expandedRow?.productId){
+      this.table.rowDetail.toggleExpandRow(this.expandedRow);
+      this.expandedRow = null
+    }
   }
 
   ngOnDestroy() {
@@ -72,7 +98,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
   get f() {
     return this.ProductForm.controls;
   }
-
+  
   createProductForm(data: Product): FormGroup {
     return this._formBuilder.group({
       productId: [data.productId],
@@ -106,9 +132,6 @@ export class ProductsComponent implements OnInit, OnDestroy {
     this._productService.getProducts();
   }
 
-  rowDetailsToggleExpand(row) {
-    this.tableRowDetails.rowDetail.toggleExpandRow(row);
-  }
 
   search(e: any): void {
     console.log(e)

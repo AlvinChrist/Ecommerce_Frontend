@@ -1,4 +1,5 @@
 export class Product {
+  beforeDiscount?: number;
   productId: number;
   productName: string;
   productSummary: string;
@@ -8,7 +9,7 @@ export class Product {
   productPrice: number;
   productStock: number;
   discountId?: number;
-  form_data?: FormData;
+  product_galleries?: FormData;
 
   constructor(Product: any = {}) {
     this.productId = Product.productId || 0;
