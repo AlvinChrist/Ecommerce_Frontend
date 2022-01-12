@@ -188,7 +188,7 @@
 
             <ngx-datatable-column
               [flexGrow]="0"
-              [width]="50"
+              [width]="30"
               [resizeable]="false"
               [sortable]="false"
               [draggable]="false"
@@ -241,21 +241,21 @@
               </ng-template>
             </ngx-datatable-column>
             <ngx-datatable-column name="Brand" prop="productBrand" [flexGrow]="2"></ngx-datatable-column>
-            <ngx-datatable-column name="Price" prop="productPrice" [flexGrow]="2">
+            <ngx-datatable-column name="Price" prop="productPrice" [flexGrow]="1.5">
               <ng-template let-row="row" ngx-datatable-cell-template>
                 <span>
                   {{ row.productPrice | currency:'IDR ':'symbol':'3.0' }}
                 </span>
               </ng-template>
             </ngx-datatable-column>
-            <ngx-datatable-column name="Stock" prop="productStock" [flexGrow]="2"></ngx-datatable-column>
-            <ngx-datatable-column name="Discount" prop="product_discount" [flexGrow]="2">
+            <ngx-datatable-column name="Stock" prop="productStock" [flexGrow]="1"></ngx-datatable-column>
+            <ngx-datatable-column name="Discount" prop="product_discount" [flexGrow]="1.5">
               <ng-template let-row="row" ngx-datatable-cell-template>
                 <div class="badge badge-pill badge-light-primary" *ngIf="row.product_discount">
                   {{ row.product_discount.discountName }}
                 </div>
               </ng-template>
-            </ngx-datatable-column> 
+            </ngx-datatable-column>
         </ngx-datatable>
       </div>
     </section>

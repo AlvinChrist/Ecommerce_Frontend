@@ -1,6 +1,8 @@
 import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 
 import { EcommerceService } from 'app/main/apps/ecommerce/ecommerce.service';
+import { ProductService } from 'app/service/product/product.service';
+import { Product } from 'app/viewmodel/product.viewmodel';
 
 @Component({
   selector: 'app-ecommerce-item',
@@ -11,9 +13,10 @@ import { EcommerceService } from 'app/main/apps/ecommerce/ecommerce.service';
 })
 export class EcommerceItemComponent implements OnInit {
   // Input Decorotor
-  @Input() product;
+  @Input() product: Product;
   @Input() isWishlistOpen = false;
 
+  public image: string;
   // Public
   public isInCart = false;
 
@@ -21,7 +24,9 @@ export class EcommerceItemComponent implements OnInit {
    *
    * @param {EcommerceService} _ecommerceService
    */
-  constructor(private _ecommerceService: EcommerceService) {}
+  constructor(private _productService: ProductService) {
+    this.image =  `http://localhost:5000/${this.product?.product_galleries[0].imagePath}`
+  }
 
   // Public Methods
   // -----------------------------------------------------------------------------------------------------
@@ -33,13 +38,13 @@ export class EcommerceItemComponent implements OnInit {
    */
   toggleWishlist(product) {
     if (product.isInWishlist === true) {
-      this._ecommerceService.removeFromWishlist(product.id).then(res => {
-        product.isInWishlist = false;
-      });
+      // this._ecommerceService.removeFromWishlist(product.id).then(res => {
+      //   product.isInWishlist = false;
+      // });
     } else {
-      this._ecommerceService.addToWishlist(product.id).then(res => {
-        product.isInWishlist = true;
-      });
+      // this._ecommerceService.addToWishlist(product.id).then(res => {
+      //   product.isInWishlist = true;
+      // });
     }
   }
 
@@ -49,12 +54,15 @@ export class EcommerceItemComponent implements OnInit {
    * @param product
    */
   addToCart(product) {
-    this._ecommerceService.addToCart(product.id).then(res => {
-      product.isInCart = true;
-    });
+    // this._ecommerceService.addToCart(product.id).then(res => {
+    //   product.isInCart = true;
+    // });
   }
 
   // Lifecycle Hooks
   // -----------------------------------------------------------------------------------------------------
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    console.log(this.product)
+    this.image =  `http://localhost:5000/${this.product?.product_galleries[0].imagePath}`
+  }
 }

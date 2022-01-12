@@ -7,6 +7,7 @@ import { ProductService } from 'app/service/product/product.service';
 import { Product } from 'app/viewmodel/product.viewmodel';
 import { NgxFileDropEntry } from 'ngx-file-drop';
 import { ProductsComponent } from '../products.component';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-product-detail',
@@ -86,6 +87,59 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
       productStock: [data.productStock, [Validators.min(0)]],
       product_galleries: []
     })
+  }
+
+  onDelete(): void {
+    try{
+      this._productService.deleteProduct(this.f.productId.value).subscribe((resp) => {
+        console.log(resp)
+      },(err) => {
+        console.log(err)
+      })
+    } catch(e){
+      console.log(e)
+    }
+  }
+
+  confirmDelete() {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'Confirm action',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes',
+      customClass: {
+        confirmButton: 'btn btn-danger',
+        cancelButton: 'btn btn-outline-primary ml-1'
+      }
+    }).then((result) => {
+      if (result.value) {
+        this._productService.deleteProduct(this.f.productId.value).subscribe((resp) => {
+          if(resp?.message === 'Product Deleted'){
+            Swal.fire({
+              icon: 'success',
+              title: 'Deleted!',
+              text: 'Product deleted!',
+              customClass: {
+                confirmButton: 'btn btn-primary'
+              }
+            });
+
+            this._parentComponent.loadProducts();
+          }
+        },(err) => {
+          console.log(err)
+          Swal.fire({
+            icon: 'error',
+            title: 'Error!',
+            text: err,
+            customClass: {
+              confirmButton: 'btn btn-primary'
+            }
+          });
+        })
+      }
+    });
   }
 
   onSubmit(): void {

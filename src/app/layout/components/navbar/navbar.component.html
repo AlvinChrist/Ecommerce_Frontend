@@ -48,7 +48,7 @@
       </div>
     </li> -->
     <!--/ Language selection -->
-    <ng-container *ngIf="currentUser.role !== 'Admin'">
+    <ng-container *ngIf="currentUser?.role !== 'Admin'">
       <app-navbar-cart></app-navbar-cart>
     </ng-container>
 

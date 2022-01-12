@@ -1,11 +1,9 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { takeUntil } from 'rxjs/operators';
-import { Subject } from 'rxjs';
 import { Router } from '@angular/router';
 import { CoreConfigService } from '@core/services/config.service';
 import { UserService } from 'app/service/user/user.service';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-auth-login-v2',
@@ -35,7 +33,6 @@ export class AuthLoginV2Component implements OnInit {
     private _coreConfigService: CoreConfigService,
     private _userService: UserService,
     private _formBuilder: FormBuilder,
-    private _route: ActivatedRoute,
     private _router: Router
   ) {
     if (this._userService.currentUserValue) {
@@ -97,10 +94,6 @@ export class AuthLoginV2Component implements OnInit {
       this.error = err;
       this.loading = false;
     })
-    // redirect to home page
-    // setTimeout(() => {
-    //   this._router.navigate(['/shop']);
-    // }, 100);
   }
 
   // Lifecycle Hooks
@@ -115,13 +108,6 @@ export class AuthLoginV2Component implements OnInit {
       password: ['12345678', Validators.required]
     });
 
-    // get return url from route parameters or default to '/'
-    this.returnUrl = this._route.snapshot.queryParams['returnUrl'] || '/shop';
-
-    // Subscribe to config changes
-    this._coreConfigService.config.pipe(takeUntil(this._unsubscribeAll)).subscribe(config => {
-      this.coreConfig = config;
-    });
   }
 
   /**

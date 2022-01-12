@@ -1,7 +1,7 @@
 <div class="auth-wrapper auth-v2">
   <div class="auth-inner row m-0">
     <!-- Brand logo--><a class="brand-logo" href="javascript:void(0);">
-      <img src="{{ coreConfig.app.appLogoImage }}" alt="brand-logo" height="28" />
+      <img src="{{ coreConfig?.app.appLogoImage }}" alt="brand-logo" height="28" />
       <h2 class="brand-text text-primary ml-1">Vuexy</h2></a
     >
     <!-- /Brand logo-->
@@ -11,7 +11,7 @@
         <img
           class="img-fluid"
           [src]="
-            coreConfig.layout.skin === 'dark'
+            coreConfig?.layout.skin === 'dark'
               ? 'assets/images/pages/login-v2-dark.svg'
               : 'assets/images/pages/login-v2.svg'
           "

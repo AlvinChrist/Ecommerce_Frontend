@@ -98,17 +98,15 @@
       <!-- E-commerce Head Section Starts -->
 
       <!-- E-commerce Products Starts -->
-      <section id="ecommerce-products" [ngClass]="gridViewRef === true ? 'grid-view' : 'list-view'">
-        <!-- <app-ecommerce-item
-          class="card ecommerce-card"
-          [product]="product"
-          *ngFor="
-            let product of products
-              | filter: searchText:'name'
-              | slice: (page - 1) * pageSize:(page - 1) * pageSize + pageSize
-          "
-        ></app-ecommerce-item> -->
-      </section>
+      <ng-container *ngFor="let product of products">
+        <section id="ecommerce-products" [ngClass]="gridViewRef === true ? 'grid-view' : 'list-view'">
+          <app-ecommerce-item
+            class="card ecommerce-card"
+            [product]="product"
+          >
+          </app-ecommerce-item>
+        </section>
+      </ng-container>
       <!-- E-commerce Products Ends -->
 
       <!-- E-commerce Pagination Starts -->

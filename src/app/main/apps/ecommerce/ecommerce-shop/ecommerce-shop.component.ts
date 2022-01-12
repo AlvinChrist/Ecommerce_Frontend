@@ -1,7 +1,6 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { CoreSidebarService } from '@core/components/core-sidebar/core-sidebar.service';
 import { CoreConfigService } from '@core/services/config.service';
-import { EcommerceService } from 'app/main/apps/ecommerce/ecommerce.service';
 import { ProductService } from 'app/service/product/product.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -14,7 +13,7 @@ import { takeUntil } from 'rxjs/operators';
   encapsulation: ViewEncapsulation.None,
   host: { class: 'ecommerce-application' }
 })
-export class EcommerceShopComponent implements OnInit {
+export class EcommerceShopComponent implements OnInit, OnDestroy {
   // public
   public contentHeader: object;
   public shopSidebarToggle = false;
@@ -33,11 +32,9 @@ export class EcommerceShopComponent implements OnInit {
   /**
    *
    * @param {CoreSidebarService} _coreSidebarService
-   * @param {EcommerceService} _ecommerceService
    */
   constructor(
     private _coreSidebarService: CoreSidebarService,
-    private _ecommerceService: EcommerceService,
     private _productService: ProductService,
     private _coreConfigService: CoreConfigService
      ) {
@@ -86,15 +83,18 @@ export class EcommerceShopComponent implements OnInit {
   // Lifecycle Hooks
   // -----------------------------------------------------------------------------------------------------
 
+  ngOnDestroy(): void {
+    this._unsubscribeAll.next();
+    this._unsubscribeAll.complete();
+  }
   /**
    * On init
    */
   ngOnInit(): void {
     // Subscribe to ProductList change
-    
-    this._ecommerceService.onProductListChange.subscribe(res => {
-      this.products = res;
-      this.products.isInWishlist = false;
+    this._productService.onProductListChange.pipe(takeUntil(this._unsubscribeAll)).subscribe(res => {
+      this.products = res.products?.rows;
+      // this.products.isInWishlist = false;
     });
 
     // // Subscribe to Wishlist change
@@ -108,9 +108,6 @@ export class EcommerceShopComponent implements OnInit {
     //   product.isInWishlist = this.wishlist.findIndex(p => p.productId === product.id) > -1;
     //   product.isInCart = this.cartList.findIndex(p => p.productId === product.id) > -1;
     // });
-    this._coreConfigService.config.pipe(takeUntil(this._unsubscribeAll)).subscribe(config => {
-      this.coreConfig = config;
-    });
 
     // content header
     this.contentHeader = {
