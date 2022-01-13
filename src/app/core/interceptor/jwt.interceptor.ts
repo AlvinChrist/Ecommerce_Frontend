@@ -38,9 +38,21 @@ export class JwtInterceptor implements HttpInterceptor {
         localStorage.removeItem('accessToken');
         return this._userService.refreshToken().pipe(
           switchMap((resp) => {
-            localStorage.setItem('accessToken', JSON.stringify(resp.accessToken));// update token
-            console.log("token refreshed!");
-            return next.handle(this.injectToken(request));
+            if(resp.accessToken){
+              localStorage.setItem('accessToken', JSON.stringify(resp.accessToken));// update token
+              console.log("token refreshed!");
+              return next.handle(this.injectToken(request));
+            }
+            else{
+              this._userService.logout();
+              request.clone({
+                url: `${environment.apiUrl}/auth/login`,
+                setHeaders: {
+                    Authorization: `Bearer ${accessToken}`
+                }
+              }); 
+              return next.handle(request)
+            }
           })
         )
       }

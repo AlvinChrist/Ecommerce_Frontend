@@ -7,6 +7,7 @@ import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { SharedModule } from 'app/shared/shared.module';
 import { NgxFileDropModule } from 'ngx-file-drop';
 import { NgxMaskModule } from 'ngx-mask';
+import { SwiperModule } from 'ngx-swiper-wrapper';
 import { ProductDetailComponent } from './components/product-detail/product-detail.component';
 import { ProductsComponent } from './pages/product-data/products.component';
 const routes: Routes = [
@@ -31,7 +32,8 @@ const routes: Routes = [
     NgxFileUploadUiToolbarModule,
     NgxFileUploadUiProgressbarModule,
     NgxFileUploadUiCommonModule,
-    NgxFileDropModule
+    NgxFileDropModule,
+    SwiperModule
   ]
 })
 export class ProductsModule { }

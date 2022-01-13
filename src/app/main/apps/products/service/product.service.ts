@@ -79,6 +79,19 @@ export class ProductService {
     return this._httpClient.get<any>(`/gallery/product/${productId}`, { responseType: 'json'})
   }
 
+  addProductImage(data: FormData){
+    return this._httpClient.post<any>(`/gallery`, data, { responseType: 'json'})
+  }
+
+  updateUsedImage(productId: number,imageId: number): Observable<any> {
+    return this._httpClient.put<any>(`/product/${productId}/image`, {
+      imageId: imageId
+    }, { responseType: 'json'})
+  }
+  deleteImage(imageId: number): Observable<any> {
+    return this._httpClient.delete<any>(`/gallery/${imageId}`, { responseType: 'json'})
+  }
+
   rateProduct(productId: number, userId: number, productRating: number){
     return this._httpClient.post<any>(`/rate`, {
       productId: productId,

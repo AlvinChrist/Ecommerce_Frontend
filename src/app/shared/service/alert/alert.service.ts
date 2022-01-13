@@ -61,8 +61,8 @@ export class AlertService {
         });
       }
     
-      toastrError(message: string,duration: number = 2000,pos: string = 'center') {
-        this.toastr.error(message,'Failed!', {
+      toastrError(title:string = 'Failed!', message: string,duration: number = 2000,pos: string = 'center') {
+        this.toastr.error(message,title, {
           positionClass: `toast-top-${pos}`,
           timeOut: duration,
           toastClass: 'toast ngx-toastr',

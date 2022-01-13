@@ -4,10 +4,14 @@ import { NgxFileUploadStorage } from '@ngx-file-upload/core';
 import { ColumnMode } from '@swimlane/ngx-datatable';
 import { AlertService } from 'app/shared/service/alert/alert.service';
 import { ProductService } from 'app/main/apps/products/service/product.service';
-import { Product } from 'app/main/apps/products/model/product.viewmodel';
+import { Product, ProductImage } from 'app/main/apps/products/model/product.viewmodel';
 import { NgxFileDropEntry } from 'ngx-file-drop';
 import { ProductsComponent } from '../../pages/product-data/products.component';
 import Swal from 'sweetalert2';
+import { forkJoin, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import { SwiperConfigInterface } from 'ngx-swiper-wrapper';
+import { environment } from 'environments/environment';
 
 @Component({
   selector: 'app-product-detail',
@@ -25,7 +29,30 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
   public ColumnMode = ColumnMode;
   public storage: NgxFileUploadStorage;
   public imagePath: any = '';
-  
+  public env = environment;
+
+  private _unsubscribeAll: Subject<any>
+  private currentImageIndex: number = 0;
+  //swiper
+  public swiperResponsive1: SwiperConfigInterface = {
+    effect: 'coverflow',
+    grabCursor: true,
+    centeredSlides: true,
+    slidesPerView: 'auto',
+    slideToClickedSlide: true,
+    preloadImages: true,
+    coverflowEffect: {
+      rotate: 50,
+      stretch: 0,
+      depth: 100,
+      modifier: 1,
+      slideShadows: true
+    },
+    pagination: {
+      el: '.swiper-pagination'
+    }
+  };
+
   constructor(
     private _productService: ProductService,
     private _formBuilder: FormBuilder,
@@ -33,6 +60,26 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
     private _parentComponent: ProductsComponent
   ) {
     this.ProductForm = this.createProductForm(this.ProductViewModel);
+    this._unsubscribeAll = new Subject();
+  }
+
+  onIndexChange(e: number) {
+    this.currentImageIndex = e
+  }
+
+  onImageClick() {
+    const { productId, imageId } = this.ProductViewModel.product_galleries[this.currentImageIndex]
+    this._productService.updateUsedImage(productId, imageId).subscribe((resp) => {
+      if(resp?.message === "Thumbnail Updated!"){
+        this._alertService.toastrSuccess(resp.message, 2000)
+      }
+      else{
+        this._alertService.toastrError(resp.message,resp.error, 2000)
+        console.log(resp)
+      }
+    },(err) => {
+      console.log(err)
+    })
   }
 
   drop(file: NgxFileDropEntry[]) {
@@ -49,26 +96,49 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
         reader.onload = () => {
           this.imagePath = reader.result;
         };
+        const d = new FormData();
+        d.append('file',this.image);
+        d.append('productId',this.ProductViewModel.productId.toString())
+        this._productService.addProductImage(d).subscribe((resp) => {
+          if(resp?.message === "Image Uploaded"){
+            const newImage = new ProductImage(resp.result)
+            this.ProductViewModel.product_galleries.push(newImage)
+          }
+          else{
+            console.log(resp)
+          }
+        },(err) => {
+          console.log(err)
+        })
       });
     }
   }
 
   ngOnInit(): void {
-    this._productService.getProductById(this.data.productId).subscribe((resp) => {
-      // console.log(resp)
-      this.ProductViewModel = resp.product
+    forkJoin({
+      product: this._productService.getProductById(this.data.productId),
+      product_galleries: this._productService.getProductGalleries(this.data.productId)
+    }).pipe(takeUntil(this._unsubscribeAll)).subscribe((resp) => {
+      this.ProductViewModel = resp.product.product
       this.ProductForm.patchValue(this.ProductViewModel)
       if(this.ProductViewModel.beforeDiscount){
         this.ProductForm.patchValue({
           productPrice: this.ProductViewModel.beforeDiscount
         })
       }
-      this.imagePath = `http://localhost:5000/${this.ProductForm.value.product_galleries[0].imagePath}`;
-      // console.log(this.ProductForm.value)
+      resp.product_galleries.gallery.rows.forEach((data: any) => {
+        this.ProductViewModel.product_galleries.push(data)
+      })
+      this.imagePath = `${this.env.apiUrl}/${this.ProductForm.value.product_galleries[0].imagePath}`;
+      console.log(resp,this.ProductViewModel)
+    },(err) => {
+      console.log(err)
     })
   }
 
   ngOnDestroy() {
+    this._unsubscribeAll.next();
+    this._unsubscribeAll.complete();
   }
 
   get f() {
@@ -86,6 +156,20 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
       productPrice: [data.productPrice, [Validators.min(0)]],
       productStock: [data.productStock, [Validators.min(0)]],
       product_galleries: []
+    })
+  }
+
+  deleteImage(): void {
+    const imageId = this.ProductViewModel.product_galleries[this.currentImageIndex].imageId;
+    this._productService.deleteImage(imageId).subscribe((resp) => {
+      if(resp.message === "File Deleted"){
+        this.ProductViewModel.product_galleries.splice(this.currentImageIndex,1);
+      }
+      else{
+        console.log(resp)
+      }
+    },(err) => {
+      console.log(err)
     })
   }
 

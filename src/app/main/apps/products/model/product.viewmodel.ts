@@ -27,22 +27,6 @@ export class Product {
   }
 }
 
-export class ProductImage {
-  imageType: string;
-  imageName: string;
-  imagePath: string;
-  used: boolean;
-  productId: number;
-
-  constructor(ProductImage: any = {}){
-    this.imageType = ProductImage.imageType || "";
-    this.imageName = ProductImage.imageName || "";
-    this.imagePath = ProductImage.imagePath || "";
-    this.used = ProductImage.used || true;
-    this.productId = ProductImage.productId || 0;
-  }
-}
-
 export class ProductRating {
   product_rating_id: number;
   user_id: number;
@@ -93,17 +77,23 @@ export class ProductComment {
   }
 }
 
-export class ProductGallery {
-  image_id: number;
-  productId: number;
-  image_path: string;
-  created_at: string | null;
+export class ProductImage {
+  createdAt: string
+  imageId: number
+  imageName: string
+  imagePath: string
+  imageType: string
+  productId: number
+  used: boolean
 
-  constructor(ProductGallery: any = {}) {
-    this.image_id = ProductGallery.image_id || 0;
-    this.productId = ProductGallery.productId || 0;
-    this.image_path = ProductGallery.image_path || '';
-    this.created_at = ProductGallery.created_at || null;
+  constructor(ProductImage: any = {}) {
+    this.createdAt = ProductImage.createdAt || null;
+    this.imageId = ProductImage.imageId || 0;
+    this.imageName = ProductImage.imageName || '';
+    this.imagePath = ProductImage.imagePath || '';
+    this.imageType = ProductImage.imageType || '';
+    this.productId = ProductImage.productId || 0;
+    this.used = ProductImage.used || false;
   }
 }
 
