@@ -12,6 +12,7 @@ import { NgxMaskModule } from 'ngx-mask';
 import { ProductDetailComponent } from './product-detail/product-detail.component';
 import { ProductsComponent } from './products.component';
 import { NgxFileDropModule } from 'ngx-file-drop';
+import { SharedModule } from 'app/shared/shared.module';
 const routes: Routes = [
   {
     path: '',
@@ -25,14 +26,9 @@ const routes: Routes = [
     ProductDetailComponent
   ],
   imports: [
-    CommonModule,
+    SharedModule,
     RouterModule.forChild(routes),
-    NgbModule,
     NgbModalModule,
-    CoreCommonModule,
-    ContentHeaderModule,
-    FormsModule,
-    ReactiveFormsModule,
     CardSnippetModule,
     NgxDatatableModule,
     NgxMaskModule,

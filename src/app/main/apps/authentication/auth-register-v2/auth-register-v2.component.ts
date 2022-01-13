@@ -1,10 +1,10 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CoreConfigService } from '@core/services/config.service';
-import { UserService } from 'app/service/user/user.service';
-import { User } from 'app/viewmodel/user.viewmodel';
+import { User } from 'app/main/apps/authentication/model/user.viewmodel';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { UserService } from '../service/user.service';
 
 @Component({
   selector: 'app-auth-register-v2',

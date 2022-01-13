@@ -3,8 +3,7 @@ import { Router } from '@angular/router';
 import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { UserService } from 'app/service/user/user.service';
-
+import { UserService } from 'app/main/apps/authentication/service/user.service';
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
   /**

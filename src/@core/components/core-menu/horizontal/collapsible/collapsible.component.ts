@@ -1,13 +1,11 @@
-import { Component, HostListener, HostBinding, ElementRef, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, ElementRef, HostBinding, HostListener, Input, OnDestroy, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
-
+import { CoreMenuService } from '@core/components/core-menu/core-menu.service';
+import { CoreConfigService } from '@core/services/config.service';
+import { User } from 'app/main/apps/authentication/model/user.viewmodel';
 import { Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 
-import { CoreConfigService } from '@core/services/config.service';
-import { CoreMenuService } from '@core/components/core-menu/core-menu.service';
-
-import { User } from 'app/viewmodel/user.viewmodel';
 @Component({
   selector: '[core-menu-horizontal-collapsible]',
   templateUrl: './collapsible.component.html'

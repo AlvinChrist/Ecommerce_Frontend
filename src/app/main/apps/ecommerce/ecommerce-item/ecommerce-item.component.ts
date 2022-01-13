@@ -1,8 +1,8 @@
 import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 
 import { EcommerceService } from 'app/main/apps/ecommerce/ecommerce.service';
-import { ProductService } from 'app/service/product/product.service';
-import { Product } from 'app/viewmodel/product.viewmodel';
+import { ProductService } from 'app/main/apps/products/service/product.service';
+import { Product } from 'app/main/apps/products/model/product.viewmodel';
 import { EcommerceShopComponent } from '../ecommerce-shop/ecommerce-shop.component';
 
 @Component({

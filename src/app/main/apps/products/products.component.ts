@@ -3,9 +3,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgxFileUploadStorage } from "@ngx-file-upload/core";
 import { ColumnMode, DatatableComponent } from '@swimlane/ngx-datatable';
-import { AlertService } from 'app/service/alert/alert.service';
-import { ProductService } from 'app/service/product/product.service';
-import { Product, ProductSearch } from 'app/viewmodel/product.viewmodel';
+import { AlertService } from 'app/shared/service/alert/alert.service';
+import { ProductService } from 'app/main/apps/products/service/product.service';
+import { Product, ProductSearch } from 'app/main/apps/products/model/product.viewmodel';
 import { NgxFileDropEntry } from 'ngx-file-drop';
 
 @Component({

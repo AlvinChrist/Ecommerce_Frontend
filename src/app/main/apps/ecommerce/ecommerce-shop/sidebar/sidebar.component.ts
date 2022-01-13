@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 
 @Component({
   selector: 'ecommerce-sidebar',
@@ -8,9 +8,17 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 })
 export class EcommerceSidebarComponent implements OnInit {
   // Public
+  @Input() data: any;
+  
   public sliderPriceValue = [1, 100];
 
   constructor() {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    console.log(this.data)
+  }
+
+  categoryFilter(e: any) {
+    console.log(e)
+  }
 }

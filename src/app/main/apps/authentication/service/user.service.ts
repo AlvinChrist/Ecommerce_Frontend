@@ -4,9 +4,8 @@ import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { User } from '../../viewmodel/user.viewmodel';
-import { AlertService } from '../alert/alert.service';
-
+import { User } from '../model/user.viewmodel';
+import { AlertService } from 'app/shared/service/alert/alert.service';
 @Injectable({
   providedIn: 'root'
 })

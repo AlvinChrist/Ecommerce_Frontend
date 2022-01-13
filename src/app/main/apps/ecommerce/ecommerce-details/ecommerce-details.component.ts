@@ -1,16 +1,14 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-
-import { SwiperConfigInterface } from 'ngx-swiper-wrapper';
-
-import { EcommerceService } from 'app/main/apps/ecommerce/ecommerce.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ProductService } from 'app/service/product/product.service';
-import { Product } from 'app/viewmodel/product.viewmodel';
-import { UserService } from 'app/service/user/user.service';
-import { concat, forkJoin } from 'rxjs';
-import { User } from 'app/viewmodel/user.viewmodel';
-import { AlertService } from 'app/service/alert/alert.service';
+import { User } from 'app/main/apps/authentication/model/user.viewmodel';
+import { EcommerceService } from 'app/main/apps/ecommerce/ecommerce.service';
+import { Product } from 'app/main/apps/products/model/product.viewmodel';
+import { ProductService } from 'app/main/apps/products/service/product.service';
+import { AlertService } from 'app/shared/service/alert/alert.service';
 import { environment } from 'environments/environment';
+import { SwiperConfigInterface } from 'ngx-swiper-wrapper';
+import { forkJoin } from 'rxjs';
+import { UserService } from '../../authentication/service/user.service';
 
 @Component({
   selector: 'app-ecommerce-details',

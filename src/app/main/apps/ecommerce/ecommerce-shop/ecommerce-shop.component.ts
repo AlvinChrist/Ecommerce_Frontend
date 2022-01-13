@@ -1,7 +1,7 @@
 import { Component, Injectable, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { CoreSidebarService } from '@core/components/core-sidebar/core-sidebar.service';
-import { ProductService } from 'app/service/product/product.service';
-import { Product } from 'app/viewmodel/product.viewmodel';
+import { ProductService } from 'app/main/apps/products/service/product.service';
+import { Product } from 'app/main/apps/products/model/product.viewmodel';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
@@ -23,6 +23,10 @@ export class EcommerceShopComponent implements OnInit, OnDestroy {
   public shopSidebarReset = false;
   public gridViewRef = true;
   public products: Product[];
+  public filterData = {
+    brands: [],
+    categories: []
+  }
   public page = 1;
   public pageSize = 9;
   public searchText = '';
@@ -89,6 +93,17 @@ export class EcommerceShopComponent implements OnInit, OnDestroy {
     // Subscribe to ProductList change
     this._productService.onProductListChange.pipe(takeUntil(this._unsubscribeAll)).subscribe(res => {
       this.products = res.products?.rows;
+      this.filterData.brands = res.brands;
+      this.filterData.categories = res.categories
+      const _el = ["productBrand","productCategory"]
+      Object.keys(this.filterData).forEach((key,idx) => {
+        this.filterData[key]?.forEach((brand: any,index: number) => {
+          const b = brand.DISTINCT
+          const total = this.products.filter((p) => p[_el[idx]] === b).length || 0
+          this.filterData[key][index]['total'] = total
+        })
+      })
+      // console.log(res,this.filterData)
     });
 
     // content header

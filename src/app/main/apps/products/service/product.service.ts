@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Product, ProductSearch } from 'app/viewmodel/product.viewmodel';
+import { Product, ProductSearch } from 'app/main/apps/products/model/product.viewmodel';
 import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({

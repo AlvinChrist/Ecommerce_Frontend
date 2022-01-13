@@ -1,9 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { CoreConfigService } from '@core/services/config.service';
-import { AlertService } from 'app/service/alert/alert.service';
-import { UserService } from 'app/service/user/user.service';
+import { UserService } from '../authentication/service/user.service';
+import { AlertService } from 'app/shared/service/alert/alert.service';
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-dashboard',

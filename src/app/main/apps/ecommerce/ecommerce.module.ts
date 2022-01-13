@@ -1,13 +1,7 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
-import { CoreCommonModule } from '@core/common.module';
-import { CoreSidebarModule } from '@core/components';
-import { CoreTouchspinModule } from '@core/components/core-touchspin/core-touchspin.module';
-import { NgbModule, NgbRatingModule } from '@ng-bootstrap/ng-bootstrap';
-import { UserAuthGuard } from 'app/auth/helpers/user-auth.guard';
-import { ContentHeaderModule } from 'app/layout/components/content-header/content-header.module';
+import { NgbRatingModule } from '@ng-bootstrap/ng-bootstrap';
+import { UserAuthGuard } from 'app/core';
 import { EcommerceCheckoutItemComponent } from 'app/main/apps/ecommerce/ecommerce-checkout/ecommerce-checkout-item/ecommerce-checkout-item.component';
 import { EcommerceCheckoutComponent } from 'app/main/apps/ecommerce/ecommerce-checkout/ecommerce-checkout.component';
 import { EcommerceDetailsComponent } from 'app/main/apps/ecommerce/ecommerce-details/ecommerce-details.component';
@@ -15,10 +9,10 @@ import { EcommerceItemComponent } from 'app/main/apps/ecommerce/ecommerce-item/e
 import { EcommerceShopComponent } from 'app/main/apps/ecommerce/ecommerce-shop/ecommerce-shop.component';
 import { EcommerceSidebarComponent } from 'app/main/apps/ecommerce/ecommerce-shop/sidebar/sidebar.component';
 import { EcommerceWishlistComponent } from 'app/main/apps/ecommerce/ecommerce-wishlist/ecommerce-wishlist.component';
+import { SharedModule } from 'app/shared/shared.module';
 import { NouisliderModule } from 'ng2-nouislider';
 import { NgxMaskModule } from 'ngx-mask';
 import { SwiperConfigInterface, SwiperModule, SWIPER_CONFIG } from 'ngx-swiper-wrapper';
-
 
 const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
   direction: 'horizontal',
@@ -78,16 +72,9 @@ const routes: Routes = [
     EcommerceCheckoutItemComponent
   ],
   imports: [
-    CommonModule,
     RouterModule.forChild(routes),
     SwiperModule,
-    FormsModule,
-    ReactiveFormsModule,
-    CoreTouchspinModule,
-    ContentHeaderModule,
-    CoreSidebarModule,
-    CoreCommonModule,
-    NgbModule,
+    SharedModule,
     NgbRatingModule,
     NgxMaskModule,
     NouisliderModule

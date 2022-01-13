@@ -7,7 +7,7 @@ import { filter, takeUntil } from 'rxjs/operators';
 import { CoreMenuItem } from '@core/types';
 import { CoreMenuService } from '@core/components/core-menu/core-menu.service';
 
-import { User } from 'app/viewmodel/user.viewmodel';
+import { User } from 'app/main/apps/authentication/model/user.viewmodel';
 @Component({
   selector: '[core-menu-vertical-collapsible]',
   templateUrl: './collapsible.component.html'

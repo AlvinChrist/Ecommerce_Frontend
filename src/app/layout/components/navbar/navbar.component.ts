@@ -5,8 +5,8 @@ import { CoreSidebarService } from '@core/components/core-sidebar/core-sidebar.s
 import { CoreConfigService } from '@core/services/config.service';
 import { CoreMediaService } from '@core/services/media.service';
 import { TranslateService } from '@ngx-translate/core';
-import { UserService } from 'app/service/user/user.service';
-import { User } from 'app/viewmodel/user.viewmodel';
+import { UserService } from 'app/main/apps/authentication/service/user.service';
+import { User } from 'app/main/apps/authentication/model/user.viewmodel';
 import * as _ from 'lodash';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
