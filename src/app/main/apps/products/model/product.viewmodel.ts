@@ -112,7 +112,7 @@ export class ProductSearch{
   size: number;
   filterType: string;
   filterValue: string;
-  filterBrand: string;
+  filterBrand: string[];
   filterCategory: string;
   searchedProduct: string;
 

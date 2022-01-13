@@ -35,7 +35,7 @@
               <div fxLayout="row" fxLayoutAlign="start center">
                 Your Rating:   
                 <span class="rating rating-md pl-1">
-                  <ngb-rating [(rate)]="userRating" (rateChange)="ratingChanged()" [max]="5" class="outline-none">
+                  <ngb-rating [(rate)]="userRating" (rateChange)="ratingChanged(true)" [max]="5" class="outline-none">
                     <ng-template let-fill="fill" let-index="index"
                       ><span class="fa fa-star-o mr-25" [class.fa-star]="fill === 100"></span
                     ></ng-template>

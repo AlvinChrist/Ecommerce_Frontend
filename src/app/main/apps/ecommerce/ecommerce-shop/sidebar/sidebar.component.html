@@ -92,8 +92,8 @@
         <ul class="list-unstyled brand-list">
           <li>
             <div class="custom-control custom-checkbox">
-              <input type="checkbox" class="custom-control-input" id="productBrand{{i}}" />
-              <label class="custom-control-label" for="productBrand{{i}}">{{ brand.DISTINCT}}</label>
+              <input type="checkbox" class="custom-control-input" [value]="brand.DISTINCT" id="productBrand{{i}}" (click)="brandFilter($event.target.defaultValue)" [checked]="currentBrand[i] === brand.DISTINCT"/>
+              <label class="custom-control-label" for="productBrand{{i}}">{{ brand.DISTINCT }}</label>
             </div>
             <span>{{ brand.total }}</span>
           </li>
