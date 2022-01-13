@@ -35,24 +35,6 @@
                 <div class="search-results">{{ (products | filter: searchText:'name').length }} results found</div>
               </div>
               <div class="view-options d-flex">
-                <div class="btn-group dropdown-sort" ngbDropdown>
-                  <button
-                    ngbDropdownToggle
-                    type="button"
-                    class="btn btn-outline-primary mr-1"
-                    data-toggle="dropdown"
-                    aria-haspopup="true"
-                    aria-expanded="false"
-                    rippleEffect
-                  >
-                    <span class="active-sorting">Featured</span>
-                  </button>
-                  <div ngbDropdownMenu>
-                    <a ngbDropdownItem href="javascript:void(0);" (click)="sortProduct('featured')">Featured</a>
-                    <a ngbDropdownItem href="javascript:void(0);" (click)="sortProduct('price-asc')">Lowest</a>
-                    <a ngbDropdownItem href="javascript:void(0);" (click)="sortProduct('price-desc')">Highest</a>
-                  </div>
-                </div>
                 <div class="btn-group btn-group-toggle" data-toggle="buttons">
                   <label
                     class="btn btn-icon btn-outline-primary view-btn grid-view-btn"
@@ -98,15 +80,16 @@
       <!-- E-commerce Head Section Starts -->
 
       <!-- E-commerce Products Starts -->
-      <ng-container *ngFor="let product of products">
+      
         <section id="ecommerce-products" [ngClass]="gridViewRef === true ? 'grid-view' : 'list-view'">
+          <ng-container *ngFor="let product of products">
           <app-ecommerce-item
             class="card ecommerce-card"
             [product]="product"
           >
           </app-ecommerce-item>
+          </ng-container>
         </section>
-      </ng-container>
       <!-- E-commerce Products Ends -->
 
       <!-- E-commerce Pagination Starts -->

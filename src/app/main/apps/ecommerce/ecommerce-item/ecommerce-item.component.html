@@ -1,6 +1,6 @@
 <!-- Ecommerce Item -->
 <div class="item-img text-center" style="justify-content: center;">
-  <a [routerLink]="'/details/' + product.productId">
+  <a [routerLink]="'/products/' + product?.productId">
     <img class="img-fluid card-img-top" [src]="image" alt="img-placeholder" />
   </a>
 </div>
@@ -16,7 +16,7 @@
       </div>
     </div>
     <div class="item-cost">
-      <h6 class="item-price">${{ product.productPrice }}</h6>
+      <h6 class="item-price">Rp {{ product.productPrice | mask:'separator':',' }}</h6>
     </div>
   </div>
   <h6 class="item-name">
@@ -26,7 +26,7 @@
     >
   </h6>
   <p class="card-text item-description">
-    {{ product.productDesc }}
+    {{ (_shopRef.gridViewRef)?product.productSummary: product.productDesc }}
   </p>
 </div>
 <div class="item-options text-center">

@@ -3,6 +3,7 @@ import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { EcommerceService } from 'app/main/apps/ecommerce/ecommerce.service';
 import { ProductService } from 'app/service/product/product.service';
 import { Product } from 'app/viewmodel/product.viewmodel';
+import { EcommerceShopComponent } from '../ecommerce-shop/ecommerce-shop.component';
 
 @Component({
   selector: 'app-ecommerce-item',
@@ -24,7 +25,10 @@ export class EcommerceItemComponent implements OnInit {
    *
    * @param {EcommerceService} _ecommerceService
    */
-  constructor(private _productService: ProductService) {
+  constructor(
+    private _productService: ProductService,
+    public _shopRef: EcommerceShopComponent
+    ) {
     this.image =  `http://localhost:5000/${this.product?.product_galleries[0].imagePath}`
   }
 
@@ -62,7 +66,7 @@ export class EcommerceItemComponent implements OnInit {
   // Lifecycle Hooks
   // -----------------------------------------------------------------------------------------------------
   ngOnInit(): void {
-    console.log(this.product)
+    // console.log(this.product)
     this.image =  `http://localhost:5000/${this.product?.product_galleries[0].imagePath}`
   }
 }

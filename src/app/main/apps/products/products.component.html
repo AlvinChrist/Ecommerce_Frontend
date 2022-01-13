@@ -94,7 +94,7 @@
               <label for="summary">Summary: </label>
               <div class="input-group">
                 <fieldset class="form-group" style="flex: 0 0 100%">
-                  <textarea class="form-control" rows="3" id="summary" placeholder="Summary" formControlName="productSummary"></textarea>
+                  <textarea class="form-control" rows="4" id="summary" placeholder="Summary" formControlName="productSummary"></textarea>
                 </fieldset>
                 <div *ngIf="submitted && f.productSummary.errors" class="invalid-feedback">
                   <div *ngIf="f.productSummary.errors.required">Summary is required</div>
@@ -106,7 +106,7 @@
               <label for="desc">Desc: </label>
               <div class="input-group">
                 <fieldset class="form-group" style="flex: 0 0 100%">
-                  <textarea class="form-control" rows="3" id="desc" placeholder="Description" formControlName="productDesc"></textarea>
+                  <textarea class="form-control" rows="4" id="desc" placeholder="Description" formControlName="productDesc"></textarea>
                 </fieldset>
                 <div *ngIf="submitted && f.productDesc.errors" class="invalid-feedback">
                   <div *ngIf="f.productDesc.errors.required">Description is required</div>
@@ -124,7 +124,7 @@
     </div>
 </ng-template>
 
-<div class="content-wrapper container-full p-0">
+<div class="content-wrapper container-xxl p-0">
   <div class="content-body">
     <section id="ngx-datatable-row-details">
       <div class="card" [formGroup]="ProductFilterForm">

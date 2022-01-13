@@ -3,6 +3,14 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { SwiperConfigInterface } from 'ngx-swiper-wrapper';
 
 import { EcommerceService } from 'app/main/apps/ecommerce/ecommerce.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ProductService } from 'app/service/product/product.service';
+import { Product } from 'app/viewmodel/product.viewmodel';
+import { UserService } from 'app/service/user/user.service';
+import { concat, forkJoin } from 'rxjs';
+import { User } from 'app/viewmodel/user.viewmodel';
+import { AlertService } from 'app/service/alert/alert.service';
+import { environment } from 'environments/environment';
 
 @Component({
   selector: 'app-ecommerce-details',
@@ -14,36 +22,30 @@ import { EcommerceService } from 'app/main/apps/ecommerce/ecommerce.service';
 export class EcommerceDetailsComponent implements OnInit {
   // public
   public contentHeader: object;
-  public product;
+  public product: Product;
   public wishlist;
   public cartList;
   public relatedProducts;
+  public env = environment
+  productId: number;
+  user: User;
+  userRating: number = 0;
 
   // Swiper
-  public swiperResponsive: SwiperConfigInterface = {
-    slidesPerView: 3,
-    spaceBetween: 50,
-    navigation: {
-      nextEl: '.swiper-button-next',
-      prevEl: '.swiper-button-prev'
+  public swiperResponsive1: SwiperConfigInterface = {
+    effect: 'coverflow',
+    grabCursor: true,
+    centeredSlides: true,
+    slidesPerView: 'auto',
+    coverflowEffect: {
+      rotate: 50,
+      stretch: 0,
+      depth: 100,
+      modifier: 1,
+      slideShadows: true
     },
-    breakpoints: {
-      1024: {
-        slidesPerView: 3,
-        spaceBetween: 40
-      },
-      768: {
-        slidesPerView: 3,
-        spaceBetween: 30
-      },
-      640: {
-        slidesPerView: 2,
-        spaceBetween: 20
-      },
-      320: {
-        slidesPerView: 1,
-        spaceBetween: 10
-      }
+    pagination: {
+      el: '.swiper-pagination'
     }
   };
 
@@ -52,26 +54,55 @@ export class EcommerceDetailsComponent implements OnInit {
    *
    * @param {EcommerceService} _ecommerceService
    */
-  constructor(private _ecommerceService: EcommerceService) {}
+  constructor(
+    private _ecommerceService: EcommerceService,
+    private _productService: ProductService,
+    private _activatedRoute: ActivatedRoute,
+    private _router: Router,
+    private _userService: UserService,
+    private _alertService: AlertService
+    ) {
+      this.productId = this._activatedRoute.snapshot.params['id'];
+      this._userService.currentUser.subscribe((x) => this.user = x)
+      forkJoin({
+        product: this._productService.getProductById(this.productId),
+        productRating: this._productService.getProductRating(this.productId),
+        userRating: this._productService.getUserProductRating(this.productId, this.user.userId),
+        product_galleries: this._productService.getProductGalleries(this.productId)
+      }).subscribe((resp) => {
+        console.log(resp)
+        this.product = resp.product.product;
+        this.product.finalRating = resp.productRating.rating || 0;
+        this.userRating = resp.userRating.response[0]?.productRating || 0;
+        resp.product_galleries.gallery.rows.forEach((data: any) => {
+          this.product.product_galleries.push(data)
+        })
+      },(err) => {
+        console.log(err)
+      })
+    }
 
   // Public Methods
   // -----------------------------------------------------------------------------------------------------
 
+  ratingChanged(call: boolean = false): void {
+    if(call){
+      this._productService.rateProduct(this.productId,this.user.userId,this.userRating)
+      .subscribe((resp) => {
+        if(resp?.message){
+          this._alertService.toastrSuccess(resp.message,2000,{hr: 'center', vr: 'top'})
+        }
+      },(err) => {
+        console.log(err)
+      })
+    }
+  }
   /**
    * Toggle Wishlist
    *
    * @param product
    */
   toggleWishlist(product) {
-    if (product.isInWishlist === true) {
-      this._ecommerceService.removeFromWishlist(product.id).then(res => {
-        product.isInWishlist = false;
-      });
-    } else {
-      this._ecommerceService.addToWishlist(product.id).then(res => {
-        product.isInWishlist = true;
-      });
-    }
   }
 
   /**
@@ -80,9 +111,9 @@ export class EcommerceDetailsComponent implements OnInit {
    * @param product
    */
   addToCart(product) {
-    this._ecommerceService.addToCart(product.id).then(res => {
-      product.isInCart = true;
-    });
+    // this._ecommerceService.addToCart(product.id).then(res => {
+    //   product.isInCart = true;
+    // });
   }
 
   // Lifecycle Hooks
@@ -98,18 +129,18 @@ export class EcommerceDetailsComponent implements OnInit {
     });
 
     // Subscribe to Wishlist change
-    this._ecommerceService.onWishlistChange.subscribe(res => (this.wishlist = res));
+    // this._ecommerceService.onWishlistChange.subscribe(res => (this.wishlist = res));
 
-    // Subscribe to Cartlist change
-    this._ecommerceService.onCartListChange.subscribe(res => (this.cartList = res));
+    // // Subscribe to Cartlist change
+    // this._ecommerceService.onCartListChange.subscribe(res => (this.cartList = res));
 
-    // Get Related Products
-    this._ecommerceService.getRelatedProducts().then(response => {
-      this.relatedProducts = response;
-    });
+    // // Get Related Products
+    // this._ecommerceService.getRelatedProducts().then(response => {
+    //   this.relatedProducts = response;
+    // });
 
-    this.product.isInWishlist = this.wishlist.findIndex(p => p.productId === this.product.id) > -1;
-    this.product.isInCart = this.cartList.findIndex(p => p.productId === this.product.id) > -1;
+    // this.product.isInWishlist = this.wishlist.findIndex(p => p.productId === this.product.id) > -1;
+    // this.product.isInCart = this.cartList.findIndex(p => p.productId === this.product.id) > -1;
 
     // content header
     this.contentHeader = {

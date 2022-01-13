@@ -9,7 +9,10 @@ export class Product {
   productPrice: number;
   productStock: number;
   discountId?: number;
-  product_galleries?: FormData;
+  finalRating?: number;
+  productRating?: number;
+  userRating?: number;
+  product_galleries?: any;
 
   constructor(Product: any = {}) {
     this.productId = Product.productId || 0;

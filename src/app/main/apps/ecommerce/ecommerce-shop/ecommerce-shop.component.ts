@@ -1,10 +1,13 @@
-import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, Injectable, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { CoreSidebarService } from '@core/components/core-sidebar/core-sidebar.service';
-import { CoreConfigService } from '@core/services/config.service';
 import { ProductService } from 'app/service/product/product.service';
+import { Product } from 'app/viewmodel/product.viewmodel';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
+@Injectable({
+  providedIn: 'root'
+})
 
 @Component({
   selector: 'app-ecommerce-shop',
@@ -19,9 +22,7 @@ export class EcommerceShopComponent implements OnInit, OnDestroy {
   public shopSidebarToggle = false;
   public shopSidebarReset = false;
   public gridViewRef = true;
-  public products;
-  public wishlist;
-  public cartList;
+  public products: Product[];
   public page = 1;
   public pageSize = 9;
   public searchText = '';
@@ -36,15 +37,9 @@ export class EcommerceShopComponent implements OnInit, OnDestroy {
   constructor(
     private _coreSidebarService: CoreSidebarService,
     private _productService: ProductService,
-    private _coreConfigService: CoreConfigService
      ) {
       this._unsubscribeAll = new Subject();
       this._productService.getProducts();
-      this._coreConfigService.config = {
-        layout: {
-          type: 'horizontal'
-        }
-      };
      }
 
   // Public Methods
@@ -94,20 +89,7 @@ export class EcommerceShopComponent implements OnInit, OnDestroy {
     // Subscribe to ProductList change
     this._productService.onProductListChange.pipe(takeUntil(this._unsubscribeAll)).subscribe(res => {
       this.products = res.products?.rows;
-      // this.products.isInWishlist = false;
     });
-
-    // // Subscribe to Wishlist change
-    // this._ecommerceService.onWishlistChange.subscribe(res => (this.wishlist = res));
-
-    // // Subscribe to Cartlist change
-    // this._ecommerceService.onCartListChange.subscribe(res => (this.cartList = res));
-
-    // // update product is in Wishlist & is in CartList : Boolean
-    // this.products.forEach(product => {
-    //   product.isInWishlist = this.wishlist.findIndex(p => p.productId === product.id) > -1;
-    //   product.isInCart = this.cartList.findIndex(p => p.productId === product.id) > -1;
-    // });
 
     // content header
     this.contentHeader = {

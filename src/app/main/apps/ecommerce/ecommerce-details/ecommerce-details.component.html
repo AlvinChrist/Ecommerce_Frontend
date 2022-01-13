@@ -7,32 +7,52 @@
         <!-- Product Details starts -->
         <div class="card-body">
           <div class="row my-2">
-            <div class="col-12 col-md-5 d-flex align-items-center justify-content-center mb-2 mb-md-0">
-              <div class="d-flex align-items-center justify-content-center">
-                <img [src]="product.image" class="img-fluid product-img" alt="product image" />
+            <div class="col-12 col-md-5 d-flex flex-row align-items-start justify-content-center mb-2 mb-md-0">
+              <div class="d-flex align-items-start justify-content-center">
+                <swiper class="swiper-coverflow swiper-container" [config]="swiperResponsive1">
+                  <ng-container *ngFor="let image of product?.product_galleries">
+                    <img [src]="env.apiUrl + '/' + image.imagePath" class="img-fluid product-img" alt="{{image.imageName}}" />
+                  </ng-container>
+                </swiper>
               </div>
             </div>
             <div class="col-12 col-md-7">
-              <h4>{{ product.name }}</h4>
+              <h4>{{ product?.productName }}</h4>
               <span class="card-text item-company"
-                >By <a href="javascript:void(0)" class="company-name">{{ product.brand }}</a></span
+                >By <a href="javascript:void(0)" class="company-name">{{ product?.productBrand }}</a></span
               >
               <div class="ecommerce-details-price d-flex flex-wrap mt-1">
-                <h4 class="item-price mr-1">${{ product.price }}</h4>
+                <h4 class="item-price mr-1">Rp {{ product?.productPrice | mask: 'separator':','}}</h4>
                 <div class="rating rating-sm pl-1 border-left mb-1">
-                  <ngb-rating [rate]="product.rating" [readonly]="true" [max]="5" class="outline-none">
+                  Rating :
+                  <ngb-rating [rate]="product?.productRating" [readonly]="true" [max]="5" class="outline-none">
                     <ng-template let-fill="fill" let-index="index"
                       ><span class="fa fa-star-o mr-25" [class.fa-star]="fill === 100"></span
                     ></ng-template>
                   </ngb-rating>
                 </div>
               </div>
-              <p class="card-text">Available - <span class="text-success">In stock</span></p>
+              <div fxLayout="row" fxLayoutAlign="start center">
+                Your Rating:   
+                <span class="rating rating-md pl-1">
+                  <ngb-rating [(rate)]="userRating" (rateChange)="ratingChanged()" [max]="5" class="outline-none">
+                    <ng-template let-fill="fill" let-index="index"
+                      ><span class="fa fa-star-o mr-25" [class.fa-star]="fill === 100"></span
+                    ></ng-template>
+                  </ngb-rating>
+                </span>
+              </div>
+              <ng-container *ngIf="product?.productStock > 0">
+                <p class="card-text">Available - {{ product?.productStock}} <span class="text-success">In stock</span></p>
+              </ng-container>
+              <ng-container *ngIf="product?.productStock === 0">
+                <p class="card-text text-danger">Not Available - {{ product?.productStock}} In stock</p>
+              </ng-container>
               <p class="card-text">
-                {{ product.description }}
+                {{ product?.productDesc }}
               </p>
               <ul class="product-features list-unstyled">
-                <li *ngIf="product.hasFreeShipping"><i data-feather="shopping-cart"></i> <span>Free Shipping</span></li>
+                <li><i data-feather="shopping-cart"></i> <span>Free Shipping</span></li>
                 <li>
                   <i data-feather="dollar-sign"></i>
                   <span>EMI options available</span>
@@ -71,8 +91,8 @@
               </div>
               <hr />
               <div class="d-flex flex-column flex-sm-row pt-1">
-                <a
-                  *ngIf="product.isInCart !== true"
+                <!-- <a
+                  *ngIf="product?.isInCart !== true"
                   href="javascript:void(0)"
                   class="btn btn-primary btn-cart mr-0 mr-sm-1 mb-1 mb-sm-0"
                   (click)="addToCart(product)"
@@ -81,7 +101,7 @@
                   <span class="add-to-cart">Add to cart</span>
                 </a>
                 <a
-                  *ngIf="product.isInCart === true"
+                  *ngIf="product?.isInCart === true"
                   routerLink="/checkout"
                   class="btn btn-primary btn-cart mr-0 mr-sm-1 mb-1 mb-sm-0"
                   rippleEffect
@@ -97,10 +117,10 @@
                 >
                   <i
                     class="fa mr-50"
-                    [ngClass]="product.isInWishlist === true ? 'fa-heart text-danger' : 'fa-heart-o'"
+                    [ngClass]="product?.isInWishlist === true ? 'fa-heart text-danger' : 'fa-heart-o'"
                   ></i>
                   <span>Wishlist</span>
-                </a>
+                </a> -->
                 <div class="btn-group dropdown-icon-wrapper btn-share" ngbDropdown>
                   <button
                     ngbDropdownToggle
@@ -163,7 +183,7 @@
         <!-- Item features ends -->
 
         <!-- Related Products starts -->
-        <div class="card-body">
+        <!-- <div class="card-body">
           <div class="mt-4 mb-2 text-center">
             <h4>Related Products</h4>
             <p class="card-text">People also search for this items</p>
@@ -177,7 +197,7 @@
                     <small class="text-body">by {{ relatedProduct.brand }}</small>
                   </div>
                   <div class="img-container mx-auto py-75">
-                    <img [src]="relatedProduct.image" class="img-fluid" alt="image" />
+                    <img [src]="image" class="img-fluid" alt="image" />
                   </div>
                   <div class="item-meta">
                     <div class="rating rating-sm">
@@ -192,11 +212,11 @@
                 </a>
               </div>
             </div>
-            <!-- Add Arrows -->
+
             <div class="swiper-button-next"></div>
             <div class="swiper-button-prev"></div>
           </div>
-        </div>
+        </div> -->
         <!-- Related Products ends -->
       </div>
     </section>

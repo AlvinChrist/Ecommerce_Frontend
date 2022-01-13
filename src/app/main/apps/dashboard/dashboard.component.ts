@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CoreConfigService } from '@core/services/config.service';
 import { AlertService } from 'app/service/alert/alert.service';
 import { UserService } from 'app/service/user/user.service';
@@ -10,27 +10,22 @@ import { takeUntil } from 'rxjs/operators';
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, OnDestroy {
   public coreConfig: any;
   private _unsubscribeAll: Subject<any>;
 
   constructor(
-    private _coreConfigService: CoreConfigService,
     private _alertService: AlertService,
     private _userService: UserService
   ) { 
     this._unsubscribeAll = new Subject();
-    this._coreConfigService.config = {
-      layout: {
-        type: 'vertical'
-      }
-    };
   }
 
   ngOnInit(): void {
-    this._coreConfigService.config.pipe(takeUntil(this._unsubscribeAll)).subscribe(config => {
-      this.coreConfig = config;
-    });
   }
 
+  ngOnDestroy(): void {
+    this._unsubscribeAll.next();
+    this._unsubscribeAll.complete();
+  }
 }

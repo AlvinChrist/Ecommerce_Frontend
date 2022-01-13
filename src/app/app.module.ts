@@ -18,6 +18,7 @@ import { NgxMaskModule } from 'ngx-mask';
 import { ToastrModule } from 'ngx-toastr'; // For auth after login toast
 import { AuthGuard, ErrorInterceptor, JwtInterceptor } from './auth/helpers';
 import { EcommerceModule } from './main/apps/ecommerce/ecommerce.module';
+import { ProductService } from './service/product/product.service';
 
 export function getToken() {
   return JSON.parse(localStorage.getItem('accessToken'))

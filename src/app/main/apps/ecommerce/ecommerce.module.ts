@@ -15,8 +15,8 @@ import { EcommerceItemComponent } from 'app/main/apps/ecommerce/ecommerce-item/e
 import { EcommerceShopComponent } from 'app/main/apps/ecommerce/ecommerce-shop/ecommerce-shop.component';
 import { EcommerceSidebarComponent } from 'app/main/apps/ecommerce/ecommerce-shop/sidebar/sidebar.component';
 import { EcommerceWishlistComponent } from 'app/main/apps/ecommerce/ecommerce-wishlist/ecommerce-wishlist.component';
-import { ProductService } from 'app/service/product/product.service';
 import { NouisliderModule } from 'ng2-nouislider';
+import { NgxMaskModule } from 'ngx-mask';
 import { SwiperConfigInterface, SwiperModule, SWIPER_CONFIG } from 'ngx-swiper-wrapper';
 
 
@@ -30,9 +30,12 @@ const routes: Routes = [
   {
     path: 'shop',
     canActivate: [ UserAuthGuard ],
-    component: EcommerceShopComponent,
-    data: { animation: 'EcommerceShopComponent' }
+    component: EcommerceShopComponent
   },
+  {
+    path: 'products/:id',
+    component: EcommerceDetailsComponent
+  }
   // {
   //   path: 'details/:id',
   //   component: EcommerceDetailsComponent,
@@ -86,6 +89,7 @@ const routes: Routes = [
     CoreCommonModule,
     NgbModule,
     NgbRatingModule,
+    NgxMaskModule,
     NouisliderModule
   ],
   providers: [
@@ -93,6 +97,7 @@ const routes: Routes = [
       provide: SWIPER_CONFIG,
       useValue: DEFAULT_SWIPER_CONFIG
     },
+    EcommerceShopComponent
   ]
 })
 export class EcommerceModule {}

@@ -69,16 +69,18 @@ export class UserService {
     );
   }
 
-  logout(): void {
+  logout(): Promise<void> {
     localStorage.removeItem('currentUser')
     localStorage.removeItem('accessToken')
     localStorage.removeItem('config')
-    this._httpClient.delete(`/logout`).subscribe((resp) => {
-      // this.currentUserSubject.next(null)
-      this._router.navigate(['/auth/login'])
-    },(err) => {
-      // console.log(err)
-      this._router.navigate(['/auth/login'])
+    return new Promise((resolve, reject) => {
+      this._httpClient.delete(`/logout`).subscribe((resp) => {
+        // this.currentUserSubject.next(null)
+        resolve()
+      },(err) => {
+        // console.log(err)
+        reject(err);
+      })
     })
   }
 

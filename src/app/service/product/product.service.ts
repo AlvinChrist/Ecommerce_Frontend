@@ -2,7 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Product, ProductSearch } from 'app/viewmodel/product.viewmodel';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { concatMap, map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -61,5 +60,25 @@ export class ProductService {
 
   deleteProduct(productId: number): Observable<any> {
     return this._httpClient.delete<any>(`/products/${productId}`, { responseType: 'json'})
+  }
+
+  getUserProductRating(productId: number, userId: number): Observable<any> {
+    return this._httpClient.get<any>(`/product/${productId}/rating/user/${userId}`, { responseType: 'json'})
+  }
+
+  getProductRating(productId: number): Observable<any>{
+    return this._httpClient.get<any>(`/product/${productId}/rating`, { responseType: 'json'})
+  }
+
+  getProductGalleries(productId: number): Observable<any> {
+    return this._httpClient.get<any>(`/gallery/product/${productId}`, { responseType: 'json'})
+  }
+
+  rateProduct(productId: number, userId: number, productRating: number){
+    return this._httpClient.post<any>(`/rate`, {
+      productId: productId,
+      userId: userId,
+      productRating: productRating
+    }, { responseType: 'json'})
   }
 }

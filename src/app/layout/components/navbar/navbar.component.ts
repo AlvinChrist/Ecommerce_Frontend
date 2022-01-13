@@ -5,12 +5,11 @@ import { CoreSidebarService } from '@core/components/core-sidebar/core-sidebar.s
 import { CoreConfigService } from '@core/services/config.service';
 import { CoreMediaService } from '@core/services/media.service';
 import { TranslateService } from '@ngx-translate/core';
-import { User } from 'app/viewmodel/user.viewmodel';
 import { UserService } from 'app/service/user/user.service';
+import { User } from 'app/viewmodel/user.viewmodel';
 import * as _ from 'lodash';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-
 
 @Component({
   selector: 'app-navbar',
@@ -63,7 +62,6 @@ export class NavbarComponent implements OnInit, OnDestroy {
    * Constructor
    *
    * @param {Router} _router
-   * @param {AuthenticationService} _userService
    * @param {CoreConfigService} _coreConfigService
    * @param {CoreSidebarService} _coreSidebarService
    * @param {CoreMediaService} _coreMediaService
@@ -72,15 +70,14 @@ export class NavbarComponent implements OnInit, OnDestroy {
    */
   constructor(
     private _router: Router,
-    private _userService: UserService,
     private _coreConfigService: CoreConfigService,
     private _coreMediaService: CoreMediaService,
     private _coreSidebarService: CoreSidebarService,
     private _mediaObserver: MediaObserver,
-    public _translateService: TranslateService
+    public _translateService: TranslateService,
+    private _userService: UserService
   ) {
     this._userService.currentUser.subscribe(x => (this.currentUser = x));
-
     this.languageOptions = {
       en: {
         title: 'English',
@@ -161,8 +158,9 @@ export class NavbarComponent implements OnInit, OnDestroy {
    * Logout method
    */
   logout() {
-    this._userService.logout();
-    // this._router.navigate(['/auth/login']);
+    this._userService.logout().then().finally(() => {
+      this._router.navigate(['/auth/login'])
+    })
   }
 
   // Lifecycle Hooks
