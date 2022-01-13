@@ -25,7 +25,7 @@
                 <h4 class="item-price mr-1">Rp{{ product?.productPrice | mask: 'separator':','}}</h4>
                 <div class="rating rating-sm pl-1 border-left mb-1">
                   Rating :
-                  <ngb-rating [rate]="product?.productRating" [readonly]="true" [max]="5" class="outline-none">
+                  <ngb-rating [rate]="productRating?.rating" [readonly]="true" [max]="5" class="outline-none">
                     <ng-template let-fill="fill" let-index="index"
                       ><span class="fa fa-star-o mr-25" [class.fa-star]="fill === 100"></span
                     ></ng-template>

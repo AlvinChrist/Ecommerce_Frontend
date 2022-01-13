@@ -1,5 +1,6 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { NgDropdownPanelService } from '@ng-select/ng-select/lib/ng-dropdown-panel.service';
 import { User } from 'app/main/apps/authentication/model/user.viewmodel';
 import { EcommerceService } from 'app/main/apps/ecommerce/ecommerce.service';
 import { Product } from 'app/main/apps/products/model/product.viewmodel';
@@ -7,7 +8,8 @@ import { ProductService } from 'app/main/apps/products/service/product.service';
 import { AlertService } from 'app/shared/service/alert/alert.service';
 import { environment } from 'environments/environment';
 import { SwiperConfigInterface } from 'ngx-swiper-wrapper';
-import { forkJoin } from 'rxjs';
+import { forkJoin, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { UserService } from '../../authentication/service/user.service';
 
 @Component({
@@ -17,10 +19,12 @@ import { UserService } from '../../authentication/service/user.service';
   encapsulation: ViewEncapsulation.None,
   host: { class: 'ecommerce-application' }
 })
-export class EcommerceDetailsComponent implements OnInit {
+export class EcommerceDetailsComponent implements OnInit, OnDestroy {
   // public
   public contentHeader: object;
   public product: Product;
+  public productRating: any;
+
   public wishlist;
   public cartList;
   public relatedProducts;
@@ -28,6 +32,7 @@ export class EcommerceDetailsComponent implements OnInit {
   productId: number;
   user: User;
   userRating: number = 0;
+
 
   // Swiper
   public swiperResponsive1: SwiperConfigInterface = {
@@ -47,6 +52,7 @@ export class EcommerceDetailsComponent implements OnInit {
     }
   };
 
+  private _unsubscribeAll: Subject<any>;
   /**
    * Constructor
    *
@@ -60,6 +66,7 @@ export class EcommerceDetailsComponent implements OnInit {
     private _userService: UserService,
     private _alertService: AlertService
     ) {
+      this._unsubscribeAll = new Subject();
       this.productId = this._activatedRoute.snapshot.params['id'];
       this._userService.currentUser.subscribe((x) => this.user = x)
       forkJoin({
@@ -69,6 +76,7 @@ export class EcommerceDetailsComponent implements OnInit {
         product_galleries: this._productService.getProductGalleries(this.productId)
       }).subscribe((resp) => {
         console.log(resp)
+        this.productRating = resp.productRating
         this.product = resp.product.product;
         this.product.finalRating = resp.productRating.rating || 0;
         this.userRating = resp.userRating.response[0]?.productRating || 0;
@@ -85,11 +93,12 @@ export class EcommerceDetailsComponent implements OnInit {
 
   ratingChanged(call: boolean = false): void {
     if(call){
-      this._productService.rateProduct(this.productId,this.user.userId,this.userRating)
-      .subscribe((resp) => {
-        if(resp?.message){
-          this._alertService.toastrSuccess(resp.message,2000,{hr: 'center', vr: 'top'})
-        }
+      forkJoin({
+        data: this._productService.rateProduct(this.productId,this.user.userId,this.userRating),
+        productRating: this._productService.getProductRating(this.productId)
+      }).pipe(takeUntil(this._unsubscribeAll)).subscribe((resp) => {
+        if(resp.data?.message) this._alertService.toastrSuccess(resp.data.message,2000,{hr: 'center', vr: 'top'})
+        if(resp.productRating) this.productRating = resp.productRating
       },(err) => {
         console.log(err)
       })
@@ -117,6 +126,11 @@ export class EcommerceDetailsComponent implements OnInit {
   // Lifecycle Hooks
   // -----------------------------------------------------------------------------------------------------
 
+  ngOnDestroy(): void {
+    this._unsubscribeAll.next();
+    this._unsubscribeAll.complete();
+  }
+
   /**
    * On init
    */
@@ -125,21 +139,6 @@ export class EcommerceDetailsComponent implements OnInit {
     this._ecommerceService.onSelectedProductChange.subscribe(res => {
       this.product = res[0];
     });
-
-    // Subscribe to Wishlist change
-    // this._ecommerceService.onWishlistChange.subscribe(res => (this.wishlist = res));
-
-    // // Subscribe to Cartlist change
-    // this._ecommerceService.onCartListChange.subscribe(res => (this.cartList = res));
-
-    // // Get Related Products
-    // this._ecommerceService.getRelatedProducts().then(response => {
-    //   this.relatedProducts = response;
-    // });
-
-    // this.product.isInWishlist = this.wishlist.findIndex(p => p.productId === this.product.id) > -1;
-    // this.product.isInCart = this.cartList.findIndex(p => p.productId === this.product.id) > -1;
-
     // content header
     this.contentHeader = {
       headerTitle: 'Product Details',
