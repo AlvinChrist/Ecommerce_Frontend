@@ -69,14 +69,14 @@
       <ul class="list-unstyled categories-list">
         <li>
           <div class="custom-control custom-radio">  
-            <input type="radio" id="category0" name="category-filter" (click)="categoryFilter($event.target.defaultValue)" value="All" class="custom-control-input" checked />
+            <input type="radio" id="category0" name="category-filter" (click)="categoryFilter($event.target.defaultValue)" value="All" class="custom-control-input" [checked] = "currentCategory === ''" />
             <label class="custom-control-label" for="category0">All</label>
           </div>
         </li>
-        <ng-container *ngFor="let category of data.categories; let i = index">
+        <ng-container *ngFor="let category of categoryList; let i = index">
           <li>
             <div class="custom-control custom-radio">  
-              <input type="radio" id="category{{i+1}}" name="category-filter" [value]="category.DISTINCT" class="custom-control-input" (click)="categoryFilter($event.target.defaultValue)"/>
+              <input type="radio" id="category{{i+1}}" name="category-filter" [value]="category.DISTINCT" class="custom-control-input" (click)="categoryFilter($event.target.defaultValue)" [checked]="category.DISTINCT === currentCategory"/>
               <label class="custom-control-label" for="category{{i+1}}">{{ category.DISTINCT }}</label>
             </div>
           </li>
@@ -88,7 +88,7 @@
     <!-- Brands starts -->
     <div class="brands">
       <h6 class="filter-title">Brands</h6>
-      <ng-container *ngFor="let brand of data.brands; let i = index">
+      <ng-container *ngFor="let brand of brandList; let i = index">
         <ul class="list-unstyled brand-list">
           <li>
             <div class="custom-control custom-checkbox">

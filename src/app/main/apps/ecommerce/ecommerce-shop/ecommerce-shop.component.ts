@@ -92,18 +92,7 @@ export class EcommerceShopComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     // Subscribe to ProductList change
     this._productService.onProductListChange.pipe(takeUntil(this._unsubscribeAll)).subscribe(res => {
-      this.products = res.products?.rows;
-      this.filterData.brands = res.brands;
-      this.filterData.categories = res.categories
-      const _el = ["productBrand","productCategory"]
-      Object.keys(this.filterData).forEach((key,idx) => {
-        this.filterData[key]?.forEach((brand: any,index: number) => {
-          const b = brand.DISTINCT
-          const total = this.products.filter((p) => p[_el[idx]] === b).length || 0
-          this.filterData[key][index]['total'] = total
-        })
-      })
-      // console.log(res,this.filterData)
+      this.products = res
     });
 
     // content header

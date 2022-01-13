@@ -1,4 +1,8 @@
-import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { ProductService } from 'app/main/apps/products/service/product.service';
+import { combineLatest, Subject } from 'rxjs';
+import { startWith, takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'ecommerce-sidebar',
@@ -6,19 +10,48 @@ import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
   styleUrls: ['../ecommerce-shop.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class EcommerceSidebarComponent implements OnInit {
+export class EcommerceSidebarComponent implements OnInit, OnDestroy {
   // Public
-  @Input() data: any;
-  
+  FilterForm: FormGroup;
   public sliderPriceValue = [1, 100];
+  public categoryList: Array<Object>
+  public brandList: Array<Object>
+  public currentCategory: string;
 
-  constructor() {}
-
-  ngOnInit(): void {
-    console.log(this.data)
+  private _unsubscribeAll: Subject<any>;
+  constructor(
+    private _formBuilder: FormBuilder,
+    private _productService: ProductService
+  ) {
+    this._unsubscribeAll = new Subject();
+    this.FilterForm = this._formBuilder.group({
+      category: [''],
+      brand:  []
+    })
+    this.currentCategory = this._productService.productSearch.filterCategory
   }
 
-  categoryFilter(e: any) {
-    console.log(e)
+  ngOnInit(): void {
+    combineLatest([
+      this._productService.onCategoriesChange,
+      this._productService.onBrandsChange
+    ]).pipe(takeUntil(this._unsubscribeAll))
+    .subscribe(([categories,brands]) => {
+      this.categoryList = categories
+      this.brandList = brands
+      console.log(categories,brands)
+    })
+  }
+
+  ngOnDestroy(): void {
+    this._unsubscribeAll.next();
+    this._unsubscribeAll.complete();
+  }
+
+  categoryFilter(e: string) {
+    if(e === "All") e = ""
+    this.currentCategory = e
+    this._productService.productSearch.filterCategory = e
+    this._productService.getProducts()
   }
 }

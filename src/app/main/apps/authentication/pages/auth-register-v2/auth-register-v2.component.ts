@@ -4,7 +4,7 @@ import { CoreConfigService } from '@core/services/config.service';
 import { User } from 'app/main/apps/authentication/model/user.viewmodel';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { UserService } from '../service/user.service';
+import { UserService } from '../../service/user.service';
 
 @Component({
   selector: 'app-auth-register-v2',

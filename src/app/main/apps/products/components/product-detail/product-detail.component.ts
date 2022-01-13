@@ -6,7 +6,7 @@ import { AlertService } from 'app/shared/service/alert/alert.service';
 import { ProductService } from 'app/main/apps/products/service/product.service';
 import { Product } from 'app/main/apps/products/model/product.viewmodel';
 import { NgxFileDropEntry } from 'ngx-file-drop';
-import { ProductsComponent } from '../products.component';
+import { ProductsComponent } from '../../pages/product-data/products.component';
 import Swal from 'sweetalert2';
 
 @Component({

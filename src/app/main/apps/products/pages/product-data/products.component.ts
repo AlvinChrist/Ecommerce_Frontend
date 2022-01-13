@@ -67,10 +67,8 @@ export class ProductsComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.loadProducts();
     this._productService.onProductListChange.subscribe((resp) => {
-      if(resp.products?.rows){
-        //@ts-ignore
-        this.productList = [...resp.products.rows]
-      }
+      //@ts-ignore
+      if(resp) this.productList = [...resp]
     })
   }
   

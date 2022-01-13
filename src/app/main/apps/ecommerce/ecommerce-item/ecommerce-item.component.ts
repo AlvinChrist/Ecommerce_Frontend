@@ -17,7 +17,7 @@ export class EcommerceItemComponent implements OnInit {
   @Input() product: Product;
   @Input() isWishlistOpen = false;
 
-  public image: string;
+  public image: string = '';
   // Public
   public isInCart = false;
 
@@ -29,7 +29,6 @@ export class EcommerceItemComponent implements OnInit {
     private _productService: ProductService,
     public _shopRef: EcommerceShopComponent
     ) {
-    this.image =  `http://localhost:5000/${this.product?.product_galleries[0].imagePath}`
   }
 
   // Public Methods
@@ -66,7 +65,11 @@ export class EcommerceItemComponent implements OnInit {
   // Lifecycle Hooks
   // -----------------------------------------------------------------------------------------------------
   ngOnInit(): void {
-    // console.log(this.product)
-    this.image =  `http://localhost:5000/${this.product?.product_galleries[0].imagePath}`
+    try{
+      this.image =  `http://localhost:5000/${this.product?.product_galleries[0]?.imagePath}` || ""
+    }
+    catch(e){
+      
+    }
   }
 }

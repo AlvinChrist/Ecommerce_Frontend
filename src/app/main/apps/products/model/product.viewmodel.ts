@@ -112,13 +112,15 @@ export class ProductSearch{
   size: number;
   filterType: string;
   filterValue: string;
+  filterBrand: string;
+  filterCategory: string;
   searchedProduct: string;
 
   constructor(ProductSearch: any = {}) {
     this.page = ProductSearch.page || 0;
     this.size = ProductSearch.size || 10;
-    this.filterType = ProductSearch.filterType || "";
-    this.filterValue = ProductSearch.filterValue || "";
+    this.filterBrand = ProductSearch.filterType || "";
+    this.filterCategory = ProductSearch.filterValue || "";
     this.searchedProduct = ProductSearch.searchedProduct || "";
   }
 }

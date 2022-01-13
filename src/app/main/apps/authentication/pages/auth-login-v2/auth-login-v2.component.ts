@@ -2,7 +2,7 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CoreConfigService } from '@core/services/config.service';
-import { UserService } from '../service/user.service';
+import { UserService } from '../../service/user.service';
 import { Subject } from 'rxjs';
 
 @Component({
