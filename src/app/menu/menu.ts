@@ -1,13 +1,22 @@
 import { CoreMenu } from '@core/types'
 
 export const menu: CoreMenu[] = [
+  // {
+  //   id: 'dashboard',
+  //   title: 'Dashboard',
+  //   type: 'item',
+  //   icon: 'home',
+  //   role: ['Admin'],
+  //   url: '/dashboard'
+  // }
   {
-    id: 'dashboard',
-    title: 'Dashboard',
+    id: 'shop',
+    title: 'Shop',
+    translate: 'MENU.APPS.ECOMMERCE.SHOP',
     type: 'item',
-    icon: 'home',
-    role: ['Admin'],
-    url: '/dashboard'
+    icon: 'shopping-bag',
+    role: ['User','Admin'],
+    url: '/shop'
   },
   {
     id: 'products',
@@ -16,15 +25,6 @@ export const menu: CoreMenu[] = [
     icon: 'package',
     role: ['Admin'],
     url: '/products'
-  },
-  {
-    id: 'shop',
-    title: 'Shop',
-    translate: 'MENU.APPS.ECOMMERCE.SHOP',
-    type: 'item',
-    icon: 'shopping-bag',
-    role: ['User'],
-    url: '/shop'
   },
   {
     id: 'details',

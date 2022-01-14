@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { NgbRatingModule } from '@ng-bootstrap/ng-bootstrap';
-import { UserAuthGuard } from 'app/core';
 import { EcommerceCheckoutItemComponent } from 'app/main/apps/ecommerce/ecommerce-checkout/ecommerce-checkout-item/ecommerce-checkout-item.component';
 import { EcommerceCheckoutComponent } from 'app/main/apps/ecommerce/ecommerce-checkout/ecommerce-checkout.component';
 import { EcommerceDetailsComponent } from 'app/main/apps/ecommerce/ecommerce-details/ecommerce-details.component';
@@ -12,7 +12,9 @@ import { EcommerceWishlistComponent } from 'app/main/apps/ecommerce/ecommerce-wi
 import { SharedModule } from 'app/shared/shared.module';
 import { NouisliderModule } from 'ng2-nouislider';
 import { NgxMaskModule } from 'ngx-mask';
+import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { SwiperConfigInterface, SwiperModule, SWIPER_CONFIG } from 'ngx-swiper-wrapper';
+import { CommentContentComponent } from './ecommerce-details/comment-content/comment-content.component';
 
 const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
   direction: 'horizontal',
@@ -23,7 +25,6 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
 const routes: Routes = [
   {
     path: 'shop',
-    canActivate: [ UserAuthGuard ],
     component: EcommerceShopComponent
   },
   {
@@ -69,7 +70,8 @@ const routes: Routes = [
     EcommerceWishlistComponent,
     EcommerceCheckoutComponent,
     EcommerceItemComponent,
-    EcommerceCheckoutItemComponent
+    EcommerceCheckoutItemComponent,
+    CommentContentComponent
   ],
   imports: [
     RouterModule.forChild(routes),
@@ -77,7 +79,9 @@ const routes: Routes = [
     SharedModule,
     NgbRatingModule,
     NgxMaskModule,
-    NouisliderModule
+    NouisliderModule,
+    FormsModule,
+    PerfectScrollbarModule
   ],
   providers: [
     {

@@ -1,6 +1,5 @@
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { NgDropdownPanelService } from '@ng-select/ng-select/lib/ng-dropdown-panel.service';
 import { User } from 'app/main/apps/authentication/model/user.viewmodel';
 import { EcommerceService } from 'app/main/apps/ecommerce/ecommerce.service';
 import { Product } from 'app/main/apps/products/model/product.viewmodel';
@@ -17,7 +16,7 @@ import { UserService } from '../../authentication/service/user.service';
   templateUrl: './ecommerce-details.component.html',
   styleUrls: ['./ecommerce-details.component.scss'],
   encapsulation: ViewEncapsulation.None,
-  host: { class: 'ecommerce-application' }
+  host: { class: 'ecommerce-details' }
 })
 export class EcommerceDetailsComponent implements OnInit, OnDestroy {
   // public

@@ -36,12 +36,13 @@ export class AuthLoginV2Component implements OnInit {
     private _router: Router
   ) {
     if (this._userService.currentUserValue) {
-      if(this._userService.getUserRole() === 'User') {
-        this._router.navigate(['/shop'])
-      }
-      else if(this._userService.getUserRole() === 'Admin'){
-        this._router.navigate(['/dashboard'])
-      }
+      this._router.navigate(['/shop'])
+      // if(this._userService.getUserRole() === 'User') {
+      //   this._router.navigate(['/shop'])
+      // }
+      // else if(this._userService.getUserRole() === 'Admin'){
+      //   this._router.navigate(['/dashboard'])
+      // }
     }
     this._unsubscribeAll = new Subject();
 

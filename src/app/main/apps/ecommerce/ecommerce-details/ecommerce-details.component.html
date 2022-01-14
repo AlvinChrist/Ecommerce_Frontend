@@ -32,16 +32,18 @@
                   </ngb-rating>
                 </div>
               </div>
-              <div fxLayout="row" fxLayoutAlign="start center">
-                Your Rating:   
-                <span class="rating rating-md pl-1">
-                  <ngb-rating [(rate)]="userRating" (rateChange)="ratingChanged(true)" [max]="5" class="outline-none">
-                    <ng-template let-fill="fill" let-index="index"
-                      ><span class="fa fa-star-o mr-25" [class.fa-star]="fill === 100"></span
-                    ></ng-template>
-                  </ngb-rating>
-                </span>
-              </div>
+              <ng-container *ngIf="user.role !== 'Admin'">
+                <div fxLayout="row" fxLayoutAlign="start center">
+                  Your Rating:   
+                  <span class="rating rating-md pl-1">
+                    <ngb-rating [(rate)]="userRating" (rateChange)="ratingChanged(true)" [max]="5" class="outline-none">
+                      <ng-template let-fill="fill" let-index="index"
+                        ><span class="fa fa-star-o mr-25" [class.fa-star]="fill === 100"></span
+                      ></ng-template>
+                    </ngb-rating>
+                  </span>
+                </div>
+              </ng-container>
               <ng-container *ngIf="product?.productStock > 0">
                 <p class="card-text">Available - {{ product?.productStock}} <span class="text-success">In stock</span></p>
               </ng-container>
@@ -155,7 +157,7 @@
         <!-- Product Details ends -->
 
         <!-- Item features starts -->
-        <div class="item-features">
+        <div class="item-features mb-1">
           <div class="row text-center">
             <div class="col-12 col-md-4 mb-4 mb-md-0">
               <div class="w-75 mx-auto">
@@ -180,6 +182,14 @@
             </div>
           </div>
         </div>
+
+        <ng-container *ngIf="product">
+          <div class="content-wrapper container-xxl p-0">
+            <div class="content-body">
+              <app-comment-content [productId]="product?.productId"></app-comment-content>
+            </div>
+          </div>
+        </ng-container>
         <!-- Item features ends -->
 
         <!-- Related Products starts -->

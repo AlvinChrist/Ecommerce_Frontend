@@ -159,6 +159,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
    */
   logout() {
     this._userService.logout().then().finally(() => {
+      console.log("HSE")
       this._router.navigate(['/auth/login'])
     })
   }

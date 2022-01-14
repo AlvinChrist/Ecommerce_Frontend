@@ -13,7 +13,7 @@ export class UserService {
   public currentUser: Observable<User>;
 
   //private
-  private currentUserSubject: BehaviorSubject<User | null>;
+  private currentUserSubject: BehaviorSubject<User | any>;
 
   constructor(
     private _httpClient: HttpClient,
@@ -42,7 +42,10 @@ export class UserService {
   }
 
   getAccessToken(): string {
-    return JSON.parse(localStorage.getItem('accessToken'))
+    if(localStorage.getItem('accessToken')){
+      return JSON.parse(localStorage.getItem('accessToken'))
+    }
+    return null
   }
 
   getUserRole(): string {
@@ -59,23 +62,25 @@ export class UserService {
         localStorage.setItem('currentUser', JSON.stringify(user))
         this.currentUserSubject.next(user)
         this._alertService.toastrSuccess(`Welcome ${this.currentUserValue.userName}!`,2000, {hr: 'right', vr:'top'});
-        if(user.role === 'Admin')
-          this._router.navigate(['/dashboard'])
-        else
-          this._router.navigate(['/shop'])
+        this._router.navigate(['/shop'])
+        // if(user.role === 'Admin')
+        //   this._router.navigate(['/dashboard'])
+        // else
+        //   this._router.navigate(['/shop'])
         return;
       })
     );
   }
 
-  logout(): Promise<void> {
+  logout(): Promise<any> {
     localStorage.removeItem('currentUser')
     localStorage.removeItem('accessToken')
     localStorage.removeItem('config')
-    return new Promise((resolve, reject) => {
+    return new Promise<any>((resolve, reject) => {
       this._httpClient.delete(`/logout`).subscribe((resp) => {
-        // this.currentUserSubject.next(null)
-        resolve()
+        this.currentUserSubject.next(null)
+        this._router.navigate(['/auth/login'])
+        resolve(resp)
       },(err) => {
         // console.log(err)
         reject(err);
