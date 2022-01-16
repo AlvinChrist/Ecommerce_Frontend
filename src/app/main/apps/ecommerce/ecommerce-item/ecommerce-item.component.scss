@@ -4,24 +4,12 @@
   aspect-ratio: 900 / 600;
 }
 
-del {
-  color: rgba(red, 0.5);
-  text-decoration: none;
+.discount-price{
   position: relative;
-  &:before {
-    content: " ";
-    display: block;
-    width: 100%;
-    border-top: 2px solid rgba(red, 0.8);
-    height: 12px;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    transform: rotate(-7deg);
-  }
+  bottom: 2vh;
 }
-ins {
-  color: green;
-  font-size: 32px;
-  text-decoration: none;
+
+.after-discount{
+  position: relative;
+  left: 50%;
 }

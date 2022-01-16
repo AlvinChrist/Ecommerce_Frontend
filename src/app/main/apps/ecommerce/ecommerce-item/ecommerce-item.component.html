@@ -16,34 +16,47 @@
       </div>
     </div>
     <div class="item-cost">
-      <ng-container *ngIf="product.beforeDiscount; else NormalPrice">
-        <del>
-          <h6 class="amount">Rp{{ product.productPrice | mask:'separator':',' }}</h6>
-        </del>
-        <ins>
-          <h6 class="amount">Rp{{ product.beforeDiscount | mask:'separator':',' }}</h6>
-        </ins>
+      <ng-container *ngIf="product?.beforeDiscount; else NormalPrice">
+          <h6 class="item-price">
+            <span class="after-discount">
+              Rp{{ product?.productPrice | mask:'separator':',' }}
+            </span>
+            <sup>
+              <s class="discount-price">
+                Rp{{ product?.beforeDiscount | mask:'separator':',' }}
+              </s>
+            </sup>
+          </h6>
+          <!-- <h6 class="item-price">Rp{{ product?.beforeDiscount | mask:'separator':',' }}</h6> -->
       </ng-container>
       <ng-template #NormalPrice>
-        <h6 class="item-price">Rp{{ product.productPrice | mask:'separator':',' }}</h6>
+        <h6 class="item-price">Rp{{ product?.productPrice | mask:'separator':',' }}</h6>
       </ng-template>
     </div>
   </div>
   <h6 class="item-name">
-    <a class="text-body" [routerLink]="'/products/' + product.productId"> {{ product.productName }}</a>
+    <a class="text-body" [routerLink]="'/products/' + product?.productId">
+      <ng-container *ngIf="product?.beforeDiscount; else normal">
+        <span class="mr-50">{{ product?.productName }}</span>
+        <span class="badge badge-light-info">{{ product?.product_discount.discountPercent}}% off</span>
+      </ng-container>
+      <ng-template #normal>
+        {{ product?.productName }}
+      </ng-template>
+    </a>
     <span class="card-text item-company"
-      >By <a href="javascript:void(0)" class="company-name">{{ product.productBrand }}</a></span
+      >By <a href="javascript:void(0)" class="company-name">{{ product?.productBrand }}</a></span
     >
   </h6>
   <p class="card-text item-description">
-    {{ (_shopRef.gridViewRef)?product.productSummary: product.productDesc }}
+    {{ (_shopRef.gridViewRef)?product?.productSummary: product?.productDesc }}
   </p>
 </div>
 <div class="item-options text-center">
   <div class="item-wrapper">
     <div class="item-cost">
-      <h4 class="item-price">Rp{{ product.productPrice | mask:'separator':','}}</h4>
-      <!-- <p class="card-text shipping" *ngIf="product.hasFreeShipping">
+      <h4 class="item-price">Rp{{ product?.productPrice | mask:'separator':','}}</h4>
+      <!-- <p class="card-text shipping" *ngIf="product?.hasFreeShipping">
         <span class="badge badge-pill badge-light-success">Free Shipping</span>
       </p> -->
     </div>
@@ -52,6 +65,7 @@
     *ngIf="isInWishlist && isWishlistOpen"
     href="javascript:void(0)"
     class="btn btn-light btn-wishlist"
+    (click)="toggleWishlist(product)"
     rippleEffect
   >
     <i data-feather="x"></i>

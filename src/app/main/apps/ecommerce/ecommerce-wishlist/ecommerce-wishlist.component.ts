@@ -2,6 +2,7 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { EcommerceService } from 'app/main/apps/ecommerce/service/ecommerce.service';
 import { User } from '../../authentication/model/user.viewmodel';
 import { UserService } from '../../authentication/service/user.service';
+import { ProductService } from '../../products/service/product.service';
 
 
 @Component({
@@ -25,10 +26,12 @@ export class EcommerceWishlistComponent implements OnInit {
   private user: User;
   constructor(
     private _ecommerceService: EcommerceService,
-    private _userService: UserService
+    private _userService: UserService,
+    private _productService: ProductService
     ) {
+      // this._productService.getProducts()
+      // this._ecommerceService.getWishList(this.user.userId);
       this.user = this._userService.currentUserValue
-      this._ecommerceService.getWishList(this.user.userId);
   }
 
   // Lifecycle Hooks
