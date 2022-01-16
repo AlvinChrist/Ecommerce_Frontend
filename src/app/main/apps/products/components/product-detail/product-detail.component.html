@@ -1,7 +1,7 @@
 
 <form action="#" [formGroup]="ProductForm" class="p-2">
   <div class="row">
-    <div class="col-12 col-md-5 d-flex flex-column align-items-start justify-content-center mb-2 mb-md-0">
+    <div class="col-12 col-md-4 d-flex flex-column align-items-start justify-content-center mb-2 mb-md-0">
       <div class="d-flex align-items-start justify-content-center">
         <swiper class="swiper-coverflow swiper-container" [config]="swiperResponsive1" (indexChange)="onIndexChange($event)">
           <ng-container *ngFor="let image of ProductViewModel?.product_galleries">
@@ -18,7 +18,7 @@
           </ng-template>
         </ngx-file-drop>
     </div>
-    <div class="col-md-7 col-12">
+    <div class="col-md-8 col-12">
       <div class="row">
         <div class="col-md-6 col-12">
           <div class="form-group">
@@ -55,7 +55,7 @@
           </div>
         </div>
         
-        <div class="col-md-4 col-12">
+        <div class="col-md-3 col-12">
           <div class="form-group">
             <label>Category: </label>
             <div class="input-group">
@@ -72,7 +72,7 @@
           </div>
         </div>
 
-        <div class="col-md-4 col-12">
+        <div class="col-md-3 col-12">
           <div class="form-group">
             <label>Price: </label>
             <div class="input-group">
@@ -84,7 +84,24 @@
           </div>
         </div>
 
-        <div class="col-md-4 col-12">
+        <div class="col-md-3 col-12">
+          <div class="form-group">
+            <label>Discount: </label>
+            <div class="input-group">
+              <ng-select
+                [items]="discountList$ | async"
+                bindLabel="discountName"
+                bindValue="discountId"
+                class="w-100"
+                (change)="discountChange($event)"
+                formControlName="product_discount"
+              > 
+              </ng-select>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-3 col-12">
           <div class="form-group">
             <label>Stock: </label>
             <div class="input-group">

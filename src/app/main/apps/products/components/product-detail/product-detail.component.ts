@@ -4,14 +4,15 @@ import { NgxFileUploadStorage } from '@ngx-file-upload/core';
 import { ColumnMode } from '@swimlane/ngx-datatable';
 import { AlertService } from 'app/shared/service/alert/alert.service';
 import { ProductService } from 'app/main/apps/products/service/product.service';
-import { Product, ProductImage } from 'app/main/apps/products/model/product.viewmodel';
+import { Discount, Product, ProductImage } from 'app/main/apps/products/model/product.viewmodel';
 import { NgxFileDropEntry } from 'ngx-file-drop';
 import { ProductsComponent } from '../../pages/product-data/products.component';
 import Swal from 'sweetalert2';
-import { forkJoin, Subject } from 'rxjs';
+import { forkJoin, Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { SwiperConfigInterface } from 'ngx-swiper-wrapper';
 import { environment } from 'environments/environment';
+import { DiscountService } from '../../service/discount/discount.service';
 
 @Component({
   selector: 'app-product-detail',
@@ -30,6 +31,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
   public storage: NgxFileUploadStorage;
   public imagePath: any = '';
   public env = environment;
+  public discountList$: Observable<any>
 
   private _unsubscribeAll: Subject<any>
   private currentImageIndex: number = 0;
@@ -57,12 +59,14 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
     private _productService: ProductService,
     private _formBuilder: FormBuilder,
     private _alertService: AlertService,
-    private _parentComponent: ProductsComponent
+    private _parentComponent: ProductsComponent,
+    private _discountService: DiscountService
   ) {
     this.ProductForm = this.createProductForm(this.ProductViewModel);
     this._unsubscribeAll = new Subject();
   }
 
+  //public method
   onIndexChange(e: number) {
     this.currentImageIndex = e
   }
@@ -114,33 +118,6 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
     }
   }
 
-  ngOnInit(): void {
-    forkJoin({
-      product: this._productService.getProductById(this.data.productId),
-      product_galleries: this._productService.getProductGalleries(this.data.productId)
-    }).pipe(takeUntil(this._unsubscribeAll)).subscribe((resp) => {
-      this.ProductViewModel = resp.product.product
-      this.ProductForm.patchValue(this.ProductViewModel)
-      if(this.ProductViewModel.beforeDiscount){
-        this.ProductForm.patchValue({
-          productPrice: this.ProductViewModel.beforeDiscount
-        })
-      }
-      resp.product_galleries.gallery.rows.forEach((data: any) => {
-        this.ProductViewModel.product_galleries.push(data)
-      })
-      this.imagePath = `${this.env.apiUrl}/${this.ProductForm.value.product_galleries[0].imagePath}`;
-      console.log(resp,this.ProductViewModel)
-    },(err) => {
-      console.log(err)
-    })
-  }
-
-  ngOnDestroy() {
-    this._unsubscribeAll.next();
-    this._unsubscribeAll.complete();
-  }
-
   get f() {
     return this.ProductForm.controls;
   }
@@ -155,6 +132,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
       productBrand: [data.productBrand, [Validators.required]],
       productPrice: [data.productPrice, [Validators.min(0)]],
       productStock: [data.productStock, [Validators.min(0)]],
+      product_discount: [],
       product_galleries: []
     })
   }
@@ -242,5 +220,47 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
     },(err) => {
       console.log(err)
     })
+  }
+
+  discountChange(discount: Discount){
+    // console.log(discount)
+    this._discountService.setDiscount(this.f.productId.value, discount.discountId)
+    .subscribe((res) => {
+      if(!res.message) console.log(res)
+      else this._parentComponent.loadProducts();
+    },(err) => {
+      console.log(err)
+    })
+  }
+
+  //lifecycle
+  ngOnInit(): void {
+    forkJoin({
+      product: this._productService.getProductById(this.data.productId),
+      product_galleries: this._productService.getProductGalleries(this.data.productId)
+    }).pipe(takeUntil(this._unsubscribeAll)).subscribe((resp) => {
+      this.ProductViewModel = resp.product.product
+      this.ProductForm.patchValue(this.ProductViewModel)
+      this.f.product_discount.patchValue(this.ProductViewModel.product_discount?.discountId)
+      if(this.ProductViewModel.beforeDiscount){
+        this.ProductForm.patchValue({
+          productPrice: this.ProductViewModel.beforeDiscount
+        })
+      }
+      resp.product_galleries.gallery.rows.forEach((data: any) => {
+        this.ProductViewModel.product_galleries.push(data)
+      })
+      this.imagePath = `${this.env.apiUrl}/${this.ProductForm.value.product_galleries[0].imagePath}`;
+      console.log(resp,this.ProductViewModel)
+    },(err) => {
+      console.log(err)
+    })
+    this._discountService.getAllDiscount()
+    this.discountList$ = this._discountService.onDiscountChange
+  }
+
+  ngOnDestroy() {
+    this._unsubscribeAll.next();
+    this._unsubscribeAll.complete();
   }
 }

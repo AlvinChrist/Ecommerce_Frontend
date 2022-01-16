@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { NgbRatingModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgSelectModule } from '@ng-select/ng-select';
 import { EcommerceCheckoutItemComponent } from 'app/main/apps/ecommerce/ecommerce-checkout/ecommerce-checkout-item/ecommerce-checkout-item.component';
 import { EcommerceCheckoutComponent } from 'app/main/apps/ecommerce/ecommerce-checkout/ecommerce-checkout.component';
 import { EcommerceDetailsComponent } from 'app/main/apps/ecommerce/ecommerce-details/ecommerce-details.component';
@@ -15,7 +16,6 @@ import { NgxMaskModule } from 'ngx-mask';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { SwiperConfigInterface, SwiperModule, SWIPER_CONFIG } from 'ngx-swiper-wrapper';
 import { CommentContentComponent } from './ecommerce-details/comment-content/comment-content.component';
-
 const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
   direction: 'horizontal',
   observer: true
@@ -30,6 +30,10 @@ const routes: Routes = [
   {
     path: 'products/:id',
     component: EcommerceDetailsComponent
+  },
+  {
+    path: 'wishlist',
+    component: EcommerceWishlistComponent
   }
   // {
   //   path: 'details/:id',
@@ -71,7 +75,8 @@ const routes: Routes = [
     EcommerceCheckoutComponent,
     EcommerceItemComponent,
     EcommerceCheckoutItemComponent,
-    CommentContentComponent
+    CommentContentComponent,
+    EcommerceSidebarComponent
   ],
   imports: [
     RouterModule.forChild(routes),
@@ -81,7 +86,8 @@ const routes: Routes = [
     NgxMaskModule,
     NouisliderModule,
     FormsModule,
-    PerfectScrollbarModule
+    PerfectScrollbarModule,
+    NgSelectModule
   ],
   providers: [
     {

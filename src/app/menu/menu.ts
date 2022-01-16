@@ -15,13 +15,14 @@ export const menu: CoreMenu[] = [
     translate: 'MENU.APPS.ECOMMERCE.SHOP',
     type: 'item',
     icon: 'shopping-bag',
-    role: ['User','Admin'],
+    role: ['User', 'Admin'],
     url: '/shop'
   },
   {
     id: 'products',
     title: 'Products',
     type: 'item',
+    exactMatch: true,
     icon: 'package',
     role: ['Admin'],
     url: '/products'
@@ -31,6 +32,7 @@ export const menu: CoreMenu[] = [
     title: 'Details',
     translate: 'MENU.APPS.ECOMMERCE.DETAIL',
     type: 'item',
+    role: [''],
     icon: 'circle',
     url: '/details'
   },
@@ -39,7 +41,7 @@ export const menu: CoreMenu[] = [
     title: 'Wish List',
     translate: 'MENU.APPS.ECOMMERCE.WISHLIST',
     type: 'item',
-    icon: 'circle',
+    icon: 'list',
     role: ['User'],
     url: '/wishlist'
   },

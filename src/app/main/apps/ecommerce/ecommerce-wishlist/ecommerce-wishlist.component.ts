@@ -1,6 +1,8 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { EcommerceService } from 'app/main/apps/ecommerce/service/ecommerce.service';
+import { User } from '../../authentication/model/user.viewmodel';
+import { UserService } from '../../authentication/service/user.service';
 
-import { EcommerceService } from 'app/main/apps/ecommerce/ecommerce.service';
 
 @Component({
   selector: 'app-ecommerce-wishlist',
@@ -13,13 +15,21 @@ export class EcommerceWishlistComponent implements OnInit {
   // Public
   public contentHeader: object;
   public products;
-  public wishlist;
+  public wishlist$;
 
   /**
    *
    * @param {EcommerceService} _ecommerceService
    */
-  constructor(private _ecommerceService: EcommerceService) {}
+
+  private user: User;
+  constructor(
+    private _ecommerceService: EcommerceService,
+    private _userService: UserService
+    ) {
+      this.user = this._userService.currentUserValue
+      this._ecommerceService.getWishList(this.user.userId);
+  }
 
   // Lifecycle Hooks
   // -----------------------------------------------------------------------------------------------------
@@ -28,18 +38,7 @@ export class EcommerceWishlistComponent implements OnInit {
    * On init
    */
   ngOnInit(): void {
-    // Subscribe to ProductList change
-    this._ecommerceService.onProductListChange.subscribe(res => {
-      this.products = res;
-    });
-
-    // Subscribe to Wishlist change
-    this._ecommerceService.onWishlistChange.subscribe(res => (this.wishlist = res));
-
-    // update product is in Wishlist : Boolean
-    this.products.forEach(product => {
-      product.isInWishlist = this.wishlist.findIndex(p => p.productId === product.id) > -1;
-    });
+    this.wishlist$ = this._ecommerceService.onWishlistChange
 
     // content header
     this.contentHeader = {

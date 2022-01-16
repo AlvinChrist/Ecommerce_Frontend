@@ -2,7 +2,7 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 
 import Stepper from 'bs-stepper';
 
-import { EcommerceService } from 'app/main/apps/ecommerce/ecommerce.service';
+import { EcommerceService } from 'app/main/apps/ecommerce/service/ecommerce.service';
 
 @Component({
   selector: 'app-ecommerce-checkout',
@@ -72,30 +72,6 @@ export class EcommerceCheckoutComponent implements OnInit {
    * On init
    */
   ngOnInit(): void {
-    // Subscribe to ProductList change
-    this._ecommerceService.onProductListChange.subscribe(res => {
-      this.products = res;
-
-      this.products.isInWishlist = false;
-    });
-
-    // Subscribe to Cartlist change
-    this._ecommerceService.onCartListChange.subscribe(res => (this.cartLists = res));
-
-    // Subscribe to Wishlist change
-    this._ecommerceService.onWishlistChange.subscribe(res => (this.wishlist = res));
-
-    // update product is in Wishlist & is in CartList : Boolean
-    this.products.forEach(product => {
-      product.isInWishlist = this.wishlist.findIndex(p => p.productId === product.id) > -1;
-      product.isInCart = this.cartLists.findIndex(p => p.productId === product.id) > -1;
-    });
-
-    this.checkoutStepper = new Stepper(document.querySelector('#checkoutStepper'), {
-      linear: false,
-      animation: true
-    });
-
     // content header
     this.contentHeader = {
       headerTitle: 'Checkout',

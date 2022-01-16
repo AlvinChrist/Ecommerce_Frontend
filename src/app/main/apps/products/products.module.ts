@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CardSnippetModule } from '@core/components/card-snippet/card-snippet.module';
 import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgSelectModule } from '@ng-select/ng-select';
 import { NgxFileUploadUiCommonModule, NgxFileUploadUiProgressbarModule, NgxFileUploadUiToolbarModule } from "@ngx-file-upload/ui";
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { SharedModule } from 'app/shared/shared.module';
@@ -33,7 +34,8 @@ const routes: Routes = [
     NgxFileUploadUiProgressbarModule,
     NgxFileUploadUiCommonModule,
     NgxFileDropModule,
-    SwiperModule
+    SwiperModule,
+    NgSelectModule
   ]
 })
 export class ProductsModule { }

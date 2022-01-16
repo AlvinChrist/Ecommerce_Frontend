@@ -82,13 +82,12 @@
       <!-- E-commerce Products Starts -->
       
         <section id="ecommerce-products" [ngClass]="gridViewRef === true ? 'grid-view' : 'list-view'">
-          <ng-container *ngFor="let product of products">
           <app-ecommerce-item
+            *ngFor="let product of products"
             class="card ecommerce-card"
             [product]="product"
           >
           </app-ecommerce-item>
-          </ng-container>
         </section>
       <!-- E-commerce Products Ends -->
 

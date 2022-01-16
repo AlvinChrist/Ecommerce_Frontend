@@ -27,11 +27,11 @@
           </div>
           <div class="chat-body d-flex" fxFlex="90">
             <div class="d-flex flex-column">
-              <div class="ml-1">
+              <div class="ml-1" [ngClass]="{'text-danger':comment.user.role === 'Admin'}">
                 {{ comment.user.userName }}
               </div>
               <div class="chat-content" [ngClass]="{'dark-layout':currSkin === 'dark'}" style="width: fit-content;max-width: 65vw;">
-                <p>{{ comment.commentText }}</p>
+                <p>{{ comment.commentText }}</p>              
               </div>
             </div>
           </div>

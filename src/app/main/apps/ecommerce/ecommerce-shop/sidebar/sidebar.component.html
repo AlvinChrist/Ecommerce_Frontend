@@ -66,7 +66,15 @@
     <!-- Categories Starts -->
     <div id="product-categories">
       <h6 class="filter-title mt-0">Categories</h6>
-      <ul class="list-unstyled categories-list">
+      <ng-select
+        [items]="categoryList$ | async"
+        bindLabel="DISTINCT"
+        bindValue="DISTINCT"
+        placeholder="Filter category"
+        [(ngModel)]="category"
+        >
+      </ng-select>
+      <!-- <ul class="list-unstyled categories-list">
         <li>
           <div class="custom-control custom-radio">  
             <input type="radio" id="category0" name="category-filter" (click)="categoryFilter($event.target.defaultValue)" value="All" class="custom-control-input" [checked] = "currentCategory === ''" />
@@ -81,29 +89,41 @@
             </div>
           </li>
         </ng-container>
-      </ul>
+      </ul> -->
     </div>
     <!-- Categories Ends -->
     
     <!-- Brands starts -->
     <div class="brands">
-      <h6 class="filter-title">Brands</h6>
-      <ng-container *ngFor="let brand of brandList; let i = index">
-        <ul class="list-unstyled brand-list">
-          <li>
+      <h6 class="filter-title brand-sidebar">Brands</h6>
+      <ng-select
+        [items]="brandList$ | async"
+        bindLabel="DISTINCT"
+        bindValue="DISTINCT"
+        [multiple]="true"
+        placeholder="Filter brand"
+        [closeOnSelect]="false"
+        [(ngModel)]="brand"
+        >
+      </ng-select>
+      <!-- <ul class="list-unstyled">
+        <ng-container *ngFor="let brand of brandList; let i = index">
+          <li class="pr-1">
             <div class="custom-control custom-checkbox">
-              <input type="checkbox" class="custom-control-input" [value]="brand.DISTINCT" id="productBrand{{i}}" (click)="brandFilter($event.target.defaultValue)" [checked]="currentBrand[i] === brand.DISTINCT"/>
+              <input type="checkbox" class="custom-control-input" [value]="brand.DISTINCT" id="productBrand{{i}}" (click)="brandCheckbox($event.target.defaultValue)" checked/>
               <label class="custom-control-label" for="productBrand{{i}}">{{ brand.DISTINCT }}</label>
             </div>
-            <span>{{ brand.total }}</span>
           </li>
-        </ul>
-      </ng-container>
+        </ng-container>
+      </ul> -->
+    </div>
+    <div class="mt-2">
+      <button class="btn btn-primary btn-block" (click)="filterBrand()">Filter</button>
     </div>
     <!-- Brand ends -->
 
     <!-- Rating starts -->
-    <div id="ratings">
+    <!-- <div id="ratings">
       <h6 class="filter-title">Ratings</h6>
       <div class="ratings-list">
         <a href="javascript:void(0)">
@@ -157,13 +177,13 @@
         </a>
         <div class="stars-received">190</div>
       </div>
-    </div>
+    </div> -->
     <!-- Rating ends -->
 
     <!-- Clear Filters Starts -->
-    <div id="clear-filters">
+    <!-- <div id="clear-filters">
       <button type="button" class="btn btn-block btn-primary" rippleEffect>Clear All Filters</button>
-    </div>
+    </div> -->
     <!-- Clear Filters Ends -->
   </div>
 </div>

@@ -240,12 +240,23 @@
                 </div>
               </ng-template>
             </ngx-datatable-column>
-            <ngx-datatable-column name="Brand" prop="productBrand" [flexGrow]="2"></ngx-datatable-column>
-            <ngx-datatable-column name="Price" prop="productPrice" [flexGrow]="1.5">
+            <ngx-datatable-column name="Brand" prop="productBrand" [flexGrow]="1.5">
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Price" prop="productPrice" [flexGrow]="2">
               <ng-template let-row="row" ngx-datatable-cell-template>
-                <span>
-                  {{ row.productPrice | currency:'IDR ':'symbol':'3.0' }}
-                </span>
+                <ng-container *ngIf="row.beforeDiscount; else NormalPrice">
+                  <span>
+                    <s>{{ row.beforeDiscount | currency:'IDR ':'symbol':'3.0' }}</s>
+                  </span>
+                  <span>
+                    {{ row.productPrice | currency:'IDR ':'symbol':'3.0' }}
+                  </span>
+                </ng-container>
+                <ng-template #NormalPrice>
+                  <span>
+                    {{ row.productPrice | currency:'IDR ':'symbol':'3.0' }}
+                  </span>
+                </ng-template>
               </ng-template>
             </ngx-datatable-column>
             <ngx-datatable-column name="Stock" prop="productStock" [flexGrow]="1"></ngx-datatable-column>

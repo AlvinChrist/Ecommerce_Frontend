@@ -1,9 +1,11 @@
 import { Component, Injectable, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { CoreSidebarService } from '@core/components/core-sidebar/core-sidebar.service';
-import { ProductService } from 'app/main/apps/products/service/product.service';
 import { Product } from 'app/main/apps/products/model/product.viewmodel';
+import { ProductService } from 'app/main/apps/products/service/product.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { UserService } from '../../authentication/service/user.service';
+import { EcommerceService } from '../service/ecommerce.service';
 
 @Injectable({
   providedIn: 'root'
@@ -30,8 +32,7 @@ export class EcommerceShopComponent implements OnInit, OnDestroy {
   public page = 1;
   public pageSize = 9;
   public searchText = '';
-
-  public coreConfig: any;
+  public wishlist: any[]
   private _unsubscribeAll: Subject<any>;
 
   /**
@@ -40,43 +41,37 @@ export class EcommerceShopComponent implements OnInit, OnDestroy {
    */
   constructor(
     private _coreSidebarService: CoreSidebarService,
-    private _productService: ProductService,
+    public _productService: ProductService,
+    private _ecommerceService: EcommerceService,
+    private _userService: UserService
      ) {
       this._unsubscribeAll = new Subject();
+      this._ecommerceService.getWishList(this.userId);
       this._productService.getProducts();
+      this._productService.onProductListChange.pipe(takeUntil(this._unsubscribeAll)).subscribe((res) => {
+        if(res) this.products = res 
+      });
+      this._ecommerceService.onWishlistChange.pipe(takeUntil(this._unsubscribeAll)).subscribe((res) => {
+        if(res) this.wishlist = res
+      })
      }
-
   // Public Methods
   // -----------------------------------------------------------------------------------------------------
 
-  /**
-   * Toggle Sidebar
-   *
-   * @param name
-   */
+  get userId() {
+    return this._userService.currentUserValue.userId
+  }
+
   toggleSidebar(name): void {
     this._coreSidebarService.getSidebarRegistry(name).toggleOpen();
   }
 
-  /**
-   * Update to List View
-   */
   listView() {
     this.gridViewRef = false;
   }
 
-  /**
-   * Update to Grid View
-   */
   gridView() {
     this.gridViewRef = true;
-  }
-
-  /**
-   * Sort Product
-   */
-  sortProduct(sortParam) {
-    // this._ecommerceService.sortProduct(sortParam);
   }
 
   // Lifecycle Hooks
@@ -86,15 +81,10 @@ export class EcommerceShopComponent implements OnInit, OnDestroy {
     this._unsubscribeAll.next();
     this._unsubscribeAll.complete();
   }
-  /**
-   * On init
-   */
+  
   ngOnInit(): void {
     // Subscribe to ProductList change
-    this._productService.onProductListChange.pipe(takeUntil(this._unsubscribeAll)).subscribe(res => {
-      this.products = res
-    });
-
+    
     // content header
     this.contentHeader = {
       headerTitle: 'Shop',
@@ -102,20 +92,20 @@ export class EcommerceShopComponent implements OnInit, OnDestroy {
       breadcrumb: {
         type: '',
         links: [
-          {
-            name: 'Home',
-            isLink: true,
-            link: '/'
-          },
-          {
-            name: 'eCommerce',
-            isLink: true,
-            link: '/'
-          },
-          {
-            name: 'Shop',
-            isLink: false
-          }
+          // {
+          //   name: 'Home',
+          //   isLink: true,
+          //   link: '/'
+          // },
+          // {
+          //   name: 'eCommerce',
+          //   isLink: true,
+          //   link: '/'
+          // },
+          // {
+          //   name: 'Shop',
+          //   isLink: false
+          // }
         ]
       }
     };

@@ -2,7 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Product, ProductSearch } from 'app/main/apps/products/model/product.viewmodel';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { filter } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +15,7 @@ export class ProductService {
   public brands: Array<Object>
   public onBrandsChange: BehaviorSubject<any>;
 
+  public _loaded = false;
   constructor(
     private _httpClient: HttpClient
   ) { 
@@ -33,7 +33,8 @@ export class ProductService {
   }
 
   getProducts(): void {
-    this._httpClient.get<Array<Object>>(`/products?page=${this.productSearch.page}&size=${this.productSearch.size}&filterBrand=${this.productSearch.filterBrand}&filterCategory=${this.productSearch.filterCategory}&searchedProduct=${this.productSearch.searchedProduct}`, { responseType: 'json'})
+    if(!this.productSearch.filterBrand) this.productSearch.filterBrand = []
+    this._httpClient.get<Array<Object>>(`/products?page=${this.productSearch.page}&size=${this.productSearch.size}&filterBrand=${JSON.stringify(this.productSearch.filterBrand)}&filterCategory=${this.productSearch.filterCategory}&searchedProduct=${this.productSearch.searchedProduct}`, { responseType: 'json'})
       .subscribe((resp: any) => {
         const filterData = ["productBrand","productCategory"]
         const keys = ['brands', 'categories'];
@@ -48,10 +49,13 @@ export class ProductService {
         this.brands = resp.brands
         this.categories = resp.categories;
 
-        console.log(resp)
+        // console.log(resp)
         this.onProductListChange.next(this.productList)
         this.onCategoriesChange?.next(resp.categories)
         this.onBrandsChange?.next(resp.brands)
+        this._loaded = true
+    },(err) => {
+      console.log(err)
     })
   }
 

@@ -17,7 +17,10 @@ import 'hammerjs';
 import { NgxMaskModule } from 'ngx-mask';
 import { ToastrModule } from 'ngx-toastr'; // For auth after login toast
 import { AuthGuard, ErrorInterceptor, JwtInterceptor } from './core';
+import { UserService } from './main/apps/authentication/service/user.service';
 import { EcommerceModule } from './main/apps/ecommerce/ecommerce.module';
+import { EcommerceService } from './main/apps/ecommerce/service/ecommerce.service';
+import { ProductService } from './main/apps/products/service/product.service';
 
 export function getToken() {
   return JSON.parse(localStorage.getItem('accessToken'))
@@ -88,7 +91,10 @@ const appRoutes: Routes = [
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
-    JwtHelperService
+    JwtHelperService,
+    EcommerceService,
+    UserService,
+    ProductService
   ],
   bootstrap: [AppComponent]
 })

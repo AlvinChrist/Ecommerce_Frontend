@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { User } from 'app/main/apps/authentication/model/user.viewmodel';
-import { EcommerceService } from 'app/main/apps/ecommerce/ecommerce.service';
+import { EcommerceService } from 'app/main/apps/ecommerce/service/ecommerce.service';
 import { Product } from 'app/main/apps/products/model/product.viewmodel';
 import { ProductService } from 'app/main/apps/products/service/product.service';
 import { AlertService } from 'app/shared/service/alert/alert.service';
@@ -134,10 +134,6 @@ export class EcommerceDetailsComponent implements OnInit, OnDestroy {
    * On init
    */
   ngOnInit(): void {
-    // Subscribe to Selected Product change
-    this._ecommerceService.onSelectedProductChange.subscribe(res => {
-      this.product = res[0];
-    });
     // content header
     this.contentHeader = {
       headerTitle: 'Product Details',
@@ -145,25 +141,25 @@ export class EcommerceDetailsComponent implements OnInit, OnDestroy {
       breadcrumb: {
         type: '',
         links: [
-          {
-            name: 'Home',
-            isLink: true,
-            link: '/'
-          },
-          {
-            name: 'eCommerce',
-            isLink: true,
-            link: '/'
-          },
-          {
-            name: 'Shop',
-            isLink: true,
-            link: '/'
-          },
-          {
-            name: 'Details',
-            isLink: false
-          }
+          // {
+          //   name: 'Home',
+          //   isLink: true,
+          //   link: '/'
+          // },
+          // {
+          //   name: 'eCommerce',
+          //   isLink: true,
+          //   link: '/'
+          // },
+          // {
+          //   name: 'Shop',
+          //   isLink: true,
+          //   link: '/'
+          // },
+          // {
+          //   name: 'Details',
+          //   isLink: false
+          // }
         ]
       }
     };

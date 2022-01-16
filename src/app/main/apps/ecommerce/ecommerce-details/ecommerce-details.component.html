@@ -32,7 +32,7 @@
                   </ngb-rating>
                 </div>
               </div>
-              <ng-container *ngIf="user.role !== 'Admin'">
+              <ng-container *ngIf="user?.role !== 'Admin'">
                 <div fxLayout="row" fxLayoutAlign="start center">
                   Your Rating:   
                   <span class="rating rating-md pl-1">
@@ -60,8 +60,8 @@
                   <span>EMI options available</span>
                 </li>
               </ul>
-              <hr />
-              <div class="product-color-options">
+              <!-- <hr /> -->
+              <!-- <div class="product-color-options">
                 <h6>Colors</h6>
                 <ul class="list-unstyled mb-0">
                   <li class="d-inline-block selected">
@@ -90,7 +90,7 @@
                     </div>
                   </li>
                 </ul>
-              </div>
+              </div> -->
               <hr />
               <div class="d-flex flex-column flex-sm-row pt-1">
                 <!-- <a
@@ -123,7 +123,7 @@
                   ></i>
                   <span>Wishlist</span>
                 </a> -->
-                <div class="btn-group dropdown-icon-wrapper btn-share" ngbDropdown>
+                <!-- <div class="btn-group dropdown-icon-wrapper btn-share" ngbDropdown>
                   <button
                     ngbDropdownToggle
                     type="button"
@@ -149,7 +149,7 @@
                       <i data-feather="instagram"></i>
                     </a>
                   </div>
-                </div>
+                </div> -->
               </div>
             </div>
           </div>

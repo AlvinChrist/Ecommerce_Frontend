@@ -45,12 +45,6 @@ export class JwtInterceptor implements HttpInterceptor {
             }
             else{
               this._userService.logout();
-              request.clone({
-                url: `${environment.apiUrl}/auth/login`,
-                setHeaders: {
-                    Authorization: `Bearer ${accessToken}`
-                }
-              }); 
               return next.handle(request)
             }
           })

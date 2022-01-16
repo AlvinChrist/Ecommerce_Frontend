@@ -43,6 +43,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
     private _alertService: AlertService
   ) { 
     this.ProductFilterForm = this._formBuilder.group(this.ProductSearchModel);
+    this.ProductFilterForm.controls.size.setValue(10)
     this.ProductForm = this.createProductForm(this.ProductViewModel);
   }
 

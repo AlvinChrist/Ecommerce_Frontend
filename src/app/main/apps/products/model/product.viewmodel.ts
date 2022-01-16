@@ -13,6 +13,7 @@ export class Product {
   productRating?: number;
   userRating?: number;
   product_galleries?: any;
+  product_discount?: Discount;
 
   constructor(Product: any = {}) {
     this.productId = Product.productId || 0;
@@ -25,6 +26,14 @@ export class Product {
     this.productStock = Product.productStock || 0;
     this.discountId = Product.discountId || 0 ;
   }
+}
+
+export interface Discount{ 
+  createdAt: string;
+  discountId: number;
+  discountName: string;
+  discountPercent: number;
+  updatedAt: string
 }
 
 export class ProductRating {
@@ -108,8 +117,8 @@ export class ProductSearch{
 
   constructor(ProductSearch: any = {}) {
     this.page = ProductSearch.page || 0;
-    this.size = ProductSearch.size || 10;
-    this.filterBrand = ProductSearch.filterType || "";
+    this.size = ProductSearch.size || 6;
+    this.filterBrand = ProductSearch.filterType || [];
     this.filterCategory = ProductSearch.filterValue || "";
     this.searchedProduct = ProductSearch.searchedProduct || "";
   }

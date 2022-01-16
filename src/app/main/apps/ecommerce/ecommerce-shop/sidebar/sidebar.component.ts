@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { ProductService } from 'app/main/apps/products/service/product.service';
-import { combineLatest, Subject } from 'rxjs';
+import { combineLatest, Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 @Component({
@@ -11,31 +11,23 @@ import { takeUntil } from 'rxjs/operators';
 })
 export class EcommerceSidebarComponent implements OnInit, OnDestroy {
   // Public
-  public categoryList: Array<Object>
-  public brandList: Array<Object>
+  public categoryList$: Observable<any>
+  public brandList$: Observable<any>
   public currentCategory: string;
-  public currentBrand: string[];
   public currentBrandMap: {}
 
+  category: any;
+  brand: any;
   private _unsubscribeAll: Subject<any>;
   constructor(
     private _productService: ProductService
   ) {
     this._unsubscribeAll = new Subject();
-    this.currentCategory = this._productService.productSearch.filterCategory
-    this.currentBrand = this._productService.productSearch.filterBrand || []
   }
 
   ngOnInit(): void {
-    combineLatest([
-      this._productService.onCategoriesChange,
-      this._productService.onBrandsChange
-    ]).pipe(takeUntil(this._unsubscribeAll))
-    .subscribe(([categories,brands]) => {
-      this.categoryList = categories
-      this.brandList = brands
-      console.log(categories,brands)
-    })
+    this.categoryList$ = this._productService.onCategoriesChange
+    this.brandList$ = this._productService.onBrandsChange
   }
 
   ngOnDestroy(): void {
@@ -43,17 +35,22 @@ export class EcommerceSidebarComponent implements OnInit, OnDestroy {
     this._unsubscribeAll.complete();
   }
 
-  categoryFilter(e: string) {
-    if(e === "All") e = ""
-    this.currentCategory = e
-    this._productService.productSearch.filterCategory = e
-    this._productService.getProducts()
-  }
+  // categoryFilter(e: string) {
+  //   if(e === "All") e = ""
+  //   this.currentCategory = e
+  //   this._productService.productSearch.filterCategory = e
+  //   this._productService.getProducts()
+  // }
 
-  brandFilter(e: string){
-    const pos = this.currentBrand.indexOf(e)
-    if(pos === -1) this.currentBrand.push(e)
-    else this.currentBrand.splice(pos,1)
-    console.log(this.currentBrand,)
+  // brandCheckbox(e: string){
+  //   const pos = this.f.filterBrand.indexOf(e)
+  //   if(pos === -1) this.f.filterBrand.push(e)
+  //   else this.f.filterBrand.splice(pos,1)
+  // }
+
+  filterBrand() {
+    this._productService.productSearch.filterCategory = this.category || ''
+    this._productService.productSearch.filterBrand = this.brand || []
+    this._productService.getProducts()
   }
 }
