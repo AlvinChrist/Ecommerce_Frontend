@@ -17,6 +17,7 @@ export class NavbarCartComponent implements OnInit, OnDestroy {
   public cart = [];
   public cartLength;
   public env = environment
+  public total = 0;
   // Private
   private _unsubscribeAll: Subject<any>;
 
@@ -37,6 +38,7 @@ export class NavbarCartComponent implements OnInit, OnDestroy {
   get userId() {
     return this._userService.currentUserValue.userId
   }
+ 
   /**
    * Remove From Cart
    *
@@ -44,6 +46,15 @@ export class NavbarCartComponent implements OnInit, OnDestroy {
    */
   removeFromCart(productId: number) {
     this._ecommerceService.removeFromCart(this.userId,productId)
+  }
+
+  sum() {
+    const reducer = (prev, cur) => prev + ((cur.productQty || 1) * cur.product?.productPrice);
+    this.total = this.cart.reduce(reducer,0)
+  }
+
+  qtyChanged(qty: number, productId: number){
+    this._ecommerceService.setQty(qty,productId,this.userId)
   }
 
   // Lifecycle Hooks
