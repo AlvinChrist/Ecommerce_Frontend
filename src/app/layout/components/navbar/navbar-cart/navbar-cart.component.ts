@@ -1,12 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-
+import { UserService } from 'app/main/apps/authentication/service/user.service';
+import { EcommerceService } from 'app/main/apps/ecommerce/service/ecommerce.service';
+import { environment } from 'environments/environment';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-import { EcommerceService } from 'app/main/apps/ecommerce/service/ecommerce.service';
-import { UserService } from 'app/main/apps/authentication/service/user.service';
-import { ProductService } from 'app/main/apps/products/service/product.service';
-import { environment } from 'environments/environment';
+
 
 @Component({
   selector: 'app-navbar-cart',
@@ -15,8 +14,8 @@ import { environment } from 'environments/environment';
 export class NavbarCartComponent implements OnInit, OnDestroy {
   // Public
   public products = [];
-  public wishList = [];
-  public wishListLength;
+  public cart = [];
+  public cartLength;
   public env = environment
   // Private
   private _unsubscribeAll: Subject<any>;
@@ -27,8 +26,7 @@ export class NavbarCartComponent implements OnInit, OnDestroy {
    */
   constructor(
     public _ecommerceService: EcommerceService,
-    private _userService: UserService,
-    private _productService: ProductService
+    private _userService: UserService
     ) {
     this._unsubscribeAll = new Subject();
   }
@@ -45,7 +43,7 @@ export class NavbarCartComponent implements OnInit, OnDestroy {
    * @param product
    */
   removeFromCart(productId: number) {
-    this._ecommerceService.removeFromWishlist(this.userId,productId)
+    this._ecommerceService.removeFromCart(this.userId,productId)
   }
 
   // Lifecycle Hooks
@@ -60,21 +58,12 @@ export class NavbarCartComponent implements OnInit, OnDestroy {
    */
   ngOnInit(): void {
     // Subscribe to Cart List
-    this._ecommerceService.getWishList(this.userId)
+    this._ecommerceService.getUserCart(this.userId)
     
-    this._ecommerceService.onWishlistChange.pipe(takeUntil(this._unsubscribeAll)).subscribe((res: any[]) => {
-      if(res){
-        let tmp = []
-        if(this._productService.productList){
-          res.forEach((product) => {
-            tmp.push(this._productService.productList?.find((x) => x.productId === product.productId))
-          })
-        }
-        this.wishList = tmp
-      } 
-      
-      this.wishListLength = this.wishList.length
-      console.log(this.wishList)
+    this._ecommerceService.onCartChange.pipe(takeUntil(this._unsubscribeAll)).subscribe((res: any[]) => {
+      if(res) this.cart = res
+      this.cartLength = this.cart.length
+      // console.log(this.cart)
     });
   }
 }

@@ -86,6 +86,7 @@ export class EcommerceService {
     .subscribe((res) => {
       if(res.cart){
         this.cart = res.cart
+        console.log(this.cart)
         this.onCartChange.next(this.cart)
       }
       else{
