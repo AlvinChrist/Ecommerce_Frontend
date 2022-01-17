@@ -250,6 +250,13 @@
     glob "7.1.7"
     yargs "^16.2.0"
 
+"@angular/material@12.0.4":
+  version "12.0.4"
+  resolved "https://registry.yarnpkg.com/@angular/material/-/material-12.0.4.tgz#0cd88328f846d7ba6485abc7f1888aef174d7e4c"
+  integrity sha512-pvfYEeUCLR7EmA6R/kkXz5jfl+RHwh3AS9X9kWARWIOzA7p0hG9ApoFT5KCofTBNp0nukau1QoGR4WGla6wWvQ==
+  dependencies:
+    tslib "^2.1.0"
+
 "@angular/platform-browser-dynamic@12.0.3":
   version "12.0.3"
   resolved "https://registry.yarnpkg.com/@angular/platform-browser-dynamic/-/platform-browser-dynamic-12.0.3.tgz#503af57ef63847cfee9861607ef52f67fcfceba5"
@@ -1898,6 +1905,11 @@ angular-in-memory-web-api@0.11.0:
   version "0.11.0"
   resolved "https://registry.yarnpkg.com/angular-in-memory-web-api/-/angular-in-memory-web-api-0.11.0.tgz#46e4ad896b36d669f36801fc8cafa7db8278d078"
   integrity sha512-QV1qYHm+Zd+wrvlcPLnAcqqGpOmCN1EUj4rRuYHpek8+QqFFdxBNuPZOJCKvU7I97z5QSKHsdc6PNKlpUQr3UA==
+
+angular-ng-autocomplete@^2.0.5:
+  version "2.0.5"
+  resolved "https://registry.yarnpkg.com/angular-ng-autocomplete/-/angular-ng-autocomplete-2.0.5.tgz#6284eacb97ed2ef3bf3c9765b564b412217574e0"
+  integrity sha512-mYALrzwc5eoFR5xz/diup5GDsxqXp3L707P4CkiBl5l01fKej0nyIDTQ+xXtZUK3spXIyfuOX0ypa9wTrgCP5A==
 
 angular-shepherd@11.0.0:
   version "11.0.0"

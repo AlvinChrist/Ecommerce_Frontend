@@ -13,7 +13,6 @@ import { takeUntil } from 'rxjs/operators';
 import { SwiperConfigInterface } from 'ngx-swiper-wrapper';
 import { environment } from 'environments/environment';
 import { DiscountService } from '../../service/discount/discount.service';
-
 @Component({
   selector: 'app-product-detail',
   templateUrl: './product-detail.component.html',
@@ -32,6 +31,9 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
   public imagePath: any = '';
   public env = environment;
   public discountList$: Observable<any>
+
+  public categoryList$: Observable<any>
+  public brandList$: Observable<any>
 
   private _unsubscribeAll: Subject<any>
   private currentImageIndex: number = 0;
@@ -257,6 +259,9 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
     })
     this._discountService.getAllDiscount()
     this.discountList$ = this._discountService.onDiscountChange
+    this.brandList$ = this._productService.onBrandsChange
+    this.categoryList$ = this._productService.onCategoriesChange
+    console.log(this.brandList$)
   }
 
   ngOnDestroy() {

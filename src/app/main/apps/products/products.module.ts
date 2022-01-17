@@ -11,6 +11,9 @@ import { NgxMaskModule } from 'ngx-mask';
 import { SwiperModule } from 'ngx-swiper-wrapper';
 import { ProductDetailComponent } from './components/product-detail/product-detail.component';
 import { ProductsComponent } from './pages/product-data/products.component';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatOptionModule } from '@angular/material/core';
+import { MatSelectModule } from '@angular/material/select'
 const routes: Routes = [
   {
     path: '',
@@ -35,7 +38,10 @@ const routes: Routes = [
     NgxFileUploadUiCommonModule,
     NgxFileDropModule,
     SwiperModule,
-    NgSelectModule
+    NgSelectModule,
+    MatAutocompleteModule,
+    MatOptionModule,
+    MatSelectModule
   ]
 })
 export class ProductsModule { }

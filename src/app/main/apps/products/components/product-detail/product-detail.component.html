@@ -24,7 +24,8 @@
           <div class="form-group">
             <label>Name: </label>
             <div class="input-group">
-              <input 
+              <input
+              matInput
               type="text" 
               placeholder="Product Name" 
               class="form-control"
@@ -47,7 +48,14 @@
               placeholder="Product Brand"
               class="form-control" 
               formControlName="productBrand" 
-              [ngClass]="{ 'is-invalid': submitted && f.productBrand.errors }"/>
+              [ngClass]="{ 'is-invalid': submitted && f.productBrand.errors }"
+              [matAutocomplete]="autocomplete2"
+              />
+              <mat-autocomplete #autocomplete2="matAutocomplete">
+                <mat-option *ngFor="let brand of brandList$ | async" [value]="brand.DISTINCT">
+                  {{ brand.DISTINCT }}
+                </mat-option>
+              </mat-autocomplete>
               <div *ngIf="submitted && f.productBrand.errors" class="invalid-feedback">
                 <div *ngIf="f.productBrand.errors.required">Brand is required</div>
               </div>
@@ -64,7 +72,13 @@
               placeholder="Product Brand"
               class="form-control" 
               formControlName="productCategory" 
-              [ngClass]="{ 'is-invalid': submitted && f.productCategory.errors }"/>
+              [ngClass]="{ 'is-invalid': submitted && f.productCategory.errors }"
+              [matAutocomplete]="autocomplete1"/>
+              <mat-autocomplete #autocomplete1="matAutocomplete">
+                <mat-option *ngFor="let category of categoryList$ | async" [value]="category.DISTINCT">
+                  {{ category.DISTINCT }}
+                </mat-option>
+              </mat-autocomplete>
               <div *ngIf="submitted && f.productCategory.errors" class="invalid-feedback">
                 <div *ngIf="f.productCategory.errors.required">Category is required</div>
               </div>
