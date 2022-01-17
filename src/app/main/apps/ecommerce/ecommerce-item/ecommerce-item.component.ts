@@ -58,6 +58,21 @@ export class EcommerceItemComponent implements OnInit, OnDestroy {
     }
   }
 
+  addToCart(product){
+    if(this.user.role !== 'Admin') {
+      console.log(this.isInCart)
+      if(this.isInCart){
+        this._ecommerceService.removeFromCart(this.user.userId,product.productId).then(() => {
+          this.isInCart = !this.isInCart
+        }).catch(() => {})
+      }
+      else{
+        this._ecommerceService.addToCart(this.user.userId,product.productId).then(() => {
+          this.isInCart = !this.isInCart
+        }).catch((err) => {})
+      }
+    }
+  }
   // Lifecycle Hooks
   // -----------------------------------------------------------------------------------------------------
 
@@ -68,14 +83,17 @@ export class EcommerceItemComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this._ecommerceService.onWishlistChange.pipe(takeUntil(this._unsubscribeAll)).subscribe((res) => {
-      console.log(this.isInWishlist)
       this.isInWishlist = this._ecommerceService.isInWishlist(this.product?.productId)
-      console.log(this.isInWishlist)
       if(res && this.isWishlistOpen){
         this.product = this._productService.productList.find((x) => x.productId === this.product.productId)
         this.image =  `http://localhost:5000/${this.product?.product_galleries[0]?.imagePath}` || ""
-      } 
+      }
     })
+    
+    this._ecommerceService.onCartChange.pipe(takeUntil(this._unsubscribeAll)).subscribe((res) => {
+      this.isInCart = this._ecommerceService.isInCart(this.product?.productId)
+    })
+    
     try{
       this.image =  `http://localhost:5000/${this.product?.product_galleries[0]?.imagePath}` || ""
     }

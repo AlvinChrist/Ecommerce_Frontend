@@ -1,7 +1,5 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { rejects } from 'assert';
-import { resolve } from 'dns';
 import { BehaviorSubject } from 'rxjs';
 import { Product } from '../../products/model/product.viewmodel';
 
@@ -12,7 +10,7 @@ import { Product } from '../../products/model/product.viewmodel';
 export class EcommerceService {
   public wishlist: Product[]
   public onWishlistChange: BehaviorSubject<any>;
-  public cart: Product[]
+  public cart: any
   public onCartChange: BehaviorSubject<any>;
 
   constructor(
@@ -38,7 +36,7 @@ export class EcommerceService {
 
   isInWishlist(productId: number): boolean{
     let idx = -1
-    console.log(this.wishlist,productId)
+    // console.log(this.wishlist,productId)
     if(this.wishlist && productId){
       idx = this.wishlist.findIndex((x) => x.productId === productId)
     }
@@ -86,7 +84,7 @@ export class EcommerceService {
   getUserCart(userId: number) {
     this._httpClient.get<any>(`/user/${userId}/cart`, { responseType: 'json'})
     .subscribe((res) => {
-      if(res?.message){
+      if(res.cart){
         this.cart = res.cart
         this.onCartChange.next(this.cart)
       }
@@ -98,7 +96,20 @@ export class EcommerceService {
     })
   }
 
-  addToCart(productId: number,userId: number, qty: number = 0): Promise<void> {
+  isInCart(productId: number): boolean{
+    let idx = -1
+    // console.log(this.cart)
+    if(this.cart && productId){
+      idx = this.cart.findIndex((x) => x.productId === productId)
+    }
+    return idx !== -1
+  }
+
+  setQty(qty: number, productId: number,userId: number){
+      this.addToCart(userId,productId,qty)
+  }
+
+  addToCart(userId: number,productId: number, qty: number = 1): Promise<void> {
     return new Promise((resolve,reject) => {
       this._httpClient.post<any>(`/cart`, {
         productId: productId,
@@ -122,9 +133,9 @@ export class EcommerceService {
 
   removeFromCart(userId: number, productId: number): Promise<void> {
     return new Promise((resolve, reject) => {
-      this._httpClient.delete<any>(`/user/${userId}/product/${productId}`, { responseType: 'json'})
+      this._httpClient.delete<any>(`/cart/user/${userId}/product/${productId}`, { responseType: 'json'})
       .subscribe((res) => {
-        if(res?.message === "This Item Removed From Your Wishlist"){
+        if(res?.message === "This Item Removed From Your Cart"){
           this.getUserCart(userId)
           resolve();
         }

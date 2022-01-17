@@ -45,7 +45,7 @@ export class NavbarWishlistComponent implements OnInit, OnDestroy {
    * @param product
    */
   removeFromCart(productId: number) {
-    this._ecommerceService.removeFromWishlist(this.userId,productId)
+    this._ecommerceService.removeFromCart(this.userId,productId)
   }
 
   // Lifecycle Hooks

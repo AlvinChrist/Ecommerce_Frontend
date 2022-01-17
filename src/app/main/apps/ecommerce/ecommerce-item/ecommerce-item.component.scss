@@ -2,7 +2,8 @@
 .custom-img {
   width: auto;
   max-width: 100%;
-  max-height: 23vh;
+  max-height: 30vh;
+  // aspect-ratio: $(window).width()/$(window).height();
 }
 
 .discount-price{
