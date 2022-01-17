@@ -60,9 +60,7 @@ export class NavbarWishlistComponent implements OnInit, OnDestroy {
    */
   ngOnInit(): void {
     // Subscribe to Cart List
-    setTimeout(() => {
-      this._ecommerceService.getWishList(this.userId)
-    },250)
+    this._ecommerceService.getWishList(this.userId)
     
     this._ecommerceService.onWishlistChange.pipe(takeUntil(this._unsubscribeAll)).subscribe((res: any[]) => {
       if(res){

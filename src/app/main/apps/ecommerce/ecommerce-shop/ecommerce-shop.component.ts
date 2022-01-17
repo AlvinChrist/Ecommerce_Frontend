@@ -46,7 +46,7 @@ export class EcommerceShopComponent implements OnInit, OnDestroy {
     private _userService: UserService
      ) {
       this._unsubscribeAll = new Subject();
-      this._ecommerceService.getWishList(this.userId);
+      // this._ecommerceService.getWishList(this.userId);
       this._productService.getProducts();
       this._productService.onProductListChange.pipe(takeUntil(this._unsubscribeAll)).subscribe((res) => {
         if(res) this.products = res 

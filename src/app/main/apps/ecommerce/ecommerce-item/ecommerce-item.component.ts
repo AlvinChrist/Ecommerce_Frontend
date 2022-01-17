@@ -14,7 +14,7 @@ import { EcommerceService } from '../service/ecommerce.service';
   encapsulation: ViewEncapsulation.None,
   host: { class: 'ecommerce-application' }
 })
-export class EcommerceItemComponent implements OnInit, OnDestroy, AfterViewInit {
+export class EcommerceItemComponent implements OnInit, OnDestroy {
   // Input Decorotor
   @Input() product: Product;
   @Input() isWishlistOpen: boolean = false;
@@ -66,15 +66,13 @@ export class EcommerceItemComponent implements OnInit, OnDestroy, AfterViewInit 
     this._unsubscribeAll.complete();
   }
 
-  ngAfterViewInit(): void{ 
-    
-  }
-
   ngOnInit(): void {
     this._ecommerceService.onWishlistChange.pipe(takeUntil(this._unsubscribeAll)).subscribe((res) => {
+      console.log(this.isInWishlist)
       this.isInWishlist = this._ecommerceService.isInWishlist(this.product?.productId)
+      console.log(this.isInWishlist)
       if(res && this.isWishlistOpen){
-        this.product = this._productService.productList?.find((x) => x.productId === this.product?.productId)
+        this.product = this._productService.productList.find((x) => x.productId === this.product.productId)
         this.image =  `http://localhost:5000/${this.product?.product_galleries[0]?.imagePath}` || ""
       } 
     })

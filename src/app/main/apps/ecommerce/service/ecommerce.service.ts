@@ -38,10 +38,9 @@ export class EcommerceService {
 
   isInWishlist(productId: number): boolean{
     let idx = -1
-    // console.log(this.wishlist)
+    console.log(this.wishlist,productId)
     if(this.wishlist && productId){
       idx = this.wishlist.findIndex((x) => x.productId === productId)
-      // console.log(idx,this.wishlist,productId)
     }
     return idx !== -1
   }

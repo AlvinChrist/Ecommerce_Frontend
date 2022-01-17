@@ -20,7 +20,7 @@ export class CommentContentComponent implements OnInit, OnDestroy {
   
   // Public
   public activeChat: Boolean;
-  public comments: ProductComment[];
+  public comments: ProductComment[] = [];
   public commentText: any;
   public env = environment
   public currSkin = '';

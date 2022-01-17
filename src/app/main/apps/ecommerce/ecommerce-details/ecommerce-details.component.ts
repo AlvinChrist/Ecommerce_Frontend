@@ -27,6 +27,7 @@ export class EcommerceDetailsComponent implements OnInit, OnDestroy {
   public wishlist;
   public cartList;
   public relatedProducts;
+  public isInWishlist = false
   public env = environment
   productId: number;
   user: User;
@@ -66,8 +67,8 @@ export class EcommerceDetailsComponent implements OnInit, OnDestroy {
     private _alertService: AlertService
     ) {
       this._unsubscribeAll = new Subject();
-      this.productId = this._activatedRoute.snapshot.params['id'];
-      this._userService.currentUser.subscribe((x) => this.user = x)
+      this.productId = parseInt(this._activatedRoute.snapshot.params['id']);
+      this._userService.currentUser.pipe(takeUntil(this._unsubscribeAll)).subscribe((x) => this.user = x)
       forkJoin({
         product: this._productService.getProductById(this.productId),
         productRating: this._productService.getProductRating(this.productId),
@@ -108,7 +109,19 @@ export class EcommerceDetailsComponent implements OnInit, OnDestroy {
    *
    * @param product
    */
-  toggleWishlist(product) {
+   toggleWishlist(product){
+    if(this.user.role !== 'Admin'){
+      if(this.isInWishlist){
+        this._ecommerceService.removeFromWishlist(this.user.userId,product.productId).then(() => {
+          this.isInWishlist = !this.isInWishlist
+        }).catch(() => {})
+      }
+      else{
+        this._ecommerceService.addToWishlist(this.user.userId,product.productId).then(() => {
+          this.isInWishlist = !this.isInWishlist
+      }).catch((err) => {})
+      }
+    }
   }
 
   /**
@@ -135,6 +148,10 @@ export class EcommerceDetailsComponent implements OnInit, OnDestroy {
    */
   ngOnInit(): void {
     // content header
+    this._ecommerceService.onWishlistChange.pipe(takeUntil(this._unsubscribeAll)).subscribe(() => {
+      this.isInWishlist = this._ecommerceService.isInWishlist(this.productId)
+    })
+    console.log(this.isInWishlist)
     this.contentHeader = {
       headerTitle: 'Product Details',
       actionButton: true,
