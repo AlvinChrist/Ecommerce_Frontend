@@ -110,7 +110,7 @@ export class EcommerceService {
       this.addToCart(userId,productId,qty)
   }
 
-  addToCart(userId: number,productId: number, qty: number = 1): Promise<void> {
+  addToCart(userId: number,productId: number, qty: number = 1): Promise<any> {
     return new Promise((resolve,reject) => {
       this._httpClient.post<any>(`/cart`, {
         productId: productId,
@@ -119,15 +119,15 @@ export class EcommerceService {
       }, { responseType: 'json'}).subscribe((res) => {
         if(res?.message){
           this.getUserCart(userId);
-          resolve();
+          resolve(res.message);
         }
         else{
           console.log(res)
-          reject();
+          reject(res);
         }
       },(err) => {
         console.log(err)
-        reject();
+        reject(err);
       })
     })
   }

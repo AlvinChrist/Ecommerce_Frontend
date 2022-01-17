@@ -3,7 +3,7 @@ import { UserService } from 'app/main/apps/authentication/service/user.service';
 import { EcommerceService } from 'app/main/apps/ecommerce/service/ecommerce.service';
 import { ProductService } from 'app/main/apps/products/service/product.service';
 import { environment } from 'environments/environment';
-import { Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 
@@ -32,13 +32,17 @@ export class NavbarCartComponent implements OnInit, OnDestroy {
     private _productService: ProductService
     ) {
     this._unsubscribeAll = new Subject();
+    this._productService.onBrandsChange.pipe(takeUntil(this._unsubscribeAll))
+    .subscribe((res) => {
+      this.products = res
+    });
   }
 
   // Public Methods
   // -----------------------------------------------------------------------------------------------------
 
   get userId() {
-    return this._userService.currentUserValue.userId
+    return this._userService.currentUserValue?.userId || null
   }
  
   /**
@@ -74,7 +78,17 @@ export class NavbarCartComponent implements OnInit, OnDestroy {
     this._ecommerceService.getUserCart(this.userId)
     this._ecommerceService.onCartChange.pipe(takeUntil(this._unsubscribeAll)).subscribe((res: any[]) => {
       if(res) {
-        this.cart = res
+        let tmp = []
+        if(this.products){
+          res.forEach((item) => {
+            const product_galleries = this._productService.productList?.find((x) => x.productId === item.productId).product_galleries
+            if(item.product){
+              item.product['product_galleries'] = product_galleries
+              tmp.push(item)
+            }
+          })
+        }
+        this.cart = tmp;
         this.sum();
       }
       this.cartLength = this.cart.length

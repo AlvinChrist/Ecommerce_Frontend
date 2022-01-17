@@ -35,8 +35,11 @@
   </div>
 
   <ul class="nav navbar-nav align-items-center ml-auto">
-    <ng-container *ngIf="currentUser?.role !== 'Admin'">
+    <ng-container *ngIf="currentUser?.role !== 'Admin' && currentUser?.userId">
       <app-navbar-cart></app-navbar-cart>
+    </ng-container>
+    <ng-container *ngIf="!currentUser?.userId">
+      <a class='btn btn-primary' [routerLink]="['/auth/login']">Login</a>
     </ng-container>
     <!-- ? Language selection | Uncomment if needed-->
     <!-- <li ngbDropdown class="nav-item dropdown dropdown-language">
@@ -74,7 +77,7 @@
             width="40" /><span class="avatar-status-online"></span
         ></span>
       </a>
-      <div ngbDropdownMenu aria-labelledby="navbarUserDropdown" class="dropdown-menu dropdown-menu-right">
+      <div ngbDropdownMenu *ngIf="currentUser?.userId" aria-labelledby="navbarUserDropdown" class="dropdown-menu dropdown-menu-right">
         <a ngbDropdownItem [routerLink]="['/']"><span [data-feather]="'user'" [class]="'mr-50'"></span> Profile</a>
         <div class="dropdown-divider"></div>
         <a ngbDropdownItem (click)="logout()"

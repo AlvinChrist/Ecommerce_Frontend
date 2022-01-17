@@ -12,7 +12,7 @@
     <!-- Cart header -->
     <li class="dropdown-menu-header">
       <div class="dropdown-header d-flex">
-        <h4 class="notification-title mb-0 mr-auto">My Wishlist</h4>
+        <h4 class="notification-title mb-0 mr-auto">My Cart</h4>
         <div class="badge badge-pill badge-light-primary">{{ cartLength }} Items</div>
       </div>
     </li>
@@ -23,7 +23,9 @@
       <ng-container *ngIf="cart.length">
         <ng-container *ngFor="let item of cart">
           <div class="media align-items-center">
-            <!-- <img class="d-block rounded mr-1" [src]="env.apiUrl + '/' + item.product?.product_galleries[0].imagePath" alt="donuts" width="62" /> -->
+            <ng-container *ngIf="item.product?.product_galleries">
+              <img class="d-block rounded mr-1" [src]="env.apiUrl + '/' + item.product.product_galleries[0]?.imagePath" alt="donuts" width="62" />
+            </ng-container>
             <div class="media-body mr-3">
               <button class="btn p-0" (click)="removeFromCart(item.productId)">
                 <i class="ficon cart-item-remove" data-feather="x"></i>
@@ -38,7 +40,9 @@
               </div>
               <div class="cart-item-qty">
                 <div class="input-group touchspin-cart">
-                  <core-touchspin [numberValue]="item.productQty" (onChange)="qtyChanged($event,item.productId)" [stepValue]="1" [minValue]="1" [maxValue]="item.product?.productStock"></core-touchspin>
+                  <ng-container *ngIf="item?.product">
+                    <core-touchspin [numberValue]="item.productQty" (onChange)="qtyChanged($event,item.productId)" [stepValue]="1" [minValue]="1" [maxValue]="item.product.productStock || 1"></core-touchspin>
+                  </ng-container>
                 </div>
               </div>
               <h5 class="cart-item-price">Rp{{ item.product?.productPrice | mask:'separator':',' }}</h5>

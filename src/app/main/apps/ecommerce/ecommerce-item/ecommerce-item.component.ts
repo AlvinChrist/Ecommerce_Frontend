@@ -1,5 +1,6 @@
 import { AfterViewInit, Component, Input, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { Product } from 'app/main/apps/products/model/product.viewmodel';
+import { AlertService } from 'app/shared/service/alert/alert.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { UserService } from '../../authentication/service/user.service';
@@ -33,7 +34,8 @@ export class EcommerceItemComponent implements OnInit, OnDestroy {
     public _shopRef: EcommerceShopComponent,
     private _ecommerceService: EcommerceService,
     private _userService: UserService,
-    private _productService: ProductService
+    private _productService: ProductService,
+    private _alertService: AlertService
     ) {
       this._unsubscribeAll = new Subject();
   }
@@ -44,33 +46,47 @@ export class EcommerceItemComponent implements OnInit, OnDestroy {
   // Public Methods
   // -----------------------------------------------------------------------------------------------------
   toggleWishlist(product){
-    if(this.user.role !== 'Admin'){
-      if(this.isInWishlist){
-        this._ecommerceService.removeFromWishlist(this.user.userId,product.productId).then(() => {
-          this.isInWishlist = !this.isInWishlist
-        }).catch(() => {})
+    if(this.user?.userId){
+      if(this.user.role !== 'Admin'){
+        if(this.isInWishlist){
+          this._ecommerceService.removeFromWishlist(this.user.userId,product.productId).then(() => {
+            this.isInWishlist = !this.isInWishlist
+          }).catch(() => {})
+        }
+        else{
+          this._ecommerceService.addToWishlist(this.user.userId,product.productId).then(() => {
+            this.isInWishlist = !this.isInWishlist
+        }).catch((err) => {})
+        }
       }
-      else{
-        this._ecommerceService.addToWishlist(this.user.userId,product.productId).then(() => {
-          this.isInWishlist = !this.isInWishlist
-      }).catch((err) => {})
-      }
+    }
+    else{
+      this._alertService.toastrError('Error','Please login to authenticate!',2000,'center');
     }
   }
 
   addToCart(product){
-    if(this.user.role !== 'Admin') {
-      console.log(this.isInCart)
-      if(this.isInCart){
-        this._ecommerceService.removeFromCart(this.user.userId,product.productId).then(() => {
-          this.isInCart = !this.isInCart
-        }).catch(() => {})
+    if(this.user?.userId){
+      if(this.user.role !== 'Admin') {
+        // console.log(this.isInCart)
+        if(this.isInCart){
+          this._ecommerceService.removeFromCart(this.user.userId,product.productId).then(() => {
+            this.isInCart = !this.isInCart
+          }).catch((err) => {
+            this._alertService.toastrError('Error',err,2000,'center')
+          })
+        }
+        else{
+          this._ecommerceService.addToCart(this.user.userId,product.productId).then(() => {
+            this.isInCart = !this.isInCart
+          }).catch((err) => {
+            this._alertService.toastrError('Error',err,2000,'center')
+          })
+        }
       }
-      else{
-        this._ecommerceService.addToCart(this.user.userId,product.productId).then(() => {
-          this.isInCart = !this.isInCart
-        }).catch((err) => {})
-      }
+    }
+    else{
+      this._alertService.toastrError('Error','Please login to authenticate!',2000,'center');
     }
   }
   // Lifecycle Hooks

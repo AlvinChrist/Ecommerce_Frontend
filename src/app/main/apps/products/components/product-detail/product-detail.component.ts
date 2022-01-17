@@ -225,14 +225,24 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
   }
 
   discountChange(discount: Discount){
-    // console.log(discount)
-    this._discountService.setDiscount(this.f.productId.value, discount.discountId)
-    .subscribe((res) => {
-      if(!res.message) console.log(res)
-      else this._parentComponent.loadProducts();
-    },(err) => {
-      console.log(err)
-    })
+    if(discount?.discountId){
+      this._discountService.setDiscount(this.f.productId.value, discount.discountId)
+      .subscribe((res) => {
+        if(!res.message) console.log(res)
+        else this._parentComponent.loadProducts();
+      },(err) => {
+        console.log(err)
+      })
+    }
+    else{
+      this._discountService.setDiscount(this.f.productId.value, null)
+      .subscribe((res) => {
+        if(!res.message) console.log(res)
+        else this._parentComponent.loadProducts();
+      },(err) => {
+        console.log(err)
+      })
+    }
   }
 
   //lifecycle

@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { User } from 'app/main/apps/authentication/model/user.viewmodel';
 import { EcommerceService } from 'app/main/apps/ecommerce/service/ecommerce.service';
 import { Product } from 'app/main/apps/products/model/product.viewmodel';
@@ -62,7 +62,6 @@ export class EcommerceDetailsComponent implements OnInit, OnDestroy {
     private _ecommerceService: EcommerceService,
     private _productService: ProductService,
     private _activatedRoute: ActivatedRoute,
-    private _router: Router,
     private _userService: UserService,
     private _alertService: AlertService
     ) {
@@ -72,7 +71,7 @@ export class EcommerceDetailsComponent implements OnInit, OnDestroy {
       forkJoin({
         product: this._productService.getProductById(this.productId),
         productRating: this._productService.getProductRating(this.productId),
-        userRating: this._productService.getUserProductRating(this.productId, this.user.userId),
+        userRating: this._productService.getUserProductRating(this.productId, this.user?.userId || null),
         product_galleries: this._productService.getProductGalleries(this.productId)
       }).subscribe((resp) => {
         console.log(resp)

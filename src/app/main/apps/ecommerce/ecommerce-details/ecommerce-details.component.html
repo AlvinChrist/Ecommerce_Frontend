@@ -32,7 +32,7 @@
                   </ngb-rating>
                 </div>
               </div>
-              <ng-container *ngIf="user?.role !== 'Admin'">
+              <ng-container *ngIf="user?.role !== 'Admin' && user?.userId">
                 <div fxLayout="row" fxLayoutAlign="start center">
                   Your Rating:   
                   <span class="rating rating-md pl-1">
@@ -111,7 +111,7 @@
                   <i data-feather="shopping-cart" class="mr-25"></i>
                   <span class="add-to-cart">View in cart</span>
                 </a> -->
-                <a
+                <a *ngIf="user?.role !== 'Admin' && user?.userId"
                   href="javascript:void(0)"
                   (click)="toggleWishlist(product)"
                   class="btn btn-outline-secondary btn-wishlist mr-0 mr-sm-1 mb-1 mb-sm-0"
@@ -183,13 +183,11 @@
           </div>
         </div>
 
-        <ng-container *ngIf="product">
-          <div class="content-wrapper container-xxl p-0">
-            <div class="content-body">
-              <app-comment-content [productId]="product?.productId"></app-comment-content>
-            </div>
+        <div class="content-wrapper container-xxl p-0">
+          <div class="content-body">
+            <app-comment-content [productId]="product?.productId"></app-comment-content>
           </div>
-        </ng-container>
+        </div>
         <!-- Item features ends -->
 
         <!-- Related Products starts -->

@@ -48,7 +48,6 @@ export class EcommerceShopComponent implements OnInit, OnDestroy {
      ) {
       this._unsubscribeAll = new Subject();
       // this._ecommerceService.getWishList(this.userId);
-      this._productService.getProducts();
       this._productService.onProductListChange.pipe(takeUntil(this._unsubscribeAll)).subscribe((res) => {
         if(res) this.products = res 
       });
@@ -60,7 +59,7 @@ export class EcommerceShopComponent implements OnInit, OnDestroy {
   // -----------------------------------------------------------------------------------------------------
 
   get userId() {
-    return this._userService.currentUserValue.userId
+    return this._userService.currentUserValue?.userId || null
   }
 
   toggleSidebar(name): void {
@@ -84,6 +83,8 @@ export class EcommerceShopComponent implements OnInit, OnDestroy {
   }
   
   ngOnInit(): void {
+    this._productService.getProducts();
+    this._ecommerceService.getUserCart(this.userId)
     this.searchText.valueChanges.pipe(
       debounceTime(500))
       .subscribe((res: string) => {

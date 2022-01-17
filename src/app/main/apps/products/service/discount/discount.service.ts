@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { Image } from 'app/viewmodel/gallery.viewmodel'
 
 @Injectable({
   providedIn: 'root'
@@ -29,4 +28,5 @@ export class DiscountService {
   setDiscount(productId: number, discountId: number): Observable<any> {
     return this._httpClient.put<any>(`/product/${productId}/discount`, { discountId: discountId }, { responseType: 'json'})
   }
+  
 }

@@ -93,8 +93,7 @@ const routes: Routes = [
     {
       provide: SWIPER_CONFIG,
       useValue: DEFAULT_SWIPER_CONFIG
-    },
-    EcommerceShopComponent
+    }
   ]
 })
 export class EcommerceModule {}

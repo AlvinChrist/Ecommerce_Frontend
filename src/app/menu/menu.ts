@@ -15,7 +15,7 @@ export const menu: CoreMenu[] = [
     translate: 'MENU.APPS.ECOMMERCE.SHOP',
     type: 'item',
     icon: 'shopping-bag',
-    role: ['User', 'Admin'],
+    role: ['User', 'Admin','All'],
     url: '/shop'
   },
   {

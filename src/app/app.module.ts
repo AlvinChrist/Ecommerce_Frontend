@@ -47,7 +47,7 @@ const appRoutes: Routes = [
   },
   {
     path: '',
-    redirectTo: '/auth/login',
+    redirectTo: '/shop',
     pathMatch: 'full'
   },
   {
