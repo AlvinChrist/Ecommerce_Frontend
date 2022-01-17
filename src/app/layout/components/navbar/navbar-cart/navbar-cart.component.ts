@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { UserService } from 'app/main/apps/authentication/service/user.service';
 import { EcommerceService } from 'app/main/apps/ecommerce/service/ecommerce.service';
+import { ProductService } from 'app/main/apps/products/service/product.service';
 import { environment } from 'environments/environment';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -27,7 +28,8 @@ export class NavbarCartComponent implements OnInit, OnDestroy {
    */
   constructor(
     public _ecommerceService: EcommerceService,
-    private _userService: UserService
+    private _userService: UserService,
+    private _productService: ProductService
     ) {
     this._unsubscribeAll = new Subject();
   }
@@ -70,9 +72,11 @@ export class NavbarCartComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     // Subscribe to Cart List
     this._ecommerceService.getUserCart(this.userId)
-    
     this._ecommerceService.onCartChange.pipe(takeUntil(this._unsubscribeAll)).subscribe((res: any[]) => {
-      if(res) this.cart = res
+      if(res) {
+        this.cart = res
+        this.sum();
+      }
       this.cartLength = this.cart.length
       // console.log(this.cart)
     });

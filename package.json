@@ -6,7 +6,7 @@
     "start": "node --max_old_space_size=2048 ./node_modules/@angular/cli/bin/ng serve --open",
     "start-hmr": "ng serve --configuration hmr --source-map=false --hmr-warning=false",
     "start-hmr-sourcemaps": "ng serve --configuration hmr --source-map=true --hmr-warning=false",
-    "build": "node --max_old_space_size=3078 ./node_modules/@angular/cli/bin/ng build --aot=true  --optimization=true  --sourceMap=false --buildOptimizer=true --namedChunks=false --extractLicenses=false --statsJson=false --vendorChunk=true",
+    "build": "node --max_old_space_size=3076 ./node_modules/@angular/cli/bin/ng build --aot=true  --optimization=true  --sourceMap=false --buildOptimizer=true --namedChunks=false --extractLicenses=false --statsJson=false --vendorChunk=true",
     "build-stats": "node --max_old_space_size=8192 ./node_modules/@angular/cli/bin/ng build --stats-json",
     "build:prod": "node --max_old_space_size=8192 ./node_modules/@angular/cli/bin/ng build --configuration production",
     "build:prod-stats": "node --max_old_space_size=8192 ./node_modules/@angular/cli/bin/ng build --configuration production --stats-json",

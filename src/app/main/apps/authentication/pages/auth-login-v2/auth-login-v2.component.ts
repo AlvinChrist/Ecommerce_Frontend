@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { CoreConfigService } from '@core/services/config.service';
 import { UserService } from '../../service/user.service';
 import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-auth-login-v2',
@@ -108,7 +109,9 @@ export class AuthLoginV2Component implements OnInit {
       email: ['admin@gmail.com', [Validators.required, Validators.email]],
       password: ['12345678', Validators.required]
     });
-
+    this._coreConfigService.config.pipe(takeUntil(this._unsubscribeAll)).subscribe(config => {
+      this.coreConfig = config;
+    });
   }
 
   /**

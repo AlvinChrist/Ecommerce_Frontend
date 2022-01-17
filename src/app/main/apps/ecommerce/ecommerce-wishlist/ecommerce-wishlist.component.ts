@@ -30,8 +30,8 @@ export class EcommerceWishlistComponent implements OnInit {
     private _productService: ProductService
     ) {
       // this._productService.getProducts()
-      // this._ecommerceService.getWishList(this.user.userId);
       this.user = this._userService.currentUserValue
+      this._ecommerceService.getWishList(this.user.userId);
   }
 
   // Lifecycle Hooks

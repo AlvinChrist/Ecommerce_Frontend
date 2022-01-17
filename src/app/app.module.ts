@@ -47,7 +47,7 @@ const appRoutes: Routes = [
   },
   {
     path: '',
-    redirectTo: '/shop',
+    redirectTo: '/auth/login',
     pathMatch: 'full'
   },
   {
@@ -90,7 +90,7 @@ const appRoutes: Routes = [
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
-    // { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     JwtHelperService,
     EcommerceService,
     UserService,

@@ -85,7 +85,7 @@ export class EcommerceItemComponent implements OnInit, OnDestroy {
     this._ecommerceService.onWishlistChange.pipe(takeUntil(this._unsubscribeAll)).subscribe((res) => {
       this.isInWishlist = this._ecommerceService.isInWishlist(this.product?.productId)
       if(res && this.isWishlistOpen){
-        this.product = this._productService.productList.find((x) => x.productId === this.product.productId)
+        this.product = this._productService.productList?.find((x) => x.productId === this.product?.productId)
         this.image =  `http://localhost:5000/${this.product?.product_galleries[0]?.imagePath}` || ""
       }
     })
