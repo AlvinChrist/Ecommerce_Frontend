@@ -1,9 +1,10 @@
 import { Component, Injectable, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { CoreSidebarService } from '@core/components/core-sidebar/core-sidebar.service';
 import { Product } from 'app/main/apps/products/model/product.viewmodel';
 import { ProductService } from 'app/main/apps/products/service/product.service';
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { debounceTime, takeUntil } from 'rxjs/operators';
 import { UserService } from '../../authentication/service/user.service';
 import { EcommerceService } from '../service/ecommerce.service';
 
@@ -31,7 +32,7 @@ export class EcommerceShopComponent implements OnInit, OnDestroy {
   }
   public page = 1;
   public pageSize = 9;
-  public searchText = '';
+  public searchText = new FormControl();
   public wishlist: any[]
   private _unsubscribeAll: Subject<any>;
 
@@ -83,8 +84,13 @@ export class EcommerceShopComponent implements OnInit, OnDestroy {
   }
   
   ngOnInit(): void {
-    // Subscribe to ProductList change
-    
+    this.searchText.valueChanges.pipe(
+      debounceTime(500))
+      .subscribe((res: string) => {
+        this._productService.productSearch.searchedProduct = res;
+        this._productService.getProducts()
+    })
+
     // content header
     this.contentHeader = {
       headerTitle: 'Shop',

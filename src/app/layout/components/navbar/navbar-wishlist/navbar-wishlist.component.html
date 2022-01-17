@@ -23,25 +23,25 @@
       <ng-container *ngIf="wishList.length">
         <ng-container *ngFor="let product of wishList">
           <div class="media align-items-center">
-            <img class="d-block rounded mr-1" [src]="env.apiUrl + '/' + product.product_galleries[0].imagePath" alt="donuts" width="62" />
+            <img class="d-block rounded mr-1" [src]="env.apiUrl + '/' + product?.product_galleries[0].imagePath" alt="donuts" width="62" />
             <div class="media-body mr-3">
-              <button class="btn p-0" (click)="removeFromCart(product.productId)">
+              <button class="btn p-0" (click)="removeFromCart(product?.productId)">
                 <i class="ficon cart-item-remove" data-feather="x"></i>
               </button>
               <div class="media-heading" fxFlex="50">
                 <h6 class="cart-item-title">
-                  <a class="text-body" [routerLink]="'/products/' + product.productId">
-                    {{ product.productName }}
+                  <a class="text-body" [routerLink]="'/products/' + product?.productId">
+                    {{ product?.productName }}
                   </a>
                 </h6>
-                <small class="cart-item-by">{{ product.productBrand }}</small>
+                <small class="cart-item-by">{{ product?.productBrand }}</small>
               </div>
               <div class="cart-item-qty">
                 <div class="input-group touchspin-cart">
-                  <core-touchspin [numberValue]="1" [stepValue]="1" [minValue]="1" [maxValue]="product.productStock"></core-touchspin>
+                  <core-touchspin [numberValue]="1" [stepValue]="1" [minValue]="1" [maxValue]="product?.productStock"></core-touchspin>
                 </div>
               </div>
-              <h5 class="cart-item-price">Rp{{ product.productPrice | mask:'separator':',' }}</h5>
+              <h5 class="cart-item-price">Rp{{ product?.productPrice | mask:'separator':',' }}</h5>
             </div>
           </div>
         </ng-container>

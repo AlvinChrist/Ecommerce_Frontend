@@ -1,7 +1,8 @@
 @import '@core/scss/angular/libs/ratings.component.scss';
 .custom-img {
+  width: auto;
   max-width: 100%;
-  aspect-ratio: 16/9;
+  max-height: 23vh;
 }
 
 .discount-price{

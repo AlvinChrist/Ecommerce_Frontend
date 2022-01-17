@@ -32,7 +32,7 @@
                 >
                   <span class="navbar-toggler-icon d-block d-lg-none"><i data-feather="menu"></i></span>
                 </button>
-                <div class="search-results">{{ (products | filter: searchText:'name').length }} results found</div>
+                <div class="search-results">{{ products?.length }} results found</div>
               </div>
               <div class="view-options d-flex">
                 <div class="btn-group btn-group-toggle" data-toggle="buttons">
@@ -68,7 +68,7 @@
                 placeholder="Search Product"
                 aria-label="Search..."
                 aria-describedby="shop-search"
-                [(ngModel)]="searchText"
+                [formControl]="searchText"
               />
               <div class="input-group-append">
                 <span class="input-group-text"><i data-feather="search" class="text-muted"></i></span>
@@ -97,7 +97,7 @@
           <div class="col-sm-12">
             <div class="d-flex justify-content-center">
               <ngb-pagination
-                [collectionSize]="(products | filter: searchText:'name').length"
+                [collectionSize]="products?.length"
                 [(page)]="page"
                 [maxSize]="5"
                 [rotate]="true"
