@@ -16,7 +16,7 @@
             </ngx-file-drop>
           </div>
           <div class="col-md-8 col-12">
-            <div class="row">
+            <div class="row" style="row-gap:1rem">
               <div class="col-md-6 col-12">
                 <div class="form-group">
                   <label>Name: </label>
@@ -39,12 +39,16 @@
                 <div class="form-group">
                   <label>Brand: </label>
                   <div class="input-group">
-                    <input 
-                    type="text" 
-                    placeholder="Product Brand"
-                    class="form-control" 
-                    formControlName="productBrand" 
-                    [ngClass]="{ 'is-invalid': submitted && f.productBrand.errors }"/>
+                    <ng-select
+                      [items]="brandList$ | async"
+                      bindLabel="DISTINCT"
+                      bindValue="DISTINCT"
+                      class="w-100"
+                      placeholder="Product Brand"
+                      formControlName="productBrand"
+                      addTag="true"
+                    >
+                    </ng-select>
                     <div *ngIf="submitted && f.productBrand.errors" class="invalid-feedback">
                       <div *ngIf="f.productBrand.errors.required">Brand is required</div>
                     </div>
@@ -52,16 +56,20 @@
                 </div>
               </div>
               
-              <div class="col-md-4 col-12">
+              <div class="col-md-3 col-12">
                 <div class="form-group">
                   <label>Category: </label>
                   <div class="input-group">
-                    <input 
-                    type="text" 
-                    placeholder="Product Category"
-                    class="form-control" 
-                    formControlName="productCategory" 
-                    [ngClass]="{ 'is-invalid': submitted && f.productCategory.errors }"/>
+                    <ng-select
+                      [items]="brandList$ | async"
+                      bindLabel="DISTINCT"
+                      bindValue="DISTINCT"
+                      class="w-100"
+                      placeholder="Product Category"
+                      formControlName="productCategory"
+                      addTag="true"
+                    >
+                    </ng-select>
                     <div *ngIf="submitted && f.productCategory.errors" class="invalid-feedback">
                       <div *ngIf="f.productCategory.errors.required">Category is required</div>
                     </div>
@@ -69,7 +77,7 @@
                 </div>
               </div>
 
-              <div class="col-md-4 col-12">
+              <div class="col-md-3 col-12">
                 <div class="form-group">
                   <label>Price: </label>
                   <div class="input-group">
@@ -81,7 +89,29 @@
                 </div>
               </div>
 
-              <div class="col-md-4 col-12">
+              <div class="col-md-3 col-12">
+                <div class="form-group">
+                  <label>Discount: </label>
+                  <div class="input-group">
+                    <ng-select
+                      [items]="discountList$ | async"
+                      bindLabel="discountName"
+                      bindValue="discountId"
+                      class="w-100"
+                      (change)="discountChange($event)"
+                    >
+                    <ng-template ng-label-tmp let-item="item">
+                      {{ item.discountName }} - {{ item.discountPercent }}%
+                    </ng-template>
+                    <ng-template ng-option-tmp let-item="item">
+                      {{ item.discountName }} - {{ item.discountPercent }}%
+                    </ng-template>
+                    </ng-select>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-3 col-12">
                 <div class="form-group">
                   <label>Stock: </label>
                   <div class="input-group">
@@ -90,10 +120,10 @@
                 </div>
               </div>
             </div>
-            <div class="form-group" >
-              <label for="summary">Summary: </label>
+            <div>
+              <label for="summary" class="mt-1">Summary: </label>
               <div class="input-group">
-                <fieldset class="form-group" style="flex: 0 0 100%">
+                <fieldset style="flex: 0 0 100%">
                   <textarea class="form-control" rows="4" id="summary" placeholder="Summary" formControlName="productSummary"></textarea>
                 </fieldset>
                 <div *ngIf="submitted && f.productSummary.errors" class="invalid-feedback">
@@ -102,10 +132,10 @@
               </div>
             </div>
             
-            <div class="form-group">
-              <label for="desc">Desc: </label>
+            <div>
+              <label for="desc" class="mt-1">Desc: </label>
               <div class="input-group">
-                <fieldset class="form-group" style="flex: 0 0 100%">
+                <fieldset style="flex: 0 0 100%">
                   <textarea class="form-control" rows="4" id="desc" placeholder="Description" formControlName="productDesc"></textarea>
                 </fieldset>
                 <div *ngIf="submitted && f.productDesc.errors" class="invalid-feedback">
@@ -263,7 +293,7 @@
             <ngx-datatable-column name="Discount" prop="product_discount" [flexGrow]="1.5">
               <ng-template let-row="row" ngx-datatable-cell-template>
                 <div class="badge badge-pill badge-light-primary" *ngIf="row.product_discount">
-                  {{ row.product_discount.discountName }}
+                  {{ row.product_discount.discountName }} - {{ row.product_discount.discountPercent}}%
                 </div>
               </ng-template>
             </ngx-datatable-column>

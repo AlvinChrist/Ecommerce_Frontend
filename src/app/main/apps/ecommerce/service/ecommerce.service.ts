@@ -117,13 +117,14 @@ export class EcommerceService {
         userId: userId,
         productQty: qty
       }, { responseType: 'json'}).subscribe((res) => {
-        if(res?.message){
+        const responses = ['Cart Updated!','Added to Cart!']
+        if(responses.includes(res?.message)){
           this.getUserCart(userId);
           resolve(res.message);
         }
         else{
-          console.log(res)
-          reject(res);
+          console.log(res?.message)
+          reject(res?.message);
         }
       },(err) => {
         console.log(err)

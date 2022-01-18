@@ -4,119 +4,41 @@
     <h6 class="filter-heading">Filters</h6>
   </div>
 </div>
-<div class="card">
+<div class="card h-100">
   <div class="card-body">
-    <!-- Price Filter starts -->
-    <!-- <div class="multi-range-price">
-      <h6 class="filter-title mt-0">Multi Range</h6>
-      <ul class="list-unstyled price-range" id="price-range">
-        <li>
-          <div class="custom-control custom-radio">
-            <input type="radio" id="priceAll" name="price-range" class="custom-control-input" checked />
-            <label class="custom-control-label" for="priceAll">All</label>
+    <div class="row">
+      <div class="col-12">
+        <h6 class="filter-title mt-0">Categories</h6>
+          <div class="form-group">
+            <ng-select
+              [items]="categoryList$ | async"
+              bindLabel="DISTINCT"
+              bindValue="DISTINCT"
+              placeholder="Filter category"
+              [(ngModel)]="category"
+              >
+            </ng-select>
           </div>
-        </li>
-        <li>
-          <div class="custom-control custom-radio">
-            <input type="radio" id="priceRange1" name="price-range" class="custom-control-input" />
-            <label class="custom-control-label" for="priceRange1">&lt;=$10</label>
-          </div>
-        </li>
-        <li>
-          <div class="custom-control custom-radio">
-            <input type="radio" id="priceRange2" name="price-range" class="custom-control-input" />
-            <label class="custom-control-label" for="priceRange2">$10 - $100</label>
-          </div>
-        </li>
-        <li>
-          <div class="custom-control custom-radio">
-            <input type="radio" id="priceARange3" name="price-range" class="custom-control-input" />
-            <label class="custom-control-label" for="priceARange3">$100 - $500</label>
-          </div>
-        </li>
-        <li>
-          <div class="custom-control custom-radio">
-            <input type="radio" id="priceRange4" name="price-range" class="custom-control-input" />
-            <label class="custom-control-label" for="priceRange4">&gt;= $500</label>
-          </div>
-        </li>
-      </ul>
-    </div> -->
-    <!-- Price Filter ends -->
-
-    <!-- Price Slider starts -->
-    <!-- <div class="price-slider">
-      <h6 class="filter-title">Price Range</h6>
-      <div class="price-slider">
-        <nouislider
-          [connect]="true"
-          [ngClass]="'mt-3'"
-          [behaviour]="'drag'"
-          [tooltips]="true"
-          [min]="1"
-          [max]="1000000"
-          [limit]="100"
-          [step]="2"
-          [(ngModel)]="sliderPriceValue"
-        ></nouislider>
       </div>
-    </div> -->
-    <!-- Price Range ends -->
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <h6 class="filter-title mt-0">Brands</h6>
+          <div class="form-group">
+            <ng-select
+              [items]="brandList$ | async"
+              bindLabel="DISTINCT"
+              bindValue="DISTINCT"
+              [multiple]="true"
+              placeholder="Filter brand"
+              [closeOnSelect]="false"
+              [(ngModel)]="brand"
+              >
+            </ng-select>
+          </div> 
+      </div>
+    </div>
 
-    <!-- Categories Starts -->
-    <div id="product-categories">
-      <h6 class="filter-title mt-0">Categories</h6>
-      <ng-select
-        [items]="categoryList$ | async"
-        bindLabel="DISTINCT"
-        bindValue="DISTINCT"
-        placeholder="Filter category"
-        [(ngModel)]="category"
-        >
-      </ng-select>
-      <!-- <ul class="list-unstyled categories-list">
-        <li>
-          <div class="custom-control custom-radio">  
-            <input type="radio" id="category0" name="category-filter" (click)="categoryFilter($event.target.defaultValue)" value="All" class="custom-control-input" [checked] = "currentCategory === ''" />
-            <label class="custom-control-label" for="category0">All</label>
-          </div>
-        </li>
-        <ng-container *ngFor="let category of categoryList; let i = index">
-          <li>
-            <div class="custom-control custom-radio">  
-              <input type="radio" id="category{{i+1}}" name="category-filter" [value]="category.DISTINCT" class="custom-control-input" (click)="categoryFilter($event.target.defaultValue)" [checked]="category.DISTINCT === currentCategory"/>
-              <label class="custom-control-label" for="category{{i+1}}">{{ category.DISTINCT }}</label>
-            </div>
-          </li>
-        </ng-container>
-      </ul> -->
-    </div>
-    <!-- Categories Ends -->
-    
-    <!-- Brands starts -->
-    <div class="brands">
-      <h6 class="filter-title brand-sidebar">Brands</h6>
-      <ng-select
-        [items]="brandList$ | async"
-        bindLabel="DISTINCT"
-        bindValue="DISTINCT"
-        [multiple]="true"
-        placeholder="Filter brand"
-        [closeOnSelect]="false"
-        [(ngModel)]="brand"
-        >
-      </ng-select>
-      <!-- <ul class="list-unstyled">
-        <ng-container *ngFor="let brand of brandList; let i = index">
-          <li class="pr-1">
-            <div class="custom-control custom-checkbox">
-              <input type="checkbox" class="custom-control-input" [value]="brand.DISTINCT" id="productBrand{{i}}" (click)="brandCheckbox($event.target.defaultValue)" checked/>
-              <label class="custom-control-label" for="productBrand{{i}}">{{ brand.DISTINCT }}</label>
-            </div>
-          </li>
-        </ng-container>
-      </ul> -->
-    </div>
     <div class="mt-2">
       <button class="btn btn-primary btn-block" (click)="filterBrand()">Filter</button>
     </div>

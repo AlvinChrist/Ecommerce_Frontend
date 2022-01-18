@@ -70,14 +70,14 @@ export class EcommerceItemComponent implements OnInit, OnDestroy {
       if(this.user.role !== 'Admin') {
         // console.log(this.isInCart)
         if(this.isInCart){
-          this._ecommerceService.removeFromCart(this.user.userId,product.productId).then(() => {
+          this._ecommerceService.removeFromCart(this.user.userId,product.productId).then((res) => {
             this.isInCart = !this.isInCart
           }).catch((err) => {
             this._alertService.toastrError('Error',err,2000,'center')
           })
         }
         else{
-          this._ecommerceService.addToCart(this.user.userId,product.productId).then(() => {
+          this._ecommerceService.addToCart(this.user.userId,product.productId).then((res) => {
             this.isInCart = !this.isInCart
           }).catch((err) => {
             this._alertService.toastrError('Error',err,2000,'center')

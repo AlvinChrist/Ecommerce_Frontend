@@ -8,11 +8,17 @@
   <div class="item-wrapper">
     <div class="item-rating">
       <div class="rating rating-sm">
-        <ngb-rating [rate]="product?.finalRating" [readonly]="true" [max]="5" class="outline-none">
+        <ngb-rating [rate]="product?.finalRating" [readonly]="true" [max]="5" class="outline-none mr-50">
           <ng-template let-fill="fill" let-index="index"
             ><span class="fa fa-star-o mr-25" [class.fa-star]="fill === 100"></span
           ></ng-template>
         </ngb-rating>
+        <ng-container *ngIf="product?.beforeDiscount">
+          <span class="badge badge-light-info">{{ product?.product_discount.discountPercent}}% off</span>
+        </ng-container>
+        <ng-container *ngIf="product?.productStock === 0">
+          <span class="badge badge-light-danger">Out of stock</span>
+        </ng-container>
       </div>
     </div>
     <div class="item-cost">
@@ -36,13 +42,8 @@
   </div>
   <h6 class="item-name">
     <a class="text-body" [routerLink]="'/products/' + product?.productId">
-      <ng-container *ngIf="product?.beforeDiscount; else normal">
-        <span class="mr-50">{{ product?.productName }}</span>
-        <span class="badge badge-light-info">{{ product?.product_discount.discountPercent}}% off</span>
-      </ng-container>
-      <ng-template #normal>
-        {{ product?.productName }}
-      </ng-template>
+      <span class="mr">{{ product?.productName }}</span>
+      
     </a>
     <span class="card-text item-company"
       >By <a href="javascript:void(0)" class="company-name">{{ product?.productBrand }}</a></span
@@ -69,7 +70,7 @@
     rippleEffect
   >
     <i data-feather="x"></i>
-    <span>Remove from wishlist</span>
+    <span>Remove</span>
   </a>
   <a
     *ngIf="!isWishlistOpen"

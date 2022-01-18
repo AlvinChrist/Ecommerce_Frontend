@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { resolve } from 'dns';
 import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
@@ -16,12 +17,18 @@ export class DiscountService {
     this.onDiscountChange = new BehaviorSubject([{}])
   }
 
-  getAllDiscount(): void {
-     this._httpClient.get<any>(`/discounts`, { responseType: 'json'}).subscribe((res) => {
-      if(res?.response){
-        this.discountList = res.response
-        this.onDiscountChange.next(this.discountList)
-      }
+  getAllDiscount(): Promise<void> {
+    return new Promise((resolve,reject) => {
+      this._httpClient.get<any>(`/discounts`, { responseType: 'json'}).subscribe((res) => {
+       if(res?.response){
+         this.discountList = res.response
+         this.onDiscountChange.next(this.discountList)
+         resolve();
+       }
+     },(err) => {
+       console.log(err)
+       reject();
+     })
     })
   }
 

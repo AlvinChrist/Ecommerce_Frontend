@@ -29,7 +29,7 @@ export class EcommerceWishlistComponent implements OnInit {
     private _userService: UserService,
     private _productService: ProductService
     ) {
-      // this._productService.getProducts()
+      if(!this._productService.productList) this._productService.getProducts()
       this.user = this._userService.currentUserValue
       this._ecommerceService.getWishList(this.user.userId);
   }

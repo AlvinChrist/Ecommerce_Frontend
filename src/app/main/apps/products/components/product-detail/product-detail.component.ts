@@ -41,7 +41,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
   public swiperResponsive1: SwiperConfigInterface = {
     effect: 'coverflow',
     grabCursor: true,
-    centeredSlides: true,
+    centeredSlides: false,
     slidesPerView: 'auto',
     slideToClickedSlide: true,
     preloadImages: true,

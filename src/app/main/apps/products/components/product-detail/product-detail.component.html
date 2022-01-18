@@ -1,7 +1,7 @@
 
 <form action="#" [formGroup]="ProductForm" class="p-2">
   <div class="row">
-    <div class="col-12 col-md-4 d-flex flex-column align-items-start justify-content-center mb-2 mb-md-0">
+    <div class="col-12 col-md-4 d-flex flex-column justify-content-center mb-2 mb-md-0">
       <div class="d-flex align-items-start justify-content-center">
         <swiper class="swiper-coverflow swiper-container" [config]="swiperResponsive1" (indexChange)="onIndexChange($event)">
           <ng-container *ngFor="let image of ProductViewModel?.product_galleries">
@@ -109,7 +109,13 @@
                 class="w-100"
                 (change)="discountChange($event)"
                 formControlName="product_discount"
-              > 
+              >
+              <ng-template ng-label-tmp let-item="item">
+                {{ item.discountName }} - {{ item.discountPercent }}%
+              </ng-template>
+              <ng-template ng-option-tmp let-item="item">
+                {{ item.discountName }} - {{ item.discountPercent }}%
+              </ng-template>
               </ng-select>
             </div>
           </div>
@@ -127,7 +133,7 @@
       <div class="form-group" >
         <label for="summary">Summary: </label>
         <div class="input-group">
-          <fieldset class="form-group" style="flex: 0 0 100%">
+          <fieldset style="flex: 0 0 100%">
             <textarea class="form-control" rows="2" id="summary" placeholder="Summary" formControlName="productSummary"></textarea>
           </fieldset>
           <div *ngIf="submitted && f.productSummary.errors" class="invalid-feedback">
@@ -139,7 +145,7 @@
       <div class="form-group">
         <label for="desc">Desc: </label>
         <div class="input-group">
-          <fieldset class="form-group" style="flex: 0 0 100%">
+          <fieldset style="flex: 0 0 100%">
             <textarea class="form-control" rows="4" id="desc" placeholder="Description" formControlName="productDesc"></textarea>
           </fieldset>
           <div *ngIf="submitted && f.productDesc.errors" class="invalid-feedback">

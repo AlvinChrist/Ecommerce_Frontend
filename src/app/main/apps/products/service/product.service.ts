@@ -10,9 +10,9 @@ export class ProductService {
   public productList: Array<Product>;
   public productSearch = new ProductSearch()
   public onProductListChange: BehaviorSubject<Product[] | any>;
-  public categories: Array<Object>
+  public categories: any[]
   public onCategoriesChange: BehaviorSubject<any>;
-  public brands: Array<Object>
+  public brands: any[]
   public onBrandsChange: BehaviorSubject<any>;
 
   public _loaded = false;
@@ -32,30 +32,34 @@ export class ProductService {
     return this.productList.filter((p) => p[key] === value).length || 0
   }
 
-  getProducts(): void {
-    if(!this.productSearch.filterBrand) this.productSearch.filterBrand = []
-    this._httpClient.get<Array<Object>>(`/products?page=${this.productSearch.page}&size=${this.productSearch.size}&filterBrand=${JSON.stringify(this.productSearch.filterBrand)}&filterCategory=${this.productSearch.filterCategory}&searchedProduct=${this.productSearch.searchedProduct}`, { responseType: 'json'})
-      .subscribe((resp: any) => {
-        const filterData = ["productBrand","productCategory"]
-        const keys = ['brands', 'categories'];
-        this.productList = resp.products.rows;
-        keys.forEach((key,key_idx) => {
-          resp[key]?.forEach((data: any,index: number) => {
-            const b = data.DISTINCT
-            const total = this.countBrandAndCategories(filterData[key_idx],b)
-            resp[key][index]['total'] = total
-          })
-        })
-        this.brands = resp.brands
-        this.categories = resp.categories;
+  getProducts(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      if(!this.productSearch.filterBrand) this.productSearch.filterBrand = []
+        this._httpClient.get<Array<Object>>(`/products?page=${this.productSearch.page}&size=${this.productSearch.size}&filterBrand=${JSON.stringify(this.productSearch.filterBrand)}&filterCategory=${this.productSearch.filterCategory}&searchedProduct=${this.productSearch.searchedProduct}`, { responseType: 'json'})
+          .subscribe((resp: any) => {
+            const filterData = ["productBrand","productCategory"]
+            const keys = ['brands', 'categories'];
+            this.productList = resp.products.rows;
+            keys.forEach((key,key_idx) => {
+              resp[key]?.forEach((data: any,index: number) => {
+                const b = data.DISTINCT
+                const total = this.countBrandAndCategories(filterData[key_idx],b)
+                resp[key][index]['total'] = total
+              })
+            })
+            this.brands = resp.brands
+            this.categories = resp.categories;
 
-        // console.log(resp)
-        this.onProductListChange.next(this.productList)
-        this.onCategoriesChange?.next(resp.categories)
-        this.onBrandsChange?.next(resp.brands)
-        this._loaded = true
-    },(err) => {
-      console.log(err)
+            // console.log(resp)
+            this.onProductListChange.next(this.productList)
+            this.onCategoriesChange.next(this.categories)
+            this.onBrandsChange.next(this.brands)
+            this._loaded = true
+            resolve();
+        },(err) => {
+          reject();
+          console.log(err)
+        })
     })
   }
 
