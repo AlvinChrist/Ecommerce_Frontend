@@ -210,12 +210,12 @@
   resolved "https://registry.yarnpkg.com/@angular/core/-/core-9.0.0.tgz#227dc53e1ac81824f998c6e76000b7efc522641e"
   integrity sha512-6Pxgsrf0qF9iFFqmIcWmjJGkkCaCm6V5QNnxMy2KloO3SDq6QuMVRbN9RtC8Urmo25LP+eZ6ZgYqFYpdD8Hd9w==
 
-"@angular/flex-layout@12.0.0-beta.34":
-  version "12.0.0-beta.34"
-  resolved "https://registry.yarnpkg.com/@angular/flex-layout/-/flex-layout-12.0.0-beta.34.tgz#24d83bf3f8e4eacb661b3b8f9f85b0102415ff30"
-  integrity sha512-nLwKovXpyG+/U3Lbmfwt+q4ARupxtbPmFTZD0Y8oItFAV6/Oh9l+QQsNQa2VhOHAOrVagyDwcEM+SePtB5EmrQ==
+"@angular/flex-layout@^13.0.0-beta.36":
+  version "13.0.0-beta.36"
+  resolved "https://registry.yarnpkg.com/@angular/flex-layout/-/flex-layout-13.0.0-beta.36.tgz#0e91e6837b767841b579f8a5be66667255e30484"
+  integrity sha512-JLC3C1oEKVu9lLyottvHbfyCf/pOPzjXfFO3qOPBbWyVqxuQkfkd2NILZZh4DHsKYbBxIZ01vnfQHCV8NdaZ3w==
   dependencies:
-    tslib "^2.1.0"
+    tslib "^2.3.0"
 
 "@angular/forms@13.1.2":
   version "13.1.2"
@@ -224,13 +224,13 @@
   dependencies:
     tslib "^2.3.0"
 
-"@angular/google-maps@12.0.4":
-  version "12.0.4"
-  resolved "https://registry.yarnpkg.com/@angular/google-maps/-/google-maps-12.0.4.tgz#336563cebc0e29953bebb8dd2c967669c5639d1a"
-  integrity sha512-Afkjd6t+X4OVTEZ2kEmK++iLmIr5DdKJ0aovcKR2wLWXZseTJrIq0YjvK/86RGi1Z9m7odVwJxpGD13Ugk263A==
+"@angular/google-maps@13.1.2":
+  version "13.1.2"
+  resolved "https://registry.yarnpkg.com/@angular/google-maps/-/google-maps-13.1.2.tgz#46f16199b6b0e0887dda48367d8704b3084b73d6"
+  integrity sha512-Ior1EyZgQmA+E/WG6xa9i1NagXTIUnr73dJ7VBphNYrQSrp08kGSoqPErm2TtRXutgSPBO6+M23gtmR/F7Nmug==
   dependencies:
-    "@types/googlemaps" "^3.43.1"
-    tslib "^2.1.0"
+    "@types/google.maps" "^3.45.6"
+    tslib "^2.3.0"
 
 "@angular/language-service@13.1.2":
   version "13.1.2"
@@ -246,12 +246,12 @@
     glob "7.2.0"
     yargs "^17.2.1"
 
-"@angular/material@12.0.4":
-  version "12.0.4"
-  resolved "https://registry.yarnpkg.com/@angular/material/-/material-12.0.4.tgz#0cd88328f846d7ba6485abc7f1888aef174d7e4c"
-  integrity sha512-pvfYEeUCLR7EmA6R/kkXz5jfl+RHwh3AS9X9kWARWIOzA7p0hG9ApoFT5KCofTBNp0nukau1QoGR4WGla6wWvQ==
+"@angular/material@13.1.2":
+  version "13.1.2"
+  resolved "https://registry.yarnpkg.com/@angular/material/-/material-13.1.2.tgz#497e9b34f4672ce207bb1198a823cda1f1d416ef"
+  integrity sha512-M7eDgTMCZ/naoiS6Z5nj3N/sNUFc+CGPHX4yb563RuknqN7huDCvdyxA6KnhYLZsVlNCPh5ZrEr6H8ZiYJWcpg==
   dependencies:
-    tslib "^2.1.0"
+    tslib "^2.3.0"
 
 "@angular/platform-browser-dynamic@13.1.2":
   version "13.1.2"
@@ -1604,10 +1604,10 @@
   resolved "https://registry.yarnpkg.com/@types/estree/-/estree-0.0.50.tgz#1e0caa9364d3fccd2931c3ed96fdbeaa5d4cca83"
   integrity sha512-C6N5s2ZFtuZRj54k2/zyRhNDjJwwcViAM3Nbm8zjBpbqAdZ00mr0CFxvSKeO8Y/e03WVFLpQMdHYVfUd6SB+Hw==
 
-"@types/googlemaps@^3.43.1":
-  version "3.43.3"
-  resolved "https://registry.yarnpkg.com/@types/googlemaps/-/googlemaps-3.43.3.tgz#70cf962154a160fe78bcd69d6ccc296dd9175b1f"
-  integrity sha512-ZWNoz/O8MPEpiajvj7QiqCY8tTLFNqNZ/a+s+zTV58wFVNAvvqV4bdGfnsjTb5Cs4V6wEsLrX8XRhmnyYJ2Tdg==
+"@types/google.maps@^3.45.6":
+  version "3.47.2"
+  resolved "https://registry.yarnpkg.com/@types/google.maps/-/google.maps-3.47.2.tgz#112484a9b334df7ffa3ec16658dd0a9dfc2ef39d"
+  integrity sha512-mFmt428CY4UN49U8KH5J4RfcdkeRu6SZyPIXxU1MA0pnHb4pqn/c/whawTodB3pkKWe8F9fXfUlpBFsk9HucXw==
 
 "@types/http-proxy@^1.17.5":
   version "1.17.8"
