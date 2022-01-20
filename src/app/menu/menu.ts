@@ -19,6 +19,14 @@ export const menu: CoreMenu[] = [
     url: '/shop'
   },
   {
+    id: 'app1',
+    title: 'app1',
+    type: 'item',
+    icon: 'chrome',
+    role: ['All'],
+    url: '/app1'
+  },
+  {
     id: 'products',
     title: 'Products',
     type: 'item',

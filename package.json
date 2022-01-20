@@ -13,10 +13,12 @@
     "bundle-analyzer": "webpack-bundle-analyzer dist/vuexy/stats.json",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "run:all": "node node_modules/@angular-architects/module-federation/src/server/mf-dev-server.js"
   },
   "private": true,
   "dependencies": {
+    "@angular-architects/module-federation": "14.0.1",
     "@angular/animations": "13.1.2",
     "@angular/cdk": "13.1.2",
     "@angular/common": "13.1.2",
@@ -67,6 +69,7 @@
     "ng2-file-upload": "1.4.0",
     "ng2-flatpickr": "9.0.0",
     "ng2-nouislider": "1.8.3",
+    "ngx-build-plus": "^13.0.1",
     "ngx-file-drop": "^13.0.0",
     "ngx-file-upload": "^0.0.1",
     "ngx-highlightjs": "4.1.4",
@@ -86,6 +89,10 @@
     "swiper": "6.7.0",
     "tslib": "2.2.0",
     "zone.js": "0.11.4"
+  },
+  "resolutions": {
+    "webpack": "5.65.0",
+    "license-webpack-plugin": "4.0.0"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "13.1.3",

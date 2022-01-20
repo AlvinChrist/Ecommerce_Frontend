@@ -21,6 +21,7 @@ import { UserService } from './main/apps/authentication/service/user.service';
 import { EcommerceModule } from './main/apps/ecommerce/ecommerce.module';
 import { EcommerceService } from './main/apps/ecommerce/service/ecommerce.service';
 import { ProductService } from './main/apps/products/service/product.service';
+import { loadRemoteModule } from '@angular-architects/module-federation';
 
 export function getToken() {
   return JSON.parse(localStorage.getItem('accessToken'))
@@ -44,6 +45,16 @@ const appRoutes: Routes = [
     path: 'products',
     canActivate: [ AuthGuard ],
     loadChildren: () => import('./main/apps/products/products.module').then(m => m.ProductsModule)
+  },
+  {
+    path: 'app1',
+    loadChildren: () =>
+      loadRemoteModule({
+        type: 'module',
+        remoteEntry: 'http://localhost:4201/app1remoteEntry.js',
+        exposedModule: './fitur1Module'
+      })
+      .then((m) =>{ return m.Fitur1Module })
   },
   {
     path: '',
