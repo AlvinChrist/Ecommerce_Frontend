@@ -4,14 +4,15 @@ import { Router } from '@angular/router';
 import { CoreSidebarService } from '@core/components/core-sidebar/core-sidebar.service';
 import { CoreConfigService } from '@core/services/config.service';
 import { CoreMediaService } from '@core/services/media.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateService } from '@ngx-translate/core';
-import { UserService } from 'app/main/user/service/user.service';
 import { AuthService } from 'app/main/authentication/service/auth.service';
 import { User } from 'app/main/user/model/user.viewmodel';
+import { UserService } from 'app/main/user/service/user.service';
+import { environment } from 'environments/environment';
 import * as _ from 'lodash';
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-navbar',
@@ -22,13 +23,11 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 export class NavbarComponent implements OnInit, OnDestroy {
   public horizontalMenu: boolean;
   public hiddenMenu: boolean;
-
+  public env = environment
   public coreConfig: any;
   public currentSkin: string;
   public prevSkin: string;
-
   public currentUser: User;
-
   public languageOptions: any;
   public navigation: any;
   public selectedLanguage: any;
@@ -80,7 +79,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     private _userService: UserService,
     private _authService: AuthService
   ) {
-    this._userService.currentUser.subscribe(x => (this.currentUser = x));
+    this._userService.currentUser.pipe(distinctUntilChanged()).subscribe(x => this.currentUser = x);
     this.languageOptions = {
       en: {
         title: 'English',
@@ -121,7 +120,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     const ref = this._modalService.open(modalForm, {
       centered: true,
       backdrop: 'static',
-      size: 'xl'
+      size: 'lg'
     });
 
     ref.dismissed.subscribe(() => {
@@ -169,7 +168,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
    */
   ngOnInit(): void {
     // get the currentUser details from localStorage
-    this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    // this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
 
     // Subscribe to the config changes
     this._coreConfigService.config.pipe(takeUntil(this._unsubscribeAll)).subscribe(config => {

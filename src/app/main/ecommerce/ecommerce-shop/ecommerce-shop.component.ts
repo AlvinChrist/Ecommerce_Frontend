@@ -99,6 +99,10 @@ export class EcommerceShopComponent implements OnInit, OnDestroy {
       breadcrumb: {
         type: '',
         links: [
+          {
+            name: 'Shop',
+            isLink: false,
+          }
           // {
           //   name: 'Home',
           //   isLink: true,

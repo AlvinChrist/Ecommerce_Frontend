@@ -61,6 +61,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
   drop(file: NgxFileDropEntry[]) {
     let sources: File;
     const reader = new FileReader();
+    // console.log(file[0])
     if (file[0].fileEntry.isFile) {
       const dropped: any = file[0].fileEntry;
       dropped.file((droppedFile: File) => {

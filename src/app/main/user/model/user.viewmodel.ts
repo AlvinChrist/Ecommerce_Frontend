@@ -9,7 +9,7 @@ export class User {
   confPassword?: string;
   created_at: string | null;
   updated_at: string | null;
-  userAvatar: string;
+  userAvatar: any;
   role: string;
   refreshToken?: string;
   accessToken?: string;

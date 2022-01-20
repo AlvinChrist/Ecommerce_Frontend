@@ -11,12 +11,13 @@ export class UserService {
   public currentUser: Observable<User>;
 
   //private
-  public currentUserSubject: BehaviorSubject<User | any>;
+  public currentUserSubject: BehaviorSubject<any>;
   constructor(
     private _httpClient: HttpClient,
     private _jwtHelper: JwtHelperService,
   ) { 
     this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
+    console.log(this.currentUserSubject.value)
     this.currentUser = this.currentUserSubject.asObservable();
   }
 
@@ -26,6 +27,21 @@ export class UserService {
 
   getUsers(): Observable<Array<User>> {
     return this._httpClient.get<Array<User>>(`/users`, { responseType: 'json'})
+  }
+
+  getUserById(userId: number): Observable<any> {
+    return this._httpClient.get<any>(`/user/${userId}`, { responseType: 'json'})
+  }
+
+  reload(): void {
+    this.getUserById(this.currentUserValue.userId).subscribe((resp) => {
+      if(resp.user.length > 0) {
+        this.currentUserSubject.next(resp.user[0])
+        // console.log(this.currentUserValue)
+        localStorage.removeItem('currentUser')
+        localStorage.setItem('currentUser',JSON.stringify(resp.user[0]))
+      }
+    })
   }
 
   getUserDetail(): User {
@@ -41,6 +57,10 @@ export class UserService {
 
   getUserRole(): string {
     return this.currentUserValue.role;
+  }
+
+  updateUserProfile(userId: number, data: FormData): Observable<any> {
+    return this._httpClient.put<any>(`/user/${userId}`, data, { responseType: 'json'});
   }
 
 }

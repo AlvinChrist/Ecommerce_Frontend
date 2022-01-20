@@ -51,18 +51,12 @@ export class EcommerceWishlistComponent implements OnInit {
         type: '',
         links: [
           {
-            name: 'Home',
-            isLink: true,
-            link: '/'
-          },
-          {
-            name: 'eCommerce',
-            isLink: true,
-            link: '/'
+            name: 'Shop',
+            isLink: false,
           },
           {
             name: 'Wish List',
-            isLink: false
+            isLink: false,
           }
         ]
       }
