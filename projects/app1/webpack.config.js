@@ -33,7 +33,7 @@ module.exports = {
         name: "app1",
         filename: "app1remoteEntry.js",
         exposes: {
-            './HomeModule': './projects/app1/src/app/home/home.module.ts',
+            './fitur1Module': './projects/app1/src/app/fitur1/fitur1.module.ts',
         },        
         
         // For hosts (please adjust)
@@ -47,6 +47,7 @@ module.exports = {
           "@angular/common": { singleton: true, strictVersion: true, requiredVersion: 'auto' }, 
           "@angular/common/http": { singleton: true, strictVersion: true, requiredVersion: 'auto' }, 
           "@angular/router": { singleton: true, strictVersion: true, requiredVersion: 'auto' },
+
           ...sharedMappings.getDescriptors()
         })
         

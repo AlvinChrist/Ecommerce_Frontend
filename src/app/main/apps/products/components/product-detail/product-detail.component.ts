@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Inject, INJECTOR, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgxFileUploadStorage } from '@ngx-file-upload/core';
 import { ColumnMode } from '@swimlane/ngx-datatable';
@@ -13,6 +13,7 @@ import { takeUntil } from 'rxjs/operators';
 import { SwiperConfigInterface } from 'ngx-swiper-wrapper';
 import { environment } from 'environments/environment';
 import { DiscountService } from '../../service/discount/discount.service';
+import { ProductValidate } from './product-validate.service';
 @Component({
   selector: 'app-product-detail',
   templateUrl: './product-detail.component.html',
@@ -62,7 +63,8 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
     private _formBuilder: FormBuilder,
     private _alertService: AlertService,
     private _parentComponent: ProductsComponent,
-    private _discountService: DiscountService
+    private _discountService: DiscountService,
+    @Inject(ProductValidate) private _productValidate
   ) {
     this.ProductForm = this.createProductForm(this.ProductViewModel);
     this._unsubscribeAll = new Subject();
@@ -212,16 +214,22 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
       return;
     }
     const data = this.ProductForm.getRawValue()
-    this._productService.updateProduct(data).subscribe((resp) => {
-      if(resp.message === "Product Updated"){
-        this.submitted = false;
-        this._parentComponent.loadProducts();
-        // console.log(this._parentComponent.productList)
-        this._alertService.toastrSuccess(resp.message,2000, { hr: 'center', vr: 'top'})
-      }
-    },(err) => {
-      console.log(err)
-    })
+    const cek = this._productValidate.validasiAkhir(data)
+    if(cek.status){
+      this._productService.updateProduct(data).subscribe((resp) => {
+        if(resp.message === "Product Updated"){
+          this.submitted = false;
+          this._parentComponent.loadProducts();
+          // console.log(this._parentComponent.productList)
+          this._alertService.toastrSuccess(resp.message,2000, { hr: 'center', vr: 'top'})
+        }
+      },(err) => {
+        console.log(err)
+      })
+    }
+    else{
+      this._alertService.Global_Alert('error','ERROR',cek.message)
+    }
   }
 
   discountChange(discount: Discount){

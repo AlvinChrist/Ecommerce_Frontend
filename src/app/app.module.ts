@@ -57,6 +57,16 @@ const appRoutes: Routes = [
       .then((m) =>{ return m.Fitur1Module })
   },
   {
+    path: 'app2',
+      loadChildren: () =>
+        loadRemoteModule({
+          type: 'module',
+          remoteEntry: 'http://localhost:4203/app2remoteEntry.js',
+          exposedModule: './SampleModule'
+        })
+        .then((m) => m.SampleModule)
+  },
+  {
     path: '',
     redirectTo: '/shop',
     pathMatch: 'full'

@@ -5,6 +5,7 @@ import { User } from 'app/main/apps/authentication/model/user.viewmodel';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { UserService } from '../../service/user.service';
+import { TestValidate } from './validate.service';
 
 @Component({
   selector: 'app-auth-register-v2',
@@ -32,7 +33,8 @@ export class AuthRegisterV2Component implements OnInit {
   constructor(
     private _coreConfigService: CoreConfigService,
     private _formBuilder: FormBuilder,
-    private _userService: UserService
+    private _userService: UserService,
+    private _testValidasi: TestValidate
     ) {
     this._unsubscribeAll = new Subject();
 
@@ -102,7 +104,8 @@ export class AuthRegisterV2Component implements OnInit {
   ngOnInit(): void {
     this.registerForm = this._formBuilder.group({
       name: ['', [Validators.required]],
-      email: ['', Validators.compose([Validators.required, Validators.email])],
+      // email: ['', Validators.compose([Validators.required, Validators.email])],
+      email: ['', this._testValidasi.validasiEmailReq()],
       phoneNo: ['', Validators.compose([Validators.required, Validators.maxLength(15), Validators.pattern('[0-9]*')])],
       address: ['', [Validators.required]],
       userName: ['', [Validators.required]],
