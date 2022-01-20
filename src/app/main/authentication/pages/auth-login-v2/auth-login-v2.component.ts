@@ -38,7 +38,7 @@ export class AuthLoginV2Component implements OnInit {
     private _formBuilder: FormBuilder,
     private _router: Router
   ) {
-    if (this._userService.currentUserValue.userId) {
+    if (this._userService.currentUserValue?.userId) {
       this._router.navigate(['/shop'])
       // if(this._userService.getUserRole() === 'User') {
       //   this._router.navigate(['/shop'])

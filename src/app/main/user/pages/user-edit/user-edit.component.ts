@@ -1,5 +1,5 @@
 import { Component, Input, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
-import { FormBuilder, AbstractControl, FormGroup, Validators, ValidatorFn } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { AlertService } from 'app/shared/service/alert/alert.service';
 import { environment } from 'environments/environment';
 import { Subject } from 'rxjs';
@@ -53,6 +53,9 @@ export class UserEditComponent implements OnInit, OnDestroy {
   // Public Methods
   // -----------------------------------------------------------------------------------------------------
 
+  get newPasswordValidator() {
+    return [this.PasswordValidator('newPassword'), Validators.required, Validators.minLength(8)]
+  }
   PasswordValidator(controlName: string, required: boolean = false): ValidatorFn {
     return (control: AbstractControl): { [key: string]: boolean} | null => {
       if(required && control.value.length === 0){
@@ -60,8 +63,13 @@ export class UserEditComponent implements OnInit, OnDestroy {
       }
       else if(control.value.length > 0){
         if(control.value.length >= 8){
+          if(controlName === 'oldPassword'){
+            this.f.newPassword.setValidators(this.newPasswordValidator)
+            this.f.newPassword.updateValueAndValidity();
+          }
           return null
         }
+        this.f.newPassword.clearValidators()
         return { controlName: true }
       }
     }
@@ -98,11 +106,12 @@ export class UserEditComponent implements OnInit, OnDestroy {
    *
    * @param form
    */
-  submit() {
-    if (this.UserForm.valid) {
-      console.log('Submitted...!');
+  submit(): any {
+    if (this.UserForm.invalid) {
+      this.submitted = true;
+      return
     }
-    this.submitted = true;
+    this.submitted = false;
     const data = this.UserForm.getRawValue();
     const form = new FormData;
     Object.keys(data).forEach((key) => {
