@@ -27,7 +27,7 @@ export class SearchFakeData {
           isBookmarked: true,
           title: 'Email',
           icon: 'mail',
-          link: '/apps/email'
+          link: '/email'
         },
         {
           id: 3,
@@ -35,7 +35,7 @@ export class SearchFakeData {
           isBookmarked: true,
           title: 'Chat',
           icon: 'message-square',
-          link: '/apps/chat'
+          link: '/chat'
         },
         {
           id: 4,
@@ -43,7 +43,7 @@ export class SearchFakeData {
           isBookmarked: true,
           title: 'Todo',
           icon: 'check-square',
-          link: '/apps/todo'
+          link: '/todo'
         },
         {
           id: 5,
@@ -51,7 +51,7 @@ export class SearchFakeData {
           isBookmarked: true,
           title: 'Calendar',
           icon: 'calendar',
-          link: '/apps/calendar'
+          link: '/calendar'
         },
         {
           id: 6,
@@ -59,7 +59,7 @@ export class SearchFakeData {
           isBookmarked: false,
           title: 'Invoice List',
           icon: 'list',
-          link: '/apps/invoice/list'
+          link: '/invoice/list'
         },
         {
           id: 7,
@@ -67,7 +67,7 @@ export class SearchFakeData {
           isBookmarked: false,
           title: 'Invoice Preview',
           icon: 'file-text',
-          link: '/apps/invoice/preview/4987'
+          link: '/invoice/preview/4987'
         },
         {
           id: 8,
@@ -75,7 +75,7 @@ export class SearchFakeData {
           isBookmarked: false,
           title: 'Invoice Edit',
           icon: 'edit',
-          link: '/apps/invoice/edit/4987'
+          link: '/invoice/edit/4987'
         },
         {
           id: 9,
@@ -83,7 +83,7 @@ export class SearchFakeData {
           isBookmarked: false,
           title: 'Invoice Add',
           icon: 'plus',
-          link: '/apps/invoice/add'
+          link: '/invoice/add'
         },
         {
           id: 10,
@@ -123,7 +123,7 @@ export class SearchFakeData {
           isBookmarked: false,
           title: 'User List',
           icon: 'user',
-          link: '/apps/user/user-list'
+          link: '/user/user-list'
         },
         {
           id: 15,
@@ -131,7 +131,7 @@ export class SearchFakeData {
           isBookmarked: false,
           title: 'User View',
           icon: 'user',
-          link: '/apps/user/user-view/2'
+          link: '/user/user-view/2'
         },
         {
           id: 16,
@@ -139,7 +139,7 @@ export class SearchFakeData {
           isBookmarked: false,
           title: 'User Edit',
           icon: 'user',
-          link: '/apps/user/user-edit/2'
+          link: '/user/user-edit/2'
         },
         {
           id: 17,
