@@ -127,7 +127,10 @@ export class CoreMenuService {
 
     // Return sidebar
     // console.log(this._registry[key])
-    return this._registry[key].filter((menu) => menu.role?.includes(this.currentUser?.role || 'All'));
+    return this._registry[key].filter((menu: any) => {
+      if (menu.role?.includes('All')) return true
+      return menu.role?.includes(this.currentUser?.role)
+    });
   }
 
   /**

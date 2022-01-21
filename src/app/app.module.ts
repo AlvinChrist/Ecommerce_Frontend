@@ -12,7 +12,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { coreConfig } from 'app/app-config';
 import { AppComponent } from 'app/app.component';
-import { LayoutModule } from 'app/layout/layout.module';
+import { LayoutModule } from 'app/core/layout/layout.module';
 import 'hammerjs';
 import { NgxMaskModule } from 'ngx-mask';
 import { ToastrModule } from 'ngx-toastr'; // For auth after login toast
@@ -47,9 +47,9 @@ const appRoutes: Routes = [
       loadRemoteModule({
         type: 'module',
         remoteEntry: 'http://localhost:4201/app1remoteEntry.js',
-        exposedModule: './fitur1Module'
+        exposedModule: './TestingModule'
       })
-      .then((m) =>{ return m.Fitur1Module })
+      .then((m) =>{ return m.TestingModule })
   },
   {
     path: 'app2',
@@ -93,6 +93,7 @@ const appRoutes: Routes = [
     NgbModule,
     ToastrModule.forRoot(),
     NgxMaskModule.forRoot(),
+    TranslateModule.forRoot(),
     // Core modules
     CoreModule.forRoot(coreConfig),
     CoreCommonModule,

@@ -33,7 +33,7 @@ module.exports = {
         name: "app1",
         filename: "app1remoteEntry.js",
         exposes: {
-            './fitur1Module': './projects/app1/src/app/fitur1/fitur1.module.ts',
+            './TestingModule': './projects/app1/src/app/Testing/Testing.module.ts',
         },        
         
         // For hosts (please adjust)

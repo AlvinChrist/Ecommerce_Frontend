@@ -14,7 +14,8 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "run:all": "node node_modules/@angular-architects/module-federation/src/server/mf-dev-server.js"
+    "run:all": "node node_modules/@angular-architects/module-federation/src/server/mf-dev-server.js",
+    "build:all": "node node_modules/@angular-architects/module-federation/src/builders/build/builder.js"
   },
   "private": true,
   "dependencies": {

@@ -1,0 +1,10 @@
+{
+  "/app1": {
+    "target": "http://localhost:4201",
+    "secure": false
+  },
+  "/app2": {
+    "target": "http://localhost:4202",
+    "secure": false
+  }
+}

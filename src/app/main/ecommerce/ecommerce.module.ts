@@ -3,19 +3,19 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { NgbRatingModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { EcommerceCheckoutItemComponent } from 'app/main/ecommerce/ecommerce-checkout/ecommerce-checkout-item/ecommerce-checkout-item.component';
-import { EcommerceCheckoutComponent } from 'app/main/ecommerce/ecommerce-checkout/ecommerce-checkout.component';
-import { EcommerceDetailsComponent } from 'app/main/ecommerce/ecommerce-details/ecommerce-details.component';
-import { EcommerceItemComponent } from 'app/main/ecommerce/ecommerce-item/ecommerce-item.component';
-import { EcommerceShopComponent } from 'app/main/ecommerce/ecommerce-shop/ecommerce-shop.component';
-import { EcommerceSidebarComponent } from 'app/main/ecommerce/ecommerce-shop/sidebar/sidebar.component';
-import { EcommerceWishlistComponent } from 'app/main/ecommerce/ecommerce-wishlist/ecommerce-wishlist.component';
+import { EcommerceCheckoutItemComponent } from 'app/main/ecommerce/components/ecommerce-checkout-item/ecommerce-checkout-item.component';
+import { EcommerceCheckoutComponent } from 'app/main/ecommerce/pages/ecommerce-checkout/ecommerce-checkout.component';
+import { EcommerceDetailsComponent } from 'app/main/ecommerce/pages/ecommerce-details/ecommerce-details.component';
+import { EcommerceItemComponent } from 'app/main/ecommerce/pages/ecommerce-item/ecommerce-item.component';
+import { EcommerceShopComponent } from 'app/main/ecommerce/pages/ecommerce-shop/ecommerce-shop.component';
+import { EcommerceSidebarComponent } from 'app/main/ecommerce/components/sidebar/sidebar.component';
+import { EcommerceWishlistComponent } from 'app/main/ecommerce/pages/ecommerce-wishlist/ecommerce-wishlist.component';
 import { SharedModule } from 'app/shared/shared.module';
 import { NouisliderModule } from 'ng2-nouislider';
 import { NgxMaskModule } from 'ngx-mask';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { SwiperConfigInterface, SwiperModule, SWIPER_CONFIG } from 'ngx-swiper-wrapper';
-import { CommentContentComponent } from './ecommerce-details/comment-content/comment-content.component';
+import { CommentContentComponent } from './components/comment-content/comment-content.component';
 const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
   direction: 'horizontal',
   observer: true

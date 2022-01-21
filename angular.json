@@ -79,6 +79,7 @@
 								}
 							],
 							"baseHref": "/",
+							"aot": true,
 							"optimization": true,
 							"outputHashing": "all",
 							"sourceMap": false,
@@ -94,7 +95,7 @@
 								},
 								{
 									"type": "anyComponentStyle",
-									"maximumWarning": "100kb"
+									"maximumWarning": "4mb"
 								}
 							],
 							"extraWebpackConfig": "webpack.prod.config.js"
@@ -103,7 +104,7 @@
 							"budgets": [
 								{
 									"type": "anyComponentStyle",
-									"maximumWarning": "100kb"
+									"maximumWarning": "4mb"
 								}
 							],
 							"fileReplacements": [
@@ -114,7 +115,7 @@
 							]
 						}
 					},
-					"defaultConfiguration": ""
+					"defaultConfiguration": "production"
 				},
 				"serve": {
 					"builder": "ngx-build-plus:dev-server",
@@ -204,13 +205,13 @@
 							"budgets": [
 								{
 									"type": "initial",
-									"maximumWarning": "500kb",
-									"maximumError": "1mb"
+									"maximumWarning": "4mb",
+									"maximumError": "5mb"
 								},
 								{
 									"type": "anyComponentStyle",
-									"maximumWarning": "2kb",
-									"maximumError": "4kb"
+									"maximumWarning": "4mb",
+									"maximumError": "5mb"
 								}
 							],
 							"fileReplacements": [
@@ -220,7 +221,15 @@
 								}
 							],
 							"outputHashing": "all",
-							"extraWebpackConfig": "projects/app1/webpack.prod.config.js"
+							"extraWebpackConfig": "projects/app1/webpack.prod.config.js",
+							"baseHref": "/",
+							"aot": true,
+							"optimization": true,
+							"sourceMap": false,
+							"namedChunks": false,
+							"extractLicenses": true,
+							"vendorChunk": false,
+							"buildOptimizer": true
 						},
 						"development": {
 							"buildOptimizer": false,

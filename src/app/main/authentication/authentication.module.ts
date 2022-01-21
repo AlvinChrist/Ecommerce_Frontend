@@ -4,7 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { CoreCommonModule } from '@core/common.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { ContentHeaderModule } from 'app/layout/components/content-header/content-header.module';
+import { ContentHeaderModule } from 'app/core/layout/components/content-header/content-header.module';
 import { AuthLoginV2Component } from 'app/main/authentication/pages/auth-login-v2/auth-login-v2.component';
 import { AuthRegisterV2Component } from './pages/auth-register-v2/auth-register-v2.component';
 const routes: Routes = [

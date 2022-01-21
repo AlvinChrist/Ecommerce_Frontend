@@ -18,13 +18,38 @@ export const menu: CoreMenu[] = [
     role: ['User', 'Admin','All'],
     url: '/shop'
   },
+  // {
+  //   id: 'app1',
+  //   title: 'app1',
+  //   type: 'item',
+  //   icon: 'chrome',
+  //   role: ['All'],
+  //   url: '/app1'
+  // },
   {
     id: 'app1',
     title: 'app1',
-    type: 'item',
-    icon: 'chrome',
+    type: 'collapsible',
+    icon: 'home',
     role: ['All'],
-    url: '/app1'
+    children: [
+      {
+        id: 'home',
+        title: 'Home',
+        type: 'item',
+        icon: 'home',
+        role: ['All'],
+        url: '/app1/home'
+      },
+      {
+        id: 'fitur1',
+        title: 'fitur1',
+        type: 'item',
+        icon: 'file',
+        role: ['All'],
+        url: '/app1/fitur1'
+      }
+    ]
   },
   // {
   //   id: 'dashboard',
