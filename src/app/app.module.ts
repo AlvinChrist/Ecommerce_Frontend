@@ -61,7 +61,7 @@ const appRoutes: Routes = [
       loadChildren: () =>
         loadRemoteModule({
           type: 'module',
-          remoteEntry: 'http://localhost:4203/app2remoteEntry.js',
+          remoteEntry: 'http://localhost:4202/app2remoteEntry.js',
           exposedModule: './SampleModule'
         })
         .then((m) => m.SampleModule)

@@ -13,9 +13,11 @@ export class ProductValidate {
     (Object.keys(ref)).forEach((key) => {
       status = typeof(data[key]) === typeof(ref[key])
     })
-    return {
+    let res = {
       status: status,
-      message: "Data tidak sama dengan viewmodel!"
+      message: ""
     }
+    if(!status) res.message = "Data tidak sama dengan viewmodel!"
+    return res
   }
 }
