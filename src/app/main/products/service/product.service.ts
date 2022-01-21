@@ -10,6 +10,7 @@ export class ProductService {
   public productList: Array<Product>;
   public productSearch = new ProductSearch()
   public onProductListChange: BehaviorSubject<Product[] | any>;
+  public total = 0;
   public categories: any[]
   public onCategoriesChange: BehaviorSubject<any>;
   public brands: any[]
@@ -40,6 +41,7 @@ export class ProductService {
             const filterData = ["productBrand","productCategory"]
             const keys = ['brands', 'categories'];
             this.productList = resp.products.rows;
+            this.total = resp.products.count
             keys.forEach((key,key_idx) => {
               resp[key]?.forEach((data: any,index: number) => {
                 const b = data.DISTINCT
@@ -85,6 +87,10 @@ export class ProductService {
 
   getProductGalleries(productId: number): Observable<any> {
     return this._httpClient.get<any>(`/gallery/product/${productId}`, { responseType: 'json'})
+  }
+
+  getAllImage(): Observable<any> {
+    return this._httpClient.get<any>(`/gallery`, { responseType: 'json'})
   }
 
   addProductImage(data: FormData){

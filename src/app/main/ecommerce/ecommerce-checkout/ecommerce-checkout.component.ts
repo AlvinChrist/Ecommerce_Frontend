@@ -80,19 +80,27 @@ export class EcommerceCheckoutComponent implements OnInit {
         type: '',
         links: [
           {
-            name: 'Home',
-            isLink: true,
-            link: '/'
-          },
-          {
-            name: 'eCommerce',
-            isLink: true,
-            link: '/'
+            name: 'Shop',
+            isLink: false,
           },
           {
             name: 'Checkout',
-            isLink: false
+            isLink: false,
           }
+          // {
+          //   name: 'Home',
+          //   isLink: true,
+          //   link: '/'
+          // },
+          // {
+          //   name: 'eCommerce',
+          //   isLink: true,
+          //   link: '/'
+          // },
+          // {
+          //   name: 'Checkout',
+          //   isLink: false
+          // }
         ]
       }
     };

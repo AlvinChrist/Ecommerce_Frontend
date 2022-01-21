@@ -58,11 +58,11 @@
                 [class.error]="f.userName.errors"
                 required
               />
-              <!-- <span *ngIf="accountForm.submitted && UserNameRef.invalid" class="invalid-form">
-                <small class="form-text text-danger" *ngIf="UserNameRef.errors.required"
-                  >This field is required!</small
-                >
-              </span> -->
+              <span *ngIf="submitted && f.userName.invalid" class="invalid-form">
+                <small class="form-text text-danger">
+                  Username is required!
+                </small>
+              </span>
             </div>
           </div>
           <div class="col-md-6">
@@ -78,14 +78,17 @@
                 [class.error]="f.email.errors"
                 required
               />
-              <!-- <span *ngIf="accountForm.submitted && FullNameRef.invalid" class="invalid-form">
-                <small class="form-text text-danger" *ngIf="FullNameRef.errors.required"
-                  >This field is required!</small
-                >
-              </span> -->
+              <span *ngIf="submitted && f.email.invalid" class="invalid-form">
+                <small class="form-text text-danger" *ngIf="f.email.errors.required">
+                  Email is required!
+                </small>
+                <small class="form-text text-danger" *ngIf="f.email.errors.email">
+                  Invalid Email format!
+                </small>
+              </span>
             </div>
           </div>
-          <div class="col-12">
+          <div class="col-md-6">
             <div class="form-group">
               <label for="address">Address</label>
               <input
@@ -98,14 +101,14 @@
                 [class.error]="f.email.errors"
                 required
               />
-              <!-- <span *ngIf="accountForm.submitted && EmailRef.invalid" class="invalid-form">
-                <small class="form-text text-danger" *ngIf="EmailRef.errors.required"
-                  >This field is required!</small
-                >
-              </span> -->
+              <span *ngIf="submitted && f.address.errors" class="invalid-form">
+                <small class="form-text text-danger">
+                  Address field is required!
+                </small>
+              </span>
             </div>
           </div>
-          <div class="col-12">
+          <div class="col-md-6">
             <div class="form-group">
               <label for="phoneNo">Phone No</label>
               <input
@@ -118,6 +121,17 @@
                 [class.error]="f.phoneNo.errors"
               />
             </div>
+            <span *ngIf="submitted && f.phoneNo.errors" class="invalid-form">
+              <small class="form-text text-danger" *ngIf="f.phoneNo.errors.required">
+                Phone number is required!
+              </small>
+              <small class="form-text text-danger" *ngIf="f.phoneNo.errors.pattern">
+                Phone number must be number only!
+              </small>
+              <small class="form-text text-danger" *ngIf="f.phoneNo.errors.maxlength">
+                Phone number max 15 digits!
+              </small>
+            </span>
           </div>
           <div class="col-md-6">
             <div class="form-group">

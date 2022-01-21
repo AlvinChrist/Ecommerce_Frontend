@@ -34,7 +34,7 @@ export class UserEditComponent implements OnInit, OnDestroy {
      ) {
      this._unsubscribeAll = new Subject();
      this.user = this._userService.currentUserValue;
-     this.imagePath = (this.user.userAvatar)?(`${this.env.apiUrl}/avatars/${this.user.userAvatar}`): this.imagePath
+     this.imagePath = (this.user.userAvatar)?(`${this.env.apiUrl}/${this.user.userAvatar}`): this.imagePath
     //  console.log(this.imagePath)
      this.UserForm = this._fb.group({
        userId: [this.user.userId],
@@ -44,7 +44,7 @@ export class UserEditComponent implements OnInit, OnDestroy {
        email: [this.user.email, Validators.compose([Validators.required, Validators.email])],
        phoneNo: [this.user.phoneNo, Validators.compose([Validators.required, Validators.maxLength(15), Validators.pattern('[0-9]*')])],
        oldPassword: ['', [this.PasswordValidator('oldPassword')]],
-       newPassword: ['', [this.PasswordValidator('newPassword')]],
+       newPassword: [{value: '', disabled: true}, [this.PasswordValidator('newPassword')]],
        userAvatar: [this.user.userAvatar]
      })
     //  console.log(this.f.userName)
@@ -64,12 +64,17 @@ export class UserEditComponent implements OnInit, OnDestroy {
       else if(control.value.length > 0){
         if(control.value.length >= 8){
           if(controlName === 'oldPassword'){
+            this.f.newPassword.enable()
             this.f.newPassword.setValidators(this.newPasswordValidator)
             this.f.newPassword.updateValueAndValidity();
           }
           return null
         }
-        this.f.newPassword.clearValidators()
+        if(this.f.newPassword.enabled){
+          this.f.newPassword.disable()
+          this.f.newPassword.clearValidators()
+        }
+        
         return { controlName: true }
       }
     }

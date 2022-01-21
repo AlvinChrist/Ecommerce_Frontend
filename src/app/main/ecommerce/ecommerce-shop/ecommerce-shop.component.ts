@@ -31,7 +31,6 @@ export class EcommerceShopComponent implements OnInit, OnDestroy {
     categories: []
   }
   public page = 1;
-  public pageSize = 9;
   public searchText = new FormControl();
   public wishlist: any[]
   private _unsubscribeAll: Subject<any>;
@@ -49,7 +48,9 @@ export class EcommerceShopComponent implements OnInit, OnDestroy {
       this._unsubscribeAll = new Subject();
       // this._ecommerceService.getWishList(this.userId);
       this._productService.onProductListChange.pipe(takeUntil(this._unsubscribeAll)).subscribe((res) => {
-        if(res) this.products = res 
+        if(res) this.products = res
+        console.log(this._productService.total)
+
       });
       this._ecommerceService.onWishlistChange.pipe(takeUntil(this._unsubscribeAll)).subscribe((res) => {
         if(res) this.wishlist = res
@@ -83,6 +84,7 @@ export class EcommerceShopComponent implements OnInit, OnDestroy {
   }
   
   ngOnInit(): void {
+    this._productService.productSearch.page = this.page - 1
     this._productService.getProducts();
     this._ecommerceService.getUserCart(this.userId)
     this.searchText.valueChanges.pipe(
