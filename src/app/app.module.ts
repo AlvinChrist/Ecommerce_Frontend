@@ -17,10 +17,10 @@ import 'hammerjs';
 import { NgxMaskModule } from 'ngx-mask';
 import { ToastrModule } from 'ngx-toastr'; // For auth after login toast
 import { AuthGuard, ErrorInterceptor, JwtInterceptor } from './core';
-import { UserService } from './main/apps/authentication/service/user.service';
-import { EcommerceModule } from './main/apps/ecommerce/ecommerce.module';
-import { EcommerceService } from './main/apps/ecommerce/service/ecommerce.service';
-import { ProductService } from './main/apps/products/service/product.service';
+import { UserService } from './main/user/service/user.service';
+import { EcommerceModule } from './main/ecommerce/ecommerce.module';
+import { EcommerceService } from './main/ecommerce/service/ecommerce.service';
+import { ProductService } from './main/products/service/product.service';
 import { loadRemoteModule } from '@angular-architects/module-federation';
 
 export function getToken() {
@@ -34,17 +34,12 @@ const appRoutes: Routes = [
   },
   {
     path: 'auth',
-    loadChildren: () => import('./main/apps/authentication/authentication.module').then(m => m.AuthenticationModule)
-  },
-  {
-    path: 'dashboard',
-    canActivate: [ AuthGuard ],
-    loadChildren: () => import('./main/apps/dashboard/dashboard.module').then(m => m.DashboardModule)
+    loadChildren: () => import('./main/authentication/authentication.module').then(m => m.AuthenticationModule)
   },
   {
     path: 'products',
     canActivate: [ AuthGuard ],
-    loadChildren: () => import('./main/apps/products/products.module').then(m => m.ProductsModule)
+    loadChildren: () => import('./main/products/products.module').then(m => m.ProductsModule)
   },
   {
     path: 'app1',
@@ -120,3 +115,4 @@ const appRoutes: Routes = [
   bootstrap: [AppComponent]
 })
 export class AppModule {}
+

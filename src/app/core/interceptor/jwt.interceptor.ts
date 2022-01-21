@@ -1,7 +1,8 @@
 import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { UserService } from 'app/main/apps/authentication/service/user.service';
+import { UserService } from 'app/main/user/service/user.service';
+import { AuthService } from 'app/main/authentication/service/auth.service';
 import { environment } from 'environments/environment';
 import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
@@ -14,7 +15,8 @@ export class JwtInterceptor implements HttpInterceptor {
    */
   constructor(
     private _userService: UserService,
-    private _jwtHelper: JwtHelperService
+    private _jwtHelper: JwtHelperService,
+    private _authService: AuthService
     ) {}
 
   /**
@@ -22,7 +24,7 @@ export class JwtInterceptor implements HttpInterceptor {
    * @param request
    * @param next
    */
-  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+  intercept(request: HttpRequest<any>, next: HttpHandler,): Observable<HttpEvent<any>> {
     const currentUser = this._userService.currentUserValue;
     const accessToken = this._userService.getAccessToken();
     const isLoggedIn = currentUser && accessToken;
@@ -36,7 +38,7 @@ export class JwtInterceptor implements HttpInterceptor {
       }
       if(this._jwtHelper.isTokenExpired()){
         localStorage.removeItem('accessToken');
-        return this._userService.refreshToken().pipe(
+        return this._authService.refreshToken().pipe(
           switchMap((resp) => {
             if(resp.accessToken){
               localStorage.setItem('accessToken', JSON.stringify(resp.accessToken));// update token
@@ -44,7 +46,7 @@ export class JwtInterceptor implements HttpInterceptor {
               return next.handle(this.injectToken(request));
             }
             else{
-              this._userService.logout();
+              this._authService.logout();
               return next.handle(request)
             }
           })

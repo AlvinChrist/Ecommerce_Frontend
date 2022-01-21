@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from '@angular/router';
-import { UserService } from 'app/main/apps/authentication/service/user.service';
+import { AuthService } from 'app/main/authentication/service/auth.service';
+import { UserService } from 'app/main/user/service/user.service';
 
 @Injectable({ providedIn: 'root' })
 export class AuthGuard implements CanActivate {
@@ -9,7 +10,11 @@ export class AuthGuard implements CanActivate {
    * @param {Router} _router
    * @param {UserService} _userService
    */
-  constructor(private _router: Router, private _userService: UserService) {}
+  constructor(
+    private _router: Router, 
+    private _userService: UserService,
+    private _authService: AuthService
+  ) {}
 
   // canActivate
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
@@ -30,7 +35,7 @@ export class AuthGuard implements CanActivate {
 
     // not logged in so redirect to login page with the return url
     // console.log('not logged in')
-    this._userService.logout();
+    this._authService.logout();
     return false;
   }
 }

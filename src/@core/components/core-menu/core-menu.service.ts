@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { UserService } from 'app/main/apps/authentication/service/user.service';
-import { User } from 'app/main/apps/authentication/model/user.viewmodel';
+import { UserService } from 'app/main/user/service/user.service';
+import { User } from 'app/main/user/model/user.viewmodel';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
 @Injectable({

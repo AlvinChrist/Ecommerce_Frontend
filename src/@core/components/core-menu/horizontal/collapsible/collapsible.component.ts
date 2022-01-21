@@ -2,7 +2,7 @@ import { Component, ElementRef, HostBinding, HostListener, Input, OnDestroy, OnI
 import { NavigationEnd, Router } from '@angular/router';
 import { CoreMenuService } from '@core/components/core-menu/core-menu.service';
 import { CoreConfigService } from '@core/services/config.service';
-import { User } from 'app/main/apps/authentication/model/user.viewmodel';
+import { User } from 'app/main/user/model/user.viewmodel';
 import { Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 

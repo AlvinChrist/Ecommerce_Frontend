@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModalModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {
   PerfectScrollbarConfigInterface,
   PerfectScrollbarModule,
@@ -19,6 +19,8 @@ import { NavbarNotificationComponent } from 'app/layout/components/navbar/navbar
 import { NavbarWishlistComponent } from './navbar-wishlist/navbar-wishlist.component';
 import { NgxMaskModule } from 'ngx-mask';
 import { NavbarCartComponent } from './navbar-cart/navbar-cart.component';
+import { UserModule } from 'app/main/user/user.module';
+import { UserEditComponent } from 'app/main/user/pages/user-edit/user-edit.component';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true,
@@ -26,14 +28,23 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
 };
 
 @NgModule({
-  declarations: [NavbarComponent, NavbarSearchComponent, NavbarBookmarkComponent, NavbarNotificationComponent, NavbarWishlistComponent, NavbarCartComponent],
+  declarations: [NavbarComponent, 
+    NavbarSearchComponent, 
+    NavbarBookmarkComponent, 
+    NavbarNotificationComponent, 
+    NavbarWishlistComponent, 
+    NavbarCartComponent,
+    UserEditComponent
+  ],
   imports: [
     RouterModule,
-     NgbModule, 
+     NgbModule,
+     NgbModalModule,
      CoreCommonModule, 
      PerfectScrollbarModule, 
      CoreTouchspinModule, 
-     NgxMaskModule
+     NgxMaskModule,
+     UserModule
     ],
   providers: [
     {

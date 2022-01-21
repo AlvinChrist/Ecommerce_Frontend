@@ -1,9 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { UserService } from 'app/main/apps/authentication/service/user.service';
-import { EcommerceService } from 'app/main/apps/ecommerce/service/ecommerce.service';
-import { ProductService } from 'app/main/apps/products/service/product.service';
+import { UserService } from 'app/main/user/service/user.service';
+import { EcommerceService } from 'app/main/ecommerce/service/ecommerce.service';
+import { ProductService } from 'app/main/products/service/product.service';
 import { environment } from 'environments/environment';
-import { Observable, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 
