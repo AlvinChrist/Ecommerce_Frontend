@@ -59,7 +59,7 @@ const appRoutes: Routes = [
           remoteEntry: 'http://localhost:4202/app2remoteEntry.js',
           exposedModule: './SampleModule'
         })
-        .then((m) => m.SampleModule)
+        .then((m) =>{ return m.SampleModule })
   },
   {
     path: '',

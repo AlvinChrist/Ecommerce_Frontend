@@ -1,12 +1,11 @@
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { ProductService } from 'app/main/products/service/product.service';
-import { combineLatest, Observable, Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { Observable, Subject } from 'rxjs';
 
 @Component({
   selector: 'ecommerce-sidebar',
   templateUrl: './sidebar.component.html',
-  styleUrls: ['../ecommerce-shop.component.scss'],
+  styleUrls: ['./sidebar.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
 export class EcommerceSidebarComponent implements OnInit, OnDestroy {

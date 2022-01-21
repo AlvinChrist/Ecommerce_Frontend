@@ -115,7 +115,7 @@
 							]
 						}
 					},
-					"defaultConfiguration": "production"
+					"defaultConfiguration": ""
 				},
 				"serve": {
 					"builder": "ngx-build-plus:dev-server",
@@ -240,7 +240,7 @@
 							"namedChunks": true
 						}
 					},
-					"defaultConfiguration": "production"
+					"defaultConfiguration": ""
 				},
 				"serve": {
 					"builder": "ngx-build-plus:dev-server",
