@@ -7,6 +7,7 @@ import { UserService } from '../../user/service/user.service';
 import { ProductService } from '../../products/service/product.service';
 import { EcommerceShopComponent } from '../ecommerce-shop/ecommerce-shop.component';
 import { EcommerceService } from '../service/ecommerce.service';
+import { environment } from 'environments/environment';
 
 @Component({
   selector: 'app-ecommerce-item',
@@ -21,6 +22,7 @@ export class EcommerceItemComponent implements OnInit, OnDestroy {
   @Input() isWishlistOpen: boolean = false;
   public wishlist: any;
   public image: string = '';
+  public env = environment
   // Public
   public isInCart = false;
   public isInWishlist: boolean = false;
@@ -102,7 +104,7 @@ export class EcommerceItemComponent implements OnInit, OnDestroy {
       this.isInWishlist = this._ecommerceService.isInWishlist(this.product?.productId)
       if(res && this.isWishlistOpen){
         this.product = this._productService.productList?.find((x) => x.productId === this.product?.productId)
-        this.image =  `http://localhost:5000/${this.product?.product_galleries[0]?.imagePath}` || ""
+        this.image =  `${this.env.apiUrl}/${this.product?.product_galleries[0]?.imagePath}` || ""
       }
     })
     
@@ -111,7 +113,7 @@ export class EcommerceItemComponent implements OnInit, OnDestroy {
     })
     
     try{
-      this.image =  `http://localhost:5000/${this.product?.product_galleries[0]?.imagePath}` || ""
+      this.image =  `${this.env.apiUrl}/${this.product?.product_galleries[0]?.imagePath}` || ""
     }
     catch(e){
       

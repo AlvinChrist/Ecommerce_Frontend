@@ -4,9 +4,8 @@ import { EcommerceService } from 'app/main/ecommerce/service/ecommerce.service';
 import { ProductService } from 'app/main/products/service/product.service';
 import { environment } from 'environments/environment';
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
-
-
+import { distinctUntilChanged, takeUntil } from 'rxjs/operators';
+import { GalleryService } from 'app/main/products/service/gallery/gallery.service';
 
 @Component({
   selector: 'app-navbar-cart',
@@ -16,6 +15,7 @@ export class NavbarCartComponent implements OnInit, OnDestroy {
   // Public
   public products = [];
   public cart = [];
+  public gallery = [];
   public cartLength;
   public env = environment
   public total = 0;
@@ -29,7 +29,8 @@ export class NavbarCartComponent implements OnInit, OnDestroy {
   constructor(
     public _ecommerceService: EcommerceService,
     private _userService: UserService,
-    private _productService: ProductService
+    private _productService: ProductService,
+    private _galleryService: GalleryService
     ) {
     this._unsubscribeAll = new Subject();
     this._productService.onBrandsChange.pipe(takeUntil(this._unsubscribeAll))
@@ -75,24 +76,22 @@ export class NavbarCartComponent implements OnInit, OnDestroy {
    */
   async ngOnInit() {
     // Subscribe to Cart List
-    await this._ecommerceService.getUserCart(this.userId)
-    this._ecommerceService.onCartChange.pipe(takeUntil(this._unsubscribeAll)).subscribe((res: any[]) => {
+    this._ecommerceService.onCartChange.pipe(takeUntil(this._unsubscribeAll),distinctUntilChanged()).subscribe(async (res: any[]) => {
       if(res) {
-        let tmp = []
-        if(this.products){
-          res.forEach((item) => {
-            const product_galleries = this._productService.productList?.find((x) => x.productId === item.productId).product_galleries
-            if(item.product){
-              item.product['product_galleries'] = product_galleries
-              tmp.push(item)
-            }
+        this.cart = res;
+        this.gallery = await this._galleryService.getAllImage();
+        if(this.gallery.length > 0){
+          this.cart.forEach((product: any) => {
+            const product_galleries = this.gallery.find(image => (image.productId === product.productId && image.used === "True"))
+            product.product.product_galleries = product_galleries
           })
         }
-        this.cart = tmp;
+        // console.log(this.cart)
         this.sum();
       }
       this.cartLength = this.cart.length
       // console.log(this.cart)
     });
+    await this._ecommerceService.getUserCart(this.userId)
   }
 }

@@ -24,7 +24,7 @@
         <ng-container *ngFor="let item of cart">
           <div class="media align-items-center">
             <ng-container *ngIf="item.product?.product_galleries">
-              <img class="d-block rounded mr-1" [src]="env.apiUrl + '/' + item.product.product_galleries[0]?.imagePath" alt="donuts" width="62" />
+              <img class="d-block rounded mr-1" [src]="env.apiUrl + '/' + item.product.product_galleries?.imagePath" alt="donuts" width="62" />
             </ng-container>
             <div class="media-body mr-3">
               <button class="btn p-0" (click)="removeFromCart(item.productId)">

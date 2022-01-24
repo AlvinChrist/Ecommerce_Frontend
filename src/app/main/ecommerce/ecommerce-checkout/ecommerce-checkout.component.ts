@@ -1,11 +1,10 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-
-import Stepper from 'bs-stepper';
-
 import { EcommerceService } from 'app/main/ecommerce/service/ecommerce.service';
+import { GalleryService } from 'app/main/products/service/gallery/gallery.service';
+import { ProductService } from 'app/main/products/service/product.service';
 import { User } from 'app/main/user/model/user.viewmodel';
 import { UserService } from 'app/main/user/service/user.service';
-import { ProductService } from 'app/main/products/service/product.service';
+import Stepper from 'bs-stepper';
 
 @Component({
   selector: 'app-ecommerce-checkout',
@@ -18,6 +17,7 @@ export class EcommerceCheckoutComponent implements OnInit {
   // Public
   public contentHeader: object;
   public user: User;
+  public gallery = [];
   public products;
   public cart;
   public wishlist;
@@ -43,24 +43,11 @@ export class EcommerceCheckoutComponent implements OnInit {
   constructor(
     private _ecommerceService: EcommerceService,
     private _userService: UserService,
-    private _productService: ProductService
+    private _productService: ProductService,
+    private _galleryService: GalleryService
     ) {
     this.user = this._userService.currentUserValue
-    this._ecommerceService.onCartChange.subscribe((res) => {
-      if(res) {
-        let tmp = []
-        if(this.products){
-          res.forEach((item) => {
-            const product_galleries = this._productService.productList?.find((x) => x.productId === item.productId).product_galleries
-            if(item.product){
-              item.product['product_galleries'] = product_galleries
-              tmp.push(item)
-            }
-          })
-        }
-        this.cart = tmp;
-      }
-    })
+    
   }
 
   // Public Methods
@@ -98,7 +85,15 @@ export class EcommerceCheckoutComponent implements OnInit {
    */
   async ngOnInit() {
     // content header
+    await this._productService.getProducts();
     await this._ecommerceService.getUserCart(this.user.userId)
+    this.gallery = await this._galleryService.getAllImage()
+    this.cart = this._ecommerceService.cart
+    this.cart.forEach((product) => {
+      const product_galleries = this.gallery.find(image => (image.productId === product.productId && image.used === "True"))
+      product.product['product_galleries'] = product_galleries
+    })
+    console.log(this.cart)
     this.contentHeader = {
       headerTitle: 'Checkout',
       actionButton: true,

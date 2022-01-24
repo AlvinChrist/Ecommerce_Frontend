@@ -52,7 +52,7 @@
           <div id="place-order" class="list-view product-checkout">
             <!-- Checkout Place Order Left starts -->
             <div class="checkout-items">
-              <ng-container *ngFor="let product of products">
+              <ng-container *ngFor="let product of cart">
                 <app-ecommerce-checkout-item
                   [product]="product"
                   *ngIf="product.isInCart === true"

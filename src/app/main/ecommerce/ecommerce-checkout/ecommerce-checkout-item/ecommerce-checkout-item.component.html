@@ -1,16 +1,16 @@
 <div class="card ecommerce-card">
   <div class="item-img">
-    <a [routerLink]="'/details/' + product.id">
-      <img [src]="product.image" alt="img-placeholder" />
+    <a [routerLink]="'/products/' + product.productId">
+      <img [src]="image" alt="img-placeholder" />
     </a>
   </div>
   <div class="card-body">
     <div class="item-name">
       <h6 class="mb-0">
-        <a [routerLink]="'/details/' + product.id" class="text-body">{{ product.name }}</a>
+        <a [routerLink]="'/products/' + product.id" class="text-body">{{ product.productName }}</a>
       </h6>
       <span class="item-company"
-        >By <a href="javascript:void(0)" class="company-name">{{ product.brand }}</a></span
+        >By <a href="javascript:void(0)" class="company-name">{{ product.productBrand }}</a></span
       >
       <div class="item-rating">
         <div class="rating rating-sm">
