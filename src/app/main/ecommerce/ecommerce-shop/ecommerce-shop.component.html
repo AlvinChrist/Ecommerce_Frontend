@@ -97,12 +97,13 @@
           <div class="col-sm-12">
             <div class="d-flex justify-content-center">
               <ngb-pagination
-                [collectionSize]="_productService.total"
+                [collectionSize]="getCollectionSize"
                 [(page)]="page"
                 [maxSize]="6"
                 [rotate]="true"
                 [ellipses]="false"
                 [boundaryLinks]="true"
+                (pageChange)="pageChange($event)"
               >
                 <!-- Custom pagination icons -->
                 <ng-template ngbPaginationPrevious

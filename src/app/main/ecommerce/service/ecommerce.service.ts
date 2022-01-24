@@ -81,19 +81,24 @@ export class EcommerceService {
     })
   }
   
-  getUserCart(userId: number) {
-    this._httpClient.get<any>(`/user/${userId}/cart`, { responseType: 'json'})
-    .subscribe((res) => {
-      if(res.cart){
-        this.cart = res.cart
-        // console.log(this.cart)
-        this.onCartChange.next(this.cart)
-      }
-      else{
-        console.log(res)
-      }
-    },(err) => {
-      console.log(err)
+  getUserCart(userId: number): Promise<void> {
+    return new Promise((resolve, reject) => {
+      this._httpClient.get<any>(`/user/${userId}/cart`, { responseType: 'json'})
+      .subscribe((res) => {
+        if(res.cart){
+          this.cart = res.cart
+          // console.log(this.cart)
+          this.onCartChange.next(this.cart)
+          resolve();
+        }
+        else{
+          console.log(res)
+          reject();
+        }
+      },(err) => {
+        console.log(err)
+        reject();
+      })
     })
   }
 

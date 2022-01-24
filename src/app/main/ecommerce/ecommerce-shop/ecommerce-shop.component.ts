@@ -49,7 +49,7 @@ export class EcommerceShopComponent implements OnInit, OnDestroy {
       // this._ecommerceService.getWishList(this.userId);
       this._productService.onProductListChange.pipe(takeUntil(this._unsubscribeAll)).subscribe((res) => {
         if(res) this.products = res
-        console.log(this._productService.total)
+        // console.log(this._productService.total)
 
       });
       this._ecommerceService.onWishlistChange.pipe(takeUntil(this._unsubscribeAll)).subscribe((res) => {
@@ -61,6 +61,20 @@ export class EcommerceShopComponent implements OnInit, OnDestroy {
 
   get userId() {
     return this._userService.currentUserValue?.userId || null
+  }
+
+  get getCollectionSize() {
+    return Math.ceil(this._productService.total / 6) * 6;
+  }
+
+  pageChange(page: number): void {
+    this.page = page
+    this.loadProduct();
+  }
+
+  async loadProduct() {
+    this._productService.productSearch.page = this.page - 1
+    await this._productService.getProducts();
   }
 
   toggleSidebar(name): void {
@@ -83,10 +97,9 @@ export class EcommerceShopComponent implements OnInit, OnDestroy {
     this._unsubscribeAll.complete();
   }
   
-  ngOnInit(): void {
-    this._productService.productSearch.page = this.page - 1
-    this._productService.getProducts();
-    this._ecommerceService.getUserCart(this.userId)
+  async ngOnInit() {
+    await this.loadProduct()
+    await this._ecommerceService.getUserCart(this.userId)
     this.searchText.valueChanges.pipe(
       debounceTime(500))
       .subscribe((res: string) => {

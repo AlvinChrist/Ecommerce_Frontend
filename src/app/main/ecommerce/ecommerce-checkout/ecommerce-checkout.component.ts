@@ -3,6 +3,9 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import Stepper from 'bs-stepper';
 
 import { EcommerceService } from 'app/main/ecommerce/service/ecommerce.service';
+import { User } from 'app/main/user/model/user.viewmodel';
+import { UserService } from 'app/main/user/service/user.service';
+import { ProductService } from 'app/main/products/service/product.service';
 
 @Component({
   selector: 'app-ecommerce-checkout',
@@ -14,8 +17,9 @@ import { EcommerceService } from 'app/main/ecommerce/service/ecommerce.service';
 export class EcommerceCheckoutComponent implements OnInit {
   // Public
   public contentHeader: object;
+  public user: User;
   public products;
-  public cartLists;
+  public cart;
   public wishlist;
 
   public address = {
@@ -36,7 +40,28 @@ export class EcommerceCheckoutComponent implements OnInit {
    *
    * @param {EcommerceService} _ecommerceService
    */
-  constructor(private _ecommerceService: EcommerceService) {}
+  constructor(
+    private _ecommerceService: EcommerceService,
+    private _userService: UserService,
+    private _productService: ProductService
+    ) {
+    this.user = this._userService.currentUserValue
+    this._ecommerceService.onCartChange.subscribe((res) => {
+      if(res) {
+        let tmp = []
+        if(this.products){
+          res.forEach((item) => {
+            const product_galleries = this._productService.productList?.find((x) => x.productId === item.productId).product_galleries
+            if(item.product){
+              item.product['product_galleries'] = product_galleries
+              tmp.push(item)
+            }
+          })
+        }
+        this.cart = tmp;
+      }
+    })
+  }
 
   // Public Methods
   // -----------------------------------------------------------------------------------------------------
@@ -71,8 +96,9 @@ export class EcommerceCheckoutComponent implements OnInit {
   /**
    * On init
    */
-  ngOnInit(): void {
+  async ngOnInit() {
     // content header
+    await this._ecommerceService.getUserCart(this.user.userId)
     this.contentHeader = {
       headerTitle: 'Checkout',
       actionButton: true,

@@ -73,9 +73,9 @@ export class NavbarCartComponent implements OnInit, OnDestroy {
   /**
    * On init
    */
-  ngOnInit(): void {
+  async ngOnInit() {
     // Subscribe to Cart List
-    this._ecommerceService.getUserCart(this.userId)
+    await this._ecommerceService.getUserCart(this.userId)
     this._ecommerceService.onCartChange.pipe(takeUntil(this._unsubscribeAll)).subscribe((res: any[]) => {
       if(res) {
         let tmp = []

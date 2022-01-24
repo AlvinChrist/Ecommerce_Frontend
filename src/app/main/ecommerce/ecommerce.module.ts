@@ -34,6 +34,10 @@ const routes: Routes = [
   {
     path: 'wishlist',
     component: EcommerceWishlistComponent
+  },
+  {
+    path: 'checkout',
+    component: EcommerceCheckoutComponent
   }
   // {
   //   path: 'details/:id',
