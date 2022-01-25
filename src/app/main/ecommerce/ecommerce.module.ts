@@ -1,3 +1,4 @@
+import { DatePipe, PercentPipe } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
@@ -97,7 +98,9 @@ const routes: Routes = [
     {
       provide: SWIPER_CONFIG,
       useValue: DEFAULT_SWIPER_CONFIG
-    }
+    },
+    DatePipe,
+    PercentPipe
   ]
 })
 export class EcommerceModule {}

@@ -24,64 +24,68 @@ export class CoreTouchspinComponent implements OnInit {
   constructor() {}
 
   inputChange(inputValue: number) {
-    if (inputValue == this.maxValue || inputValue > this.maxValue) {
-      this.disabledValueIncrement = true;
-    } else {
-      this.disabledValueIncrement = false;
-    }
-    if (inputValue == this.minValue || inputValue < this.minValue) {
-      this.disabledValueDecrement = true;
-    } else {
-      this.disabledValueDecrement = false;
-    }
+    // if (inputValue == this.maxValue || inputValue > this.maxValue) {
+    //   this.disabledValueIncrement = true;
+    // } else {
+    //   this.disabledValueIncrement = false;
+    // }
+    // if (inputValue == this.minValue || inputValue < this.minValue) {
+    //   this.disabledValueDecrement = true;
+    // } else {
+    //   this.disabledValueDecrement = false;
+    // }
 
     this.emitChange(inputValue);
   }
 
   increment() {
-    if (this.stepValue == undefined) {
-      this.numberValue += 1;
-    } else {
-      this.numberValue += this.stepValue;
-    }
+    if(this.numberValue < this.maxValue){
 
+      if (this.stepValue == undefined) {
+        this.numberValue += 1;
+      } else {
+        this.numberValue += this.stepValue;
+      }
+    }
+  
     this.emitChange(this.numberValue);
-
-    if (!(this.minValue == undefined || this.maxValue == undefined)) {
-      if (this.numberValue == this.maxValue || this.numberValue > this.maxValue) {
-        this.disabledValueIncrement = true;
-      } else {
-        this.disabledValueIncrement = false;
-      }
-      if (this.numberValue > this.minValue) {
-        this.disabledValueDecrement = false;
-      } else {
-        this.disabledValueDecrement = true;
-      }
-    }
+    // if (!(this.minValue == undefined || this.maxValue == undefined)) {
+    //   if (this.numberValue == this.maxValue || this.numberValue > this.maxValue) {
+    //     this.disabledValueIncrement = true;
+    //   } else {
+    //     this.disabledValueIncrement = false;
+    //   }
+    //   if (this.numberValue >= this.minValue) {
+    //     this.disabledValueDecrement = false;
+    //   } else {
+    //     this.disabledValueDecrement = true;
+    //   }
+    // }
   }
 
   decrement() {
-    if (this.stepValue == undefined) {
-      this.numberValue -= 1;
-    } else {
-      this.numberValue -= this.stepValue;
+    if(this.numberValue > this.minValue){
+      if (this.stepValue == undefined) {
+        this.numberValue -= 1;
+      } else {
+        this.numberValue -= this.stepValue;
+      }
     }
 
     this.emitChange(this.numberValue);
 
-    if (!(this.minValue == undefined || this.maxValue == undefined)) {
-      if (this.numberValue == this.minValue || this.numberValue < this.minValue) {
-        this.disabledValueDecrement = true;
-      } else {
-        this.disabledValueDecrement = false;
-      }
-      if (this.numberValue < this.maxValue) {
-        this.disabledValueIncrement = false;
-      } else {
-        this.disabledValueIncrement = true;
-      }
-    }
+    // if (!(this.minValue == undefined || this.maxValue == undefined)) {
+    //   if (this.numberValue == this.minValue || this.numberValue < this.minValue) {
+    //     this.disabledValueDecrement = true;
+    //   } else {
+    //     this.disabledValueDecrement = false;
+    //   }
+    //   if (this.numberValue <= this.maxValue) {
+    //     this.disabledValueIncrement = false;
+    //   } else {
+    //     this.disabledValueIncrement = true;
+    //   }
+    // }
   }
 
   /**
@@ -93,14 +97,14 @@ export class CoreTouchspinComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.disabledValueIncrement = this.disabledValue;
-    this.disabledValueDecrement = this.disabledValue;
+    // this.disabledValueIncrement = this.disabledValue;
+    // this.disabledValueDecrement = this.disabledValue;
 
     // Check if current value is equal to min / max value then disable button respectively
-    if (this.numberValue === this.minValue) {
-      this.disabledValueDecrement = true;
-    } else if (this.numberValue === this.maxValue) {
-      this.disabledValueIncrement = true;
-    }
+    // if (this.numberValue === this.minValue) {
+    //   this.disabledValueDecrement = true;
+    // } else if (this.numberValue === this.maxValue) {
+    //   this.disabledValueIncrement = true;
+    // }
   }
 }

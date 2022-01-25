@@ -50,7 +50,7 @@ export const menu: CoreMenu[] = [
     title: 'Checkout',
     translate: 'MENU.APPS.ECOMMERCE.CHECKOUT',
     type: 'item',
-    icon: 'circle',
+    icon: 'dollar-sign',
     role: ['User'],
     url: '/checkout'
   }

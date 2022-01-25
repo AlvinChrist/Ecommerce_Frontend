@@ -4,7 +4,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { UserService } from 'app/main/user/service/user.service';
 import { AuthService } from 'app/main/authentication/service/auth.service';
 import { environment } from 'environments/environment';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 
 @Injectable()
@@ -38,19 +38,20 @@ export class JwtInterceptor implements HttpInterceptor {
       }
       if(this._jwtHelper.isTokenExpired()){
         localStorage.removeItem('accessToken');
-        return this._authService.refreshToken().pipe(
-          switchMap((resp) => {
-            if(resp.accessToken){
-              localStorage.setItem('accessToken', JSON.stringify(resp.accessToken));// update token
-              console.log("token refreshed!");
-              return next.handle(this.injectToken(request));
-            }
-            else{
-              this._authService.logout();
-              return next.handle(request)
-            }
-          })
-        )
+        this._authService.refreshToken().subscribe((resp) => {
+          if(resp.accessToken){
+            localStorage.setItem('accessToken', JSON.stringify(resp.accessToken));// update token
+            console.log("token refreshed!");
+            return next.handle(this.injectToken(request));
+          }
+          else{
+            this._authService.logout();
+            return next.handle(request)
+          }
+        }, (err) => {
+          this._authService.logout();
+          return throwError(new Error('Authorization error: The request did not go through'));
+        })
       }
       return next.handle(this.injectToken(request))
     }

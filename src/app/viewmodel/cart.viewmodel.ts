@@ -1,19 +1,17 @@
 export class Cart{
-  user_id: number;
-  product_id: number;
-  product_qty: number;
-  status: string;
+  userId: number;
+  productId: number;
+  productQty: number;
   created_at: string | null;
   updated_at: string | null;
-  transaction_id: string;
+  transaction_id: number;
 
   constructor(Cart?: Cart) {
-    this.user_id = Cart.user_id || 0;
-    this.product_id = Cart.product_id || 0;
-    this.product_qty = Cart.product_qty || 0;
-    this.status = Cart.status || '';
+    this.userId = Cart.userId || 0;
+    this.productId = Cart.productId || 0;
+    this.productQty = Cart.productQty || 0;
     this.created_at = Cart.created_at || null;
     this.updated_at = Cart.updated_at || null;
-    this.transaction_id = Cart.transaction_id || '';
+    this.transaction_id = Cart.transaction_id || null;
   }
 }

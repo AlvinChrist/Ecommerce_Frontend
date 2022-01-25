@@ -45,7 +45,7 @@
                   </ng-container>
                 </div>
               </div>
-              <h5 class="cart-item-price">Rp{{ item.product?.productPrice | mask:'separator':',' }}</h5>
+              <h5 class="cart-item-price">Rp{{ item.product?.productPrice * item.productQty | mask:'separator':',' }}</h5>
             </div>
           </div>
         </ng-container>

@@ -1,7 +1,9 @@
-import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
-
+import { AfterViewInit, Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { EcommerceService } from 'app/main/ecommerce/service/ecommerce.service';
+import { User } from 'app/main/user/model/user.viewmodel';
+import { UserService } from 'app/main/user/service/user.service';
 import { environment } from 'environments/environment';
+
 
 @Component({
   selector: 'app-ecommerce-checkout-item',
@@ -11,20 +13,37 @@ import { environment } from 'environments/environment';
 })
 export class EcommerceCheckoutItemComponent implements OnInit {
   // Input Decorator
-  @Input() product;
+  @Input() item: any;
   public image: any;
   public env = environment
+  public user: User
+  public deliverDate = new Date().setDate(new Date().getDate() + 5)
   /**
    * Constructor
    *
    * @param {EcommerceService} _ecommerceService
    */
-  constructor(private _ecommerceService: EcommerceService) {
-    this.image =  `${this.env.apiUrl}/${this.product?.product_galleries[0]?.imagePath}` || ""
-    console.log(this.product)
+  
+  constructor(
+    private _ecommerceService: EcommerceService,
+    private _userService: UserService
+    // public _checkoutRef: EcommerceCheckoutComponent
+    ) {
+      this.user = this._userService.currentUserValue
+  }
+
+  get product(){
+    return this.item.product
+  }
+
+  qtyChanged(qty: number, productId: number){
+    this._ecommerceService.setQty(qty,productId,this.user.userId)
   }
 
   // Lifecycle Hooks
   // -----------------------------------------------------------------------------------------------------
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.image = `${this.env.apiUrl}/${this.product.product_galleries.imagePath}`
+  }
+
 }

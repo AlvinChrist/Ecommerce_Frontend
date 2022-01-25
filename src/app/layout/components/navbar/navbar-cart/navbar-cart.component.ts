@@ -6,6 +6,7 @@ import { environment } from 'environments/environment';
 import { Subject } from 'rxjs';
 import { distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { GalleryService } from 'app/main/products/service/gallery/gallery.service';
+import { Cart } from 'app/viewmodel/cart.viewmodel';
 
 @Component({
   selector: 'app-navbar-cart',
@@ -46,11 +47,6 @@ export class NavbarCartComponent implements OnInit, OnDestroy {
     return this._userService.currentUserValue?.userId || null
   }
  
-  /**
-   * Remove From Cart
-   *
-   * @param product
-   */
   removeFromCart(productId: number) {
     this._ecommerceService.removeFromCart(this.userId,productId)
   }
@@ -62,6 +58,12 @@ export class NavbarCartComponent implements OnInit, OnDestroy {
 
   qtyChanged(qty: number, productId: number){
     this._ecommerceService.setQty(qty,productId,this.userId)
+  }
+
+  smoothUpdate(d1: Cart[], d2: Cart[]): void {
+    d1.forEach((data,index) => {
+      data.productQty = d2[index].productQty
+    })
   }
 
   // Lifecycle Hooks
@@ -78,12 +80,14 @@ export class NavbarCartComponent implements OnInit, OnDestroy {
     // Subscribe to Cart List
     this._ecommerceService.onCartChange.pipe(takeUntil(this._unsubscribeAll),distinctUntilChanged()).subscribe(async (res: any[]) => {
       if(res) {
-        this.cart = res;
+        //@ts-ignore
+        if (res.length !== this.cart.length) this.cart = [...res]
+        else this.smoothUpdate(this.cart,res);
         this.gallery = await this._galleryService.getAllImage();
         if(this.gallery.length > 0){
-          this.cart.forEach((product: any) => {
-            const product_galleries = this.gallery.find(image => (image.productId === product.productId && image.used === "True"))
-            product.product.product_galleries = product_galleries
+          this.cart.forEach((cartItem: any) => {
+            const product_galleries = this.gallery.find(image => (image.productId === cartItem.productId && image.used === "True"))
+            if(cartItem.product) cartItem.product.product_galleries = product_galleries
           })
         }
         // console.log(this.cart)

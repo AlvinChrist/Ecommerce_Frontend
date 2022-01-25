@@ -86,7 +86,8 @@ export class EcommerceService {
       this._httpClient.get<any>(`/user/${userId}/cart`, { responseType: 'json'})
       .subscribe((res) => {
         if(res.cart){
-          this.cart = res.cart
+          //@ts-ignore
+          this.cart = [...res.cart]
           // console.log(this.cart)
           this.onCartChange.next(this.cart)
           resolve();
