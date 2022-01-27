@@ -32,7 +32,6 @@ export class EcommerceShopComponent implements OnInit, OnDestroy {
   }
   public page = 1;
   public searchText = new FormControl();
-  public wishlist: any[]
   private _unsubscribeAll: Subject<any>;
 
   /**
@@ -46,15 +45,9 @@ export class EcommerceShopComponent implements OnInit, OnDestroy {
     private _userService: UserService
      ) {
       this._unsubscribeAll = new Subject();
-      // this._ecommerceService.getWishList(this.userId);
       this._productService.onProductListChange.pipe(takeUntil(this._unsubscribeAll)).subscribe((res) => {
         if(res) this.products = res
-        // console.log(this._productService.total)
-
       });
-      this._ecommerceService.onWishlistChange.pipe(takeUntil(this._unsubscribeAll)).subscribe((res) => {
-        if(res) this.wishlist = res
-      })
      }
   // Public Methods
   // -----------------------------------------------------------------------------------------------------

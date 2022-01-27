@@ -22,8 +22,10 @@ export class AuthService {
     .post<any>(`/login`, { email, password })
     .pipe(
       map((resp: any) => {
-        localStorage.setItem('accessToken', JSON.stringify(resp.accessToken));
+        console.log(resp.accessToken)
+        localStorage.setItem('accessToken', resp.accessToken);
         let user: User = this._userService.getUserDetail()
+        console.log(user)
         localStorage.setItem('currentUser', JSON.stringify(user))
         this._userService.currentUserSubject.next(user)
         this._alertService.toastrSuccess(`Welcome ${this._userService.currentUserValue.userName}!`,2000, {hr: 'right', vr:'top'});
@@ -51,7 +53,21 @@ export class AuthService {
     return this._httpClient.post<any>(`/user`, user, { responseType: 'json'})
   }
 
-  refreshToken(): Observable<any> {
-    return this._httpClient.get<any>(`/token`)
+  refreshToken(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      this._httpClient.get<any>(`/token`, { responseType: 'json'}).subscribe((res) => {
+        if(res.accessToken){
+          console.log(res.accessToken)
+          localStorage.setItem('accessToken', res.accessToken);// update token
+          console.log("token refreshed!");
+          resolve();
+        }
+        else{
+          reject()
+        }
+      },(err) => {
+        reject()
+      })
+    })
   }
 }

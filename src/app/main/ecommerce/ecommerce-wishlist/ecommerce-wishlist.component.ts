@@ -31,7 +31,6 @@ export class EcommerceWishlistComponent implements OnInit {
     ) {
       if(!this._productService.productList) this._productService.getProducts()
       this.user = this._userService.currentUserValue
-      this._ecommerceService.getWishList(this.user.userId);
   }
 
   // Lifecycle Hooks
@@ -40,9 +39,9 @@ export class EcommerceWishlistComponent implements OnInit {
   /**
    * On init
    */
-  ngOnInit(): void {
+  async ngOnInit(){
+    await this._ecommerceService.getWishList(this.user.userId);
     this.wishlist$ = this._ecommerceService.onWishlistChange
-
     // content header
     this.contentHeader = {
       headerTitle: 'Wish List',

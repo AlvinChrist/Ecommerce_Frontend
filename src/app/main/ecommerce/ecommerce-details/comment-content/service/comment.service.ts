@@ -34,7 +34,15 @@ export class CommentService  {
     return this._httpClient.post<any>(`/comment/${data.commentId}`, data, { responseType: 'json'})
   }
 
-  deleteComment(commentId: number): Observable<any> {
-    return this._httpClient.delete<any>(`/comment/${commentId}`, { responseType: 'json'})
+  deleteComment(commentId: number): Promise<string> {
+    return new Promise((resolve, reject) => {
+      this._httpClient.delete<any>(`/comment/${commentId}`, { responseType: 'json'}).subscribe((res) => {
+        if(res.message === 'Comment Deleted') resolve(res)
+        else reject();
+      }, (err) => {
+        console.log(err);
+        reject(err)
+      })
+    })
   }
 }

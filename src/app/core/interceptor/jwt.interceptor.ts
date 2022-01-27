@@ -1,11 +1,10 @@
 import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { UserService } from 'app/main/user/service/user.service';
 import { AuthService } from 'app/main/authentication/service/auth.service';
+import { UserService } from 'app/main/user/service/user.service';
 import { environment } from 'environments/environment';
-import { Observable, throwError } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class JwtInterceptor implements HttpInterceptor {
@@ -24,7 +23,7 @@ export class JwtInterceptor implements HttpInterceptor {
    * @param request
    * @param next
    */
-  intercept(request: HttpRequest<any>, next: HttpHandler,): Observable<HttpEvent<any>> {
+  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const currentUser = this._userService.currentUserValue;
     const accessToken = this._userService.getAccessToken();
     const isLoggedIn = currentUser && accessToken;
@@ -38,22 +37,16 @@ export class JwtInterceptor implements HttpInterceptor {
       }
       if(this._jwtHelper.isTokenExpired()){
         localStorage.removeItem('accessToken');
-        this._authService.refreshToken().subscribe((resp) => {
-          if(resp.accessToken){
-            localStorage.setItem('accessToken', JSON.stringify(resp.accessToken));// update token
-            console.log("token refreshed!");
-            return next.handle(this.injectToken(request));
-          }
-          else{
-            this._authService.logout();
-            return next.handle(request)
-          }
-        }, (err) => {
+        this._authService.refreshToken().then(() => {
+          return next.handle(this.injectToken(request))
+        }).catch((e) => {
+          console.log(e)
           this._authService.logout();
-          return throwError(new Error('Authorization error: The request did not go through'));
         })
       }
-      return next.handle(this.injectToken(request))
+      else{
+        return next.handle(this.injectToken(request))
+      }
     }
     else{
       return next.handle(request);

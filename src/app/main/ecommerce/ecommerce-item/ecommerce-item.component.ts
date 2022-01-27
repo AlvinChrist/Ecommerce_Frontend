@@ -1,13 +1,14 @@
-import { AfterViewInit, Component, Input, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { Product } from 'app/main/products/model/product.viewmodel';
+import { GalleryService } from 'app/main/products/service/gallery/gallery.service';
 import { AlertService } from 'app/shared/service/alert/alert.service';
+import { environment } from 'environments/environment';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { UserService } from '../../user/service/user.service';
 import { ProductService } from '../../products/service/product.service';
+import { UserService } from '../../user/service/user.service';
 import { EcommerceShopComponent } from '../ecommerce-shop/ecommerce-shop.component';
 import { EcommerceService } from '../service/ecommerce.service';
-import { environment } from 'environments/environment';
 
 @Component({
   selector: 'app-ecommerce-item',
@@ -37,7 +38,8 @@ export class EcommerceItemComponent implements OnInit, OnDestroy {
     private _ecommerceService: EcommerceService,
     private _userService: UserService,
     private _productService: ProductService,
-    private _alertService: AlertService
+    private _alertService: AlertService,
+    private _galleryService: GalleryService
     ) {
       this._unsubscribeAll = new Subject();
   }
@@ -70,7 +72,6 @@ export class EcommerceItemComponent implements OnInit, OnDestroy {
   addToCart(product){
     if(this.user?.userId){
       if(this.user.role !== 'Admin') {
-        // console.log(this.isInCart)
         if(this.isInCart){
           this._ecommerceService.removeFromCart(this.user.userId,product.productId).then((res) => {
             this.isInCart = !this.isInCart
@@ -100,23 +101,9 @@ export class EcommerceItemComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this._ecommerceService.onWishlistChange.pipe(takeUntil(this._unsubscribeAll)).subscribe((res) => {
-      this.isInWishlist = this._ecommerceService.isInWishlist(this.product?.productId)
-      if(res && this.isWishlistOpen){
-        this.product = this._productService.productList?.find((x) => x.productId === this.product?.productId)
-        this.image =  `${this.env.apiUrl}/${this.product?.product_galleries[0]?.imagePath}` || ""
-      }
-    })
-    
-    this._ecommerceService.onCartChange.pipe(takeUntil(this._unsubscribeAll)).subscribe((res) => {
-      this.isInCart = this._ecommerceService.isInCart(this.product?.productId)
-    })
-    
-    try{
-      this.image =  `${this.env.apiUrl}/${this.product?.product_galleries[0]?.imagePath}` || ""
-    }
-    catch(e){
-      
-    }
+    console.log(this.product)
+    this.isInWishlist = this._ecommerceService.isInWishlist(this.product.productId)
+    this.isInCart = this._ecommerceService.isInCart(this.product.productId)
+    this.image =  `${this.env.apiUrl}/${this.product.product_galleries[0]?.imagePath}` || ""
   }
 }

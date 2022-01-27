@@ -1,7 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { rejects } from 'assert';
 import { BehaviorSubject } from 'rxjs';
 import { Product } from '../../products/model/product.viewmodel';
+import { Transaction } from '../models/transaction.viewmodel';
 
 
 @Injectable({
@@ -20,18 +22,24 @@ export class EcommerceService {
     this.onCartChange = new BehaviorSubject([{}])
   }
 
-  getWishList(userId: number) {
-    this._httpClient.get<any>(`/user/${userId}/wishlist`, { responseType: 'json'}).subscribe((resp: any) => {
-      if(resp.wishlist){
-        this.wishlist = resp.wishlist;
-        this.onWishlistChange.next(this.wishlist)
-      }
-      else{
-        console.log(resp)
-      }
-    },(err) => {
-      console.log(err)
-    })
+    getWishList(userId: number): Promise<void> {
+      return new Promise((resolve, reject) => {
+        this._httpClient.get<any>(`/user/${userId}/wishlist`, { responseType: 'json'}).subscribe((resp: any) => {
+          if(resp.wishlist){
+            this.wishlist = resp.wishlist;
+            console.log(this.wishlist)
+            this.onWishlistChange.next(this.wishlist)
+            resolve();
+          }
+          else{
+            console.log(resp)
+            reject()
+          }
+        },(err) => {
+          console.log(err)
+          reject()
+        })
+      })
   }
 
   isInWishlist(productId: number): boolean{
@@ -154,6 +162,54 @@ export class EcommerceService {
       },(err) => {
         console.log(err)
         reject();
+      })
+    })
+  }
+
+  addTransaction(data: Transaction): Promise<string> {
+    return new Promise((resolve,reject) => {
+      this._httpClient.post<any>(`/transaction`, data, { responseType: 'json'}).subscribe((res) => {
+        if(res.message === 'Transaction Success') resolve(res.message)
+        else reject(res.message)
+      },(err) => {
+        console.log(err)
+        reject(err)
+      })
+    })
+  }
+  
+  getAllTransaction(): Promise<any> {
+    return new Promise((resolve,reject) => {
+      this._httpClient.get<any>('/transaction', { responseType: 'json'}).subscribe((res) => {
+        if(res.response) resolve(res.response)
+        else reject()
+      },(err) => {
+        console.log(err);
+        reject(err);
+      })
+    })
+  }
+
+  getUserTransaction(userId: number): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this._httpClient.get<any>(`/user/${userId}/transaction`, { responseType: 'json'}).subscribe((res) => {
+        if(res.respose) resolve(res.response)
+        else reject()
+      },(err) => {
+        console.log(err);
+        reject(err)
+      })
+    })
+  }
+
+  getTransactionDetail(transactionId: number): Promise<any> {
+    return new Promise((resolve,reject) => {
+      this._httpClient.get<any>(`/transaction/${transactionId}`, { responseType: 'json'}).subscribe((res) => {
+        if(res.response) resolve(res.response);
+        else reject();
+      },(err) => {
+        console.log(err);
+        reject(err);
       })
     })
   }

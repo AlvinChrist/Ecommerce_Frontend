@@ -23,7 +23,7 @@ import { EcommerceService } from './main/ecommerce/service/ecommerce.service';
 import { ProductService } from './main/products/service/product.service';
 
 export function getToken() {
-  return JSON.parse(localStorage.getItem('accessToken'))
+  return localStorage.getItem('accessToken')
 }
 
 const appRoutes: Routes = [

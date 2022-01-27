@@ -49,10 +49,7 @@ export class UserService {
   }
   
   getAccessToken(): string {
-    if(localStorage.getItem('accessToken')){
-      return JSON.parse(localStorage.getItem('accessToken'))
-    }
-    return null
+    return localStorage.getItem('accessToken')
   }
 
   getUserRole(): string {

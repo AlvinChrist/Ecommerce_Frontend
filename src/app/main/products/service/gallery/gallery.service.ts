@@ -24,8 +24,16 @@ export class GalleryService {
     })
   }
   
-  getImageByProductId(productId: number): Observable<any> {
-    return this._httpClient.get<any>(`/gallery/product/${productId}`, { responseType: 'json'})
+  getImageByProductId(productId: number): Promise<any> {
+    return new Promise((resolve,reject) => {
+      this._httpClient.get<any>(`/gallery/product/${productId}`, { responseType: 'json'}).subscribe((res) => {
+        if(res.gallery.rows) resolve(res.gallery.rows)
+        else reject();
+      },(err) => {
+        console.log(err)
+        reject(err);
+      })
+    })
   }
 
   uploadImage(image: Image): Observable<any> {

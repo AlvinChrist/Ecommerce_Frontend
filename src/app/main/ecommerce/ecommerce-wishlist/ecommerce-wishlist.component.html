@@ -3,10 +3,10 @@
   <app-content-header [contentHeader]="contentHeader"></app-content-header>
   <div class="content-body">
     <section id="wishlist" class="grid-view wishlist-items">
-      <ng-container *ngFor="let product of wishlist$ | async">
+      <ng-container *ngFor="let item of wishlist$ | async">
         <app-ecommerce-item
           class="card ecommerce-card"
-          [product]="product"
+          [product]="item.product"
           [isWishlistOpen]="true"
         ></app-ecommerce-item>
       </ng-container>

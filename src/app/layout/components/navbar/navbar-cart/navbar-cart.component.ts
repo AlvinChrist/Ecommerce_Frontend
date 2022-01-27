@@ -6,7 +6,7 @@ import { environment } from 'environments/environment';
 import { Subject } from 'rxjs';
 import { distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { GalleryService } from 'app/main/products/service/gallery/gallery.service';
-import { Cart } from 'app/viewmodel/cart.viewmodel';
+import { Cart } from 'app/main/ecommerce/models/cart.viewmodel';
 
 @Component({
   selector: 'app-navbar-cart',

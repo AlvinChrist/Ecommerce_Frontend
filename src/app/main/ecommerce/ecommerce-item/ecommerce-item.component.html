@@ -1,5 +1,5 @@
 <!-- Ecommerce Item -->
-<div class="item-img text-center mb-75" style="justify-content: center;">
+<div class="item-img pt-0" style="justify-content: center;align-items: start;">
   <a [routerLink]="'/products/' + product?.productId">
     <img class="card-img-top custom-img" [src]="image" alt="img-placeholder" />
   </a>
@@ -13,8 +13,8 @@
             ><span class="fa fa-star-o mr-25" [class.fa-star]="fill === 100"></span
           ></ng-template>
         </ngb-rating>
-        <ng-container *ngIf="product?.beforeDiscount">
-          <span class="badge badge-light-info">{{ product?.product_discount.discountPercent}}% off</span>
+        <ng-container *ngIf="product.discountId">
+          <span class="badge badge-light-info">{{ product.product_discount.discountPercent}}% off</span>
         </ng-container>
         <ng-container *ngIf="product?.productStock === 0">
           <span class="badge badge-light-danger">Out of stock</span>
@@ -23,20 +23,20 @@
     </div>
     <div class="item-cost">
       <ng-container *ngIf="product?.beforeDiscount; else NormalPrice">
-          <h6 class="item-price">
-            <span class="after-discount">
+          <div class="item-price" style="display: flex; flex-direction: column">
+            <div>
+              <small>
+                <s>Rp{{ product?.beforeDiscount | mask:'separator':',' }}</s>
+              </small>
+            </div>
+            <div>
               Rp{{ product?.productPrice | mask:'separator':',' }}
-            </span>
-            <sup>
-              <s class="discount-price">
-                Rp{{ product?.beforeDiscount | mask:'separator':',' }}
-              </s>
-            </sup>
-          </h6>
+            </div>
+          </div>
           <!-- <h6 class="item-price">Rp{{ product?.beforeDiscount | mask:'separator':',' }}</h6> -->
       </ng-container>
       <ng-template #NormalPrice>
-        <h6 class="item-price">Rp{{ product?.productPrice | mask:'separator':',' }}</h6>
+        <div class="item-price">Rp{{ product?.productPrice | mask:'separator':',' }}</div>
       </ng-template>
     </div>
   </div>

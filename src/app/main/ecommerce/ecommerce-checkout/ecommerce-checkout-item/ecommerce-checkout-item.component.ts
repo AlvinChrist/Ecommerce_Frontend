@@ -43,7 +43,6 @@ export class EcommerceCheckoutItemComponent implements OnInit {
   // Lifecycle Hooks
   // -----------------------------------------------------------------------------------------------------
   ngOnInit(): void {
-    this.image = `${this.env.apiUrl}/${this.product.product_galleries.imagePath}`
+    this.image = `${this.env.apiUrl}/${this.product.imagePath}`
   }
-
 }
