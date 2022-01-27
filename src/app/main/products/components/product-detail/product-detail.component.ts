@@ -263,7 +263,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
         this.ProductViewModel.product_galleries.push(data)
       })
       this.imagePath = `${this.env.apiUrl}/${this.ProductForm.value.product_galleries[0].imagePath}`;
-      console.log(resp,this.ProductViewModel)
+      // console.log(resp,this.ProductViewModel)
     },(err) => {
       console.log(err)
     })
@@ -271,7 +271,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
     this.discountList$ = this._discountService.onDiscountChange
     this.brandList$ = this._productService.onBrandsChange
     this.categoryList$ = this._productService.onCategoriesChange
-    console.log(this.brandList$)
+    // console.log(this.brandList$)
   }
 
   ngOnDestroy() {

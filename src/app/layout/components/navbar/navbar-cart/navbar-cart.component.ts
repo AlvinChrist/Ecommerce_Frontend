@@ -5,7 +5,6 @@ import { ProductService } from 'app/main/products/service/product.service';
 import { environment } from 'environments/environment';
 import { Subject } from 'rxjs';
 import { distinctUntilChanged, takeUntil } from 'rxjs/operators';
-import { GalleryService } from 'app/main/products/service/gallery/gallery.service';
 import { Cart } from 'app/main/ecommerce/models/cart.viewmodel';
 
 @Component({
@@ -14,9 +13,7 @@ import { Cart } from 'app/main/ecommerce/models/cart.viewmodel';
 })
 export class NavbarCartComponent implements OnInit, OnDestroy {
   // Public
-  public products = [];
   public cart = [];
-  public gallery = [];
   public cartLength;
   public env = environment
   public total = 0;
@@ -30,14 +27,9 @@ export class NavbarCartComponent implements OnInit, OnDestroy {
   constructor(
     public _ecommerceService: EcommerceService,
     private _userService: UserService,
-    private _productService: ProductService,
-    private _galleryService: GalleryService
+    private _productService: ProductService
     ) {
     this._unsubscribeAll = new Subject();
-    this._productService.onBrandsChange.pipe(takeUntil(this._unsubscribeAll))
-    .subscribe((res) => {
-      this.products = res
-    });
   }
 
   // Public Methods
@@ -78,24 +70,18 @@ export class NavbarCartComponent implements OnInit, OnDestroy {
    */
   async ngOnInit() {
     // Subscribe to Cart List
-    this._ecommerceService.onCartChange.pipe(takeUntil(this._unsubscribeAll),distinctUntilChanged()).subscribe(async (res: any[]) => {
+    await this._ecommerceService.getUserCart(this.userId)
+    // console.log(this.cart)
+    this._ecommerceService.onCartChange.pipe(takeUntil(this._unsubscribeAll),distinctUntilChanged()).subscribe((res: any[]) => {
       if(res) {
         //@ts-ignore
         if (res.length !== this.cart.length) this.cart = [...res]
         else this.smoothUpdate(this.cart,res);
-        this.gallery = await this._galleryService.getAllImage();
-        if(this.gallery.length > 0){
-          this.cart.forEach((cartItem: any) => {
-            const product_galleries = this.gallery.find(image => (image.productId === cartItem.productId && image.used === "True"))
-            if(cartItem.product) cartItem.product.product_galleries = product_galleries
-          })
-        }
         // console.log(this.cart)
         this.sum();
       }
       this.cartLength = this.cart.length
       // console.log(this.cart)
     });
-    await this._ecommerceService.getUserCart(this.userId)
   }
 }

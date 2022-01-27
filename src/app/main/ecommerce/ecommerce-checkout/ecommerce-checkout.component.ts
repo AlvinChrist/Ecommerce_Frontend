@@ -1,15 +1,14 @@
-import { Component, Inject, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { Cart } from 'app/main/ecommerce/models/cart.viewmodel';
 import { EcommerceService } from 'app/main/ecommerce/service/ecommerce.service';
-import { GalleryService } from 'app/main/products/service/gallery/gallery.service';
 import { ProductService } from 'app/main/products/service/product.service';
 import { User } from 'app/main/user/model/user.viewmodel';
 import { UserService } from 'app/main/user/service/user.service';
-import { Cart } from 'app/main/ecommerce/models/cart.viewmodel';
+import { AlertService } from 'app/shared/service/alert/alert.service';
 import Stepper from 'bs-stepper';
 import { Subject } from 'rxjs';
 import { distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { Transaction } from '../models/transaction.viewmodel';
-import { AlertService } from 'app/shared/service/alert/alert.service';
 import { CheckoutValidation } from './checkout-validation.service';
 
 @Component({
@@ -53,7 +52,6 @@ export class EcommerceCheckoutComponent implements OnInit, OnDestroy {
     private _ecommerceService: EcommerceService,
     private _userService: UserService,
     private _productService: ProductService,
-    private _galleryService: GalleryService,
     private _alertService: AlertService
     ) {
     this.user = this._userService.currentUserValue
@@ -152,7 +150,7 @@ export class EcommerceCheckoutComponent implements OnInit, OnDestroy {
       animation: true
     });
 
-    console.log(this.cart)
+    // console.log(this.cart)
     this.contentHeader = {
       headerTitle: 'Checkout',
       actionButton: true,

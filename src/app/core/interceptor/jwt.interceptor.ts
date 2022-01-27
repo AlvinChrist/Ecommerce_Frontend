@@ -4,7 +4,8 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { AuthService } from 'app/main/authentication/service/auth.service';
 import { UserService } from 'app/main/user/service/user.service';
 import { environment } from 'environments/environment';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { filter, take, switchMap } from 'rxjs/operators';
 
 @Injectable()
 export class JwtInterceptor implements HttpInterceptor {
@@ -12,6 +13,9 @@ export class JwtInterceptor implements HttpInterceptor {
    *
    * @param {UserService} _userService
    */
+
+  private refreshTokenInProgress = false;
+  private accessTokenSubject: Subject<any> = new BehaviorSubject<any>(null);
   constructor(
     private _userService: UserService,
     private _jwtHelper: JwtHelperService,
@@ -36,13 +40,30 @@ export class JwtInterceptor implements HttpInterceptor {
         return next.handle(request)
       }
       if(this._jwtHelper.isTokenExpired()){
-        localStorage.removeItem('accessToken');
-        this._authService.refreshToken().then(() => {
-          return next.handle(this.injectToken(request))
-        }).catch((e) => {
-          console.log(e)
-          this._authService.logout();
-        })
+        if(!this.refreshTokenInProgress){
+          this.refreshTokenInProgress = true
+          this.accessTokenSubject.next(null);
+          return this._authService.refreshToken().pipe(
+            switchMap((res) => {
+              if(res.accessToken){
+                localStorage.removeItem('accessToken');
+                localStorage.setItem('accessToken', res.accessToken);// update token
+                this.refreshTokenInProgress = false;
+                this.accessTokenSubject.next(res.accessToken);
+                return next.handle(this.injectToken(request));
+              }
+            }),
+          );
+        }
+        else {
+          return this.accessTokenSubject.pipe(
+            filter(result => result !== null),
+            take(1),
+            switchMap((res) => {
+                return next.handle(this.injectToken(request))
+            })
+        );
+        }
       }
       else{
         return next.handle(this.injectToken(request))

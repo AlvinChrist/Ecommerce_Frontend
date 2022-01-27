@@ -74,7 +74,7 @@ export class EcommerceDetailsComponent implements OnInit, OnDestroy {
         userRating: this._productService.getUserProductRating(this.productId, this.user?.userId || null),
         product_galleries: this._productService.getProductGalleries(this.productId)
       }).subscribe((resp) => {
-        console.log(resp)
+        // console.log(resp)
         this.productRating = resp.productRating
         this.product = resp.product.product;
         this.product.finalRating = resp.productRating.rating || 0;

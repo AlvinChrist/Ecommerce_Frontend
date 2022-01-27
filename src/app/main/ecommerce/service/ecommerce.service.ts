@@ -27,7 +27,7 @@ export class EcommerceService {
         this._httpClient.get<any>(`/user/${userId}/wishlist`, { responseType: 'json'}).subscribe((resp: any) => {
           if(resp.wishlist){
             this.wishlist = resp.wishlist;
-            console.log(this.wishlist)
+            // console.log(this.wishlist)
             this.onWishlistChange.next(this.wishlist)
             resolve();
           }

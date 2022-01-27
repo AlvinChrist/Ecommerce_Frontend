@@ -1,11 +1,8 @@
 import { Component, Input, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { Product } from 'app/main/products/model/product.viewmodel';
-import { GalleryService } from 'app/main/products/service/gallery/gallery.service';
 import { AlertService } from 'app/shared/service/alert/alert.service';
 import { environment } from 'environments/environment';
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
-import { ProductService } from '../../products/service/product.service';
 import { UserService } from '../../user/service/user.service';
 import { EcommerceShopComponent } from '../ecommerce-shop/ecommerce-shop.component';
 import { EcommerceService } from '../service/ecommerce.service';
@@ -37,9 +34,7 @@ export class EcommerceItemComponent implements OnInit, OnDestroy {
     public _shopRef: EcommerceShopComponent,
     private _ecommerceService: EcommerceService,
     private _userService: UserService,
-    private _productService: ProductService,
     private _alertService: AlertService,
-    private _galleryService: GalleryService
     ) {
       this._unsubscribeAll = new Subject();
   }
@@ -101,7 +96,7 @@ export class EcommerceItemComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    console.log(this.product)
+    // console.log(this.product)
     this.isInWishlist = this._ecommerceService.isInWishlist(this.product.productId)
     this.isInCart = this._ecommerceService.isInCart(this.product.productId)
     this.image =  `${this.env.apiUrl}/${this.product.product_galleries[0]?.imagePath}` || ""
