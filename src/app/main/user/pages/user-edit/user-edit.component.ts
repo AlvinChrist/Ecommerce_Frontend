@@ -43,8 +43,8 @@ export class UserEditComponent implements OnInit, OnDestroy {
        address: [this.user.address, [Validators.required]],
        email: [this.user.email, Validators.compose([Validators.required, Validators.email])],
        phoneNo: [this.user.phoneNo, Validators.compose([Validators.required, Validators.maxLength(15), Validators.pattern('[0-9]*')])],
-       oldPassword: ['', [this.PasswordValidator('oldPassword')]],
-       newPassword: [{value: '', disabled: true}, [this.PasswordValidator('newPassword')]],
+       oldPassword: ['', [Validators.minLength(8)]],
+       newPassword: ['', [Validators.minLength(8)]],
        userAvatar: [this.user.userAvatar]
      })
     //  console.log(this.f.userName)
@@ -52,38 +52,10 @@ export class UserEditComponent implements OnInit, OnDestroy {
 
   // Public Methods
   // -----------------------------------------------------------------------------------------------------
-
-  get newPasswordValidator() {
-    return [this.PasswordValidator('newPassword'), Validators.required, Validators.minLength(8)]
-  }
-  PasswordValidator(controlName: string, required: boolean = false): ValidatorFn {
-    return (control: AbstractControl): { [key: string]: boolean} | null => {
-      if(required && control.value.length === 0){
-        return { controlName: true }
-      }
-      else if(control.value.length > 0){
-        if(control.value.length >= 8){
-          if(controlName === 'oldPassword'){
-            this.f.newPassword.enable()
-            this.f.newPassword.setValidators(this.newPasswordValidator)
-            this.f.newPassword.updateValueAndValidity();
-          }
-          return null
-        }
-        if(this.f.newPassword.enabled){
-          this.f.newPassword.disable()
-          this.f.newPassword.clearValidators()
-        }
-        
-        return { controlName: true }
-      }
-    }
-  }
   
   togglePasswordTextType() {
     this.passwordTextType = !this.passwordTextType;
   }
-
 
   /**
    * Upload Image

@@ -81,5 +81,5 @@ export class JwtInterceptor implements HttpInterceptor {
             Authorization: `Bearer ${accessToken}`
         }
     });
-}
+  }
 }

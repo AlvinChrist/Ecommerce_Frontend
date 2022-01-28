@@ -179,6 +179,7 @@
                   placeholder="············"
                   aria-describedby="register-password"
                   tabindex="6"
+                  [readonly]="f.oldPassword.errors || f.oldPassword.value === ''"
                   [class.error]="submitted && f.newPassword.errors"
                 />
                 <div class="input-group-append">
