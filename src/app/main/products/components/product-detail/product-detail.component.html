@@ -23,8 +23,7 @@
         <div class="col-md-6 col-12">
           <div class="form-group">
             <label>Name: </label>
-            <div class="input-group">
-              <input
+            <input
               matInput
               type="text" 
               placeholder="Product Name" 
@@ -35,15 +34,13 @@
               <div *ngIf="submitted && f.productName.errors" class="invalid-feedback">
                 <div *ngIf="f.productName.errors.required">Name is required</div>
               </div>
-            </div>
           </div>
         </div>
 
         <div class="col-md-6 col-12">
           <div class="form-group">
             <label>Brand: </label>
-            <div class="input-group">
-              <input 
+            <input 
               type="text" 
               placeholder="Product Brand"
               class="form-control" 
@@ -59,15 +56,13 @@
               <div *ngIf="submitted && f.productBrand.errors" class="invalid-feedback">
                 <div *ngIf="f.productBrand.errors.required">Brand is required</div>
               </div>
-            </div>
           </div>
         </div>
         
         <div class="col-md-3 col-12">
           <div class="form-group">
             <label>Category: </label>
-            <div class="input-group">
-              <input 
+            <input 
               type="text" 
               placeholder="Product Brand"
               class="form-control" 
@@ -82,7 +77,6 @@
               <div *ngIf="submitted && f.productCategory.errors" class="invalid-feedback">
                 <div *ngIf="f.productCategory.errors.required">Category is required</div>
               </div>
-            </div>
           </div>
         </div>
 
@@ -101,8 +95,7 @@
         <div class="col-md-3 col-12">
           <div class="form-group">
             <label>Discount: </label>
-            <div class="input-group">
-              <ng-select
+            <ng-select
                 [items]="discountList$ | async"
                 bindLabel="discountName"
                 bindValue="discountId"
@@ -117,40 +110,33 @@
                 {{ item.discountName }} - {{ item.discountPercent }}%
               </ng-template>
               </ng-select>
-            </div>
           </div>
         </div>
 
         <div class="col-md-3 col-12">
           <div class="form-group">
             <label>Stock: </label>
-            <div class="input-group">
-              <input type="text" mask="separator" thousandSeparator="," placeholder="Product Stock" class="form-control" formControlName="productStock" />
-            </div>
+            <input type="text" mask="separator" thousandSeparator="," placeholder="Product Stock" class="form-control" formControlName="productStock" />
           </div>
         </div>
       </div>
       <div class="form-group" >
         <label for="summary">Summary: </label>
-        <div class="input-group">
-          <fieldset style="flex: 0 0 100%">
-            <textarea class="form-control" rows="2" id="summary" placeholder="Summary" formControlName="productSummary"></textarea>
-          </fieldset>
-          <div *ngIf="submitted && f.productSummary.errors" class="invalid-feedback">
-            <div *ngIf="f.productSummary.errors.required">Summary is required</div>
-          </div>
+        <fieldset style="flex: 0 0 100%">
+          <textarea class="form-control" rows="2" id="summary" placeholder="Summary" formControlName="productSummary"></textarea>
+        </fieldset>
+        <div *ngIf="submitted && f.productSummary.errors" class="invalid-feedback">
+          <div *ngIf="f.productSummary.errors.required">Summary is required</div>
         </div>
       </div>
       
       <div class="form-group">
         <label for="desc">Desc: </label>
-        <div class="input-group">
-          <fieldset style="flex: 0 0 100%">
-            <textarea class="form-control" rows="4" id="desc" placeholder="Description" formControlName="productDesc"></textarea>
-          </fieldset>
-          <div *ngIf="submitted && f.productDesc.errors" class="invalid-feedback">
-            <div *ngIf="f.productDesc.errors.required">Description is required</div>
-          </div>
+        <fieldset style="flex: 0 0 100%">
+          <textarea class="form-control" rows="4" id="desc" placeholder="Description" formControlName="productDesc"></textarea>
+        </fieldset>
+        <div *ngIf="submitted && f.productDesc.errors" class="invalid-feedback">
+          <div *ngIf="f.productDesc.errors.required">Description is required</div>
         </div>
       </div>
     </div>

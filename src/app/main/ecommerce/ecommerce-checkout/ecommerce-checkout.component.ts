@@ -9,7 +9,7 @@ import Stepper from 'bs-stepper';
 import { Subject } from 'rxjs';
 import { distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { Transaction } from '../models/transaction.viewmodel';
-import { CheckoutValidation } from './checkout-validation.service';
+import { CheckoutValidation } from '../service/checkout-validation.service';
 
 @Component({
   selector: 'app-ecommerce-checkout',

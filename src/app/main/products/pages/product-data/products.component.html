@@ -20,8 +20,7 @@
               <div class="col-md-6 col-12">
                 <div class="form-group">
                   <label>Name: </label>
-                  <div class="input-group">
-                    <input 
+                  <input 
                     type="text" 
                     placeholder="Product Name" 
                     class="form-control" 
@@ -31,15 +30,13 @@
                     <div *ngIf="submitted && f.productName.errors" class="invalid-feedback">
                       <div *ngIf="f.productName.errors.required">Name is required</div>
                     </div>
-                  </div>
                 </div>
               </div>
 
               <div class="col-md-6 col-12">
                 <div class="form-group">
                   <label>Brand: </label>
-                  <div class="input-group">
-                    <ng-select
+                  <ng-select
                       [items]="brandList$ | async"
                       bindLabel="DISTINCT"
                       bindValue="DISTINCT"
@@ -49,18 +46,16 @@
                       addTag="true"
                     >
                     </ng-select>
-                    <div *ngIf="submitted && f.productBrand.errors" class="invalid-feedback">
+                    <div *ngIf="submitted && f.productBrand.errors" class="invalid-feedback" [class.d-block]="f.productBrand.errors">
                       <div *ngIf="f.productBrand.errors.required">Brand is required</div>
                     </div>
-                  </div>
                 </div>
               </div>
               
               <div class="col-md-3 col-12">
                 <div class="form-group">
                   <label>Category: </label>
-                  <div class="input-group">
-                    <ng-select
+                  <ng-select
                       [items]="categoryList$ | async"
                       bindLabel="DISTINCT"
                       bindValue="DISTINCT"
@@ -70,10 +65,9 @@
                       addTag="true"
                     >
                     </ng-select>
-                    <div *ngIf="submitted && f.productCategory.errors" class="invalid-feedback">
+                    <div *ngIf="submitted && f.productCategory.errors" class="invalid-feedback" [class.d-block]="f.productCategory.errors">
                       <div *ngIf="f.productCategory.errors.required">Category is required</div>
                     </div>
-                  </div>
                 </div>
               </div>
 
@@ -84,7 +78,13 @@
                     <div class="input-group-prepend">
                       <span class="input-group-text" id="basic-addon1">Rp</span>
                     </div>
-                    <input type="text" mask="separator" thousandSeparator="," placeholder="0" class="form-control" formControlName="productPrice" />
+                    <input 
+                    type="text" 
+                    mask="separator"
+                    thousandSeparator="," 
+                    placeholder="0" 
+                    class="form-control" 
+                    formControlName="productPrice" />
                   </div>
                 </div>
               </div>
@@ -92,8 +92,7 @@
               <div class="col-md-3 col-12">
                 <div class="form-group">
                   <label>Discount: </label>
-                  <div class="input-group">
-                    <ng-select
+                  <ng-select
                       [items]="discountList$ | async"
                       bindLabel="discountName"
                       bindValue="discountId"
@@ -107,40 +106,46 @@
                       {{ item.discountName }} - {{ item.discountPercent }}%
                     </ng-template>
                     </ng-select>
-                  </div>
                 </div>
               </div>
 
               <div class="col-md-3 col-12">
                 <div class="form-group">
                   <label>Stock: </label>
-                  <div class="input-group">
-                    <input type="text" mask="separator" thousandSeparator="," placeholder="Product Stock" class="form-control" formControlName="productStock" />
-                  </div>
+                  <input type="text" mask="separator" thousandSeparator="," placeholder="Product Stock" class="form-control" formControlName="productStock" />
                 </div>
               </div>
             </div>
-            <div>
+            <div class="form-group">
               <label for="summary" class="mt-1">Summary: </label>
-              <div class="input-group">
-                <fieldset style="flex: 0 0 100%">
-                  <textarea class="form-control" rows="4" id="summary" placeholder="Summary" formControlName="productSummary"></textarea>
-                </fieldset>
-                <div *ngIf="submitted && f.productSummary.errors" class="invalid-feedback">
-                  <div *ngIf="f.productSummary.errors.required">Summary is required</div>
-                </div>
+              <fieldset style="flex: 0 0 100%">
+                <textarea 
+                class="form-control" 
+                rows="4" id="summary" 
+                placeholder="Summary" 
+                formControlName="productSummary"
+                [ngClass]="{ 'is-invalid': submitted && f.productSummary.errors }"
+                ></textarea>
+              </fieldset>
+              <div *ngIf="submitted && f.productSummary.errors" class="invalid-feedback" [class.d-block]="f.productSummary.errors">
+                <div *ngIf="f.productSummary.errors.required">Summary is required</div>
               </div>
             </div>
             
-            <div>
+            <div class="form-group">
               <label for="desc" class="mt-1">Desc: </label>
-              <div class="input-group">
-                <fieldset style="flex: 0 0 100%">
-                  <textarea class="form-control" rows="4" id="desc" placeholder="Description" formControlName="productDesc"></textarea>
-                </fieldset>
-                <div *ngIf="submitted && f.productDesc.errors" class="invalid-feedback">
-                  <div *ngIf="f.productDesc.errors.required">Description is required</div>
-                </div>
+              <fieldset style="flex: 0 0 100%"  >
+                <textarea 
+                class="form-control" 
+                rows="4" 
+                id="desc" 
+                placeholder="Description" 
+                formControlName="productDesc"
+                [ngClass]="{ 'is-invalid': submitted && f.productDesc.errors }"
+                ></textarea>
+              </fieldset>
+              <div *ngIf="submitted && f.productDesc.errors" class="invalid-feedback" [class.d-block]="f.productDesc.errors">
+                <div *ngIf="f.productDesc.errors.required">Description is required</div>
               </div>
             </div>
           </div>

@@ -55,7 +55,7 @@ export class EcommerceItemComponent implements OnInit, OnDestroy {
         else{
           this._ecommerceService.addToWishlist(this.user.userId,product.productId).then(() => {
             this.isInWishlist = !this.isInWishlist
-        }).catch((err) => {})
+          }).catch((err) => {})
         }
       }
     }

@@ -76,7 +76,7 @@
                       </li>
                       <li class="price-detail">
                         <div class="detail-title">Estimated Tax (<b>{{ tax | percent}}</b>)</div>
-                        <div class="detail-amt">Rp{{ (tax * total) | mask:'separator':','}}</div>
+                        <div class="detail-amt">Rp{{ (tax * total) | mask:'separator.2':','}}</div>
                       </li>
                       <!-- <li class="price-detail">
                         <div class="detail-title">EMI Eligibility</div>

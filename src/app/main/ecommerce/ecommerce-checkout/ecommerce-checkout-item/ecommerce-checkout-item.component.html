@@ -34,14 +34,12 @@
         <h4 class="item-price">Rp{{ product.productPrice | mask:'separator':','}}</h4>
       </div>
     </div>
-    <button type="button" class="btn btn-light mt-1 remove-wishlist" rippleEffect>
+    <button type="button" class="btn btn-light mt-1 remove-wishlist" (click)="removeFromCart(product.productId)" rippleEffect>
       <i data-feather="x" class="align-middle mr-25"></i>
       <span>Remove</span>
     </button>
-    <button type="button" class="btn btn-primary btn-cart move-cart" rippleEffect>
-      <i
-        class="align-middle fa mr-25"
-      ></i>
+    <button type="button" class="btn btn-primary btn-cart move-cart" (click)="toggleWishList(product.productId)" rippleEffect>
+      <i class="fa mr-25" [ngClass]="isInWishlist === true ? 'fa-heart text-danger' : 'fa-heart-o'"></i>
       <span class="text-truncate">Add to Wishlist</span>
     </button>
   </div>
